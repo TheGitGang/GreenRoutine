@@ -6,9 +6,22 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/pingauth': {
-        
-      }
+      '^/pingauth': {
+        target: 'https://localhost:5299',
+        secure: false
+      },
+      '^/register': {
+        target: 'https://localhost:5299',
+        secure: false
+      },
+      '^/login': {
+        target: 'https://localhost:5299',
+        secure: false
+      },
+      '^/logout': {
+        target: 'https://localhost:5299',
+        secure: false
+      },
     }
   }
 })
