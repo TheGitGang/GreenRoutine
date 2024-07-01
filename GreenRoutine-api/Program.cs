@@ -1,5 +1,15 @@
+using GreenRoutine;
+using Microsoft.EntityFrameworkCore;
+using TodoApi.Server.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = "host=localhost;user=greenroutine;password=greenroutine;database=green_routine";
+builder.Services.AddDbContext<ChallengeDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
+
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<ChallengeDbContext>();
 // Add services to the container.
 
 builder.Services.AddControllers();
