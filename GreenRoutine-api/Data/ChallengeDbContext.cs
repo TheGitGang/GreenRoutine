@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TodoApi.Server.Data;
+using GreenRoutine.Models;
 
 namespace GreenRoutine;
 
