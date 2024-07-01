@@ -10,6 +10,11 @@ public class Challenge
     public int Difficulty { get; set; }
     public TimeSpan Length { get; set; }
     public string Description { get; set; } 
-    Category Category { get; set; }
+
+    public int CategoryId { get; set; }
+    public List<Category> Categories { get; set; } = [];
+
+    public Challenge(){}
+    
     
 }
