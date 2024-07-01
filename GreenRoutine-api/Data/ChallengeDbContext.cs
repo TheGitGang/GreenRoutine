@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using GreenRoutine.Models;
 
 namespace GreenRoutine;
 
