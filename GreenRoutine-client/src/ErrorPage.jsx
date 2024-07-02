@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router-dom";
-import Navigation from "./Components/Navigation";
+import Navigation from './components/Navigation';
 import { Card } from 'reactstrap';
 import './App.css'
 import './ErrorPage.css'

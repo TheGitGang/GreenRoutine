@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
-import Home from './Components/Home.jsx'
-import About from './Components/About.jsx'
-import Profile from './Components/Profile.jsx'
+import Home from './components/Home.jsx'
+import About from './components/About.jsx'
+import Challenges from './components/Challenges.jsx'
+import Profile from './components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
 //import Friends from './Components/Friends.jsx'
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />
+      },
+      {
+        path: '/challenges',
+        element: <Challenges />
       },
       {
         path: '/profile',
