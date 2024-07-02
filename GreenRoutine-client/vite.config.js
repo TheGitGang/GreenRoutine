@@ -6,22 +6,27 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '^/pingauth': {
-        target: 'https://localhost:5299',
+      '^/api': {
+        target: 'http://localhost:5299',
+        changeOrigin: true,
         secure: false
-      },
-      '^/register': {
-        target: 'https://localhost:5299',
-        secure: false
-      },
-      '^/login': {
-        target: 'https://localhost:5299',
-        secure: false
-      },
-      '^/logout': {
-        target: 'https://localhost:5299',
-        secure: false
-      },
+      }
+      // '^/pingauth': {
+      //   target: 'http://localhost:5299',
+      //   secure: false
+      // },
+      // '^/register': {
+      //   target: 'http://localhost:5299',
+      //   secure: false
+      // },
+      // '^/login': {
+      //   target: 'http://localhost:5299',
+      //   secure: false
+      // },
+      // '^/logout': {
+      //   target: 'http://localhost:5299',
+      //   secure: false
+      // },
     }
   }
 })

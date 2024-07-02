@@ -37,7 +37,7 @@ import {
                 <DropdownToggle nav caret className="dropdown-link">
                   Hello, {props.name}!
                 </DropdownToggle>
-                <DropdownMenu right >
+                <DropdownMenu end >
                   <DropdownItem className="dropdown-link">
                       <Link to='/profile' className="dropdown-link">Profile</Link>
                   </DropdownItem>

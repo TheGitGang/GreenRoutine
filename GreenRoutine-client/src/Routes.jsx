@@ -1,14 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
-import Home from './components/Home.jsx'
-import About from './components/About.jsx'
-import Challenges from './components/Challenges.jsx'
-import Profile from './components/Profile.jsx'
+import Home from './Components/Home.jsx'
+import About from './Components/About.jsx'
+import Challenges from './Components/Challenges.jsx'
+import Profile from './Components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
 //import Friends from './Components/Friends.jsx'
 
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
+import RegisterForm from './Components/RegisterForm.jsx'
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -34,10 +35,10 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile name={name} title={title} profileImg={profileImg}/>
       },
-    //   {
-    //     path: '/friends',
-    //     element: <Friends/>
-    //   }
+      {
+        path: '/register',
+        element: <RegisterForm/>
+      },
     ]
   }
 ])
