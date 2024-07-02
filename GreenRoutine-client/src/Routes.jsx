@@ -10,6 +10,7 @@ import Fetch from './components/Fetch.jsx'
 
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
+import CreateChallenge from './components/CreateChallenge.jsx'
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/challenges',
         element: <Challenges />
+      },
+      {
+        path: '/createchallenge',
+        element: <CreateChallenge/>
       },
       {
         path: '/profile',
