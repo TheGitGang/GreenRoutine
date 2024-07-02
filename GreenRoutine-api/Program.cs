@@ -13,6 +13,17 @@ builder.Services.AddDbContext<ChallengeDbContext>(options => options.UseMySql(co
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<ChallengeDbContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+    builder =>
+    {
+        builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+    });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -24,6 +35,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapIdentityApi<ApplicationUser>();
