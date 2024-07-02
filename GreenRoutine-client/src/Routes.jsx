@@ -5,6 +5,7 @@ import About from './components/About.jsx'
 import Challenges from './components/Challenges.jsx'
 import Profile from './components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
+import Fetch from './components/Fetch.jsx'
 //import Friends from './Components/Friends.jsx'
 
 ///dummy data for profile///
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile name={name} title={title} profileImg={profileImg}/>
+      },
+      {
+        path: '/fetch',
+        element: <Fetch />
       },
     //   {
     //     path: '/friends',

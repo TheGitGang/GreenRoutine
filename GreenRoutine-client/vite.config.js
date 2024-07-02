@@ -11,15 +11,19 @@ export default defineConfig({
         secure: false
       },
       '^/register': {
-        target: 'https://localhost:5299',
+        target: 'http://localhost:5299',
         secure: false
       },
       '^/login': {
-        target: 'https://localhost:5299',
+        target: 'http://localhost:5299',
         secure: false
       },
       '^/logout': {
-        target: 'https://localhost:5299',
+        target: 'http://localhost:5299',
+        secure: false
+      },
+      '^/api': {
+        target: 'http://localhost:5299',
         secure: false
       },
     }
