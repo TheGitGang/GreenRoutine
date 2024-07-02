@@ -1,0 +1,13 @@
+.app-layout {
+    padding-top: 6rem !important;
+    margin-right: 2rem;
+    margin-left: 2rem;
+  }
+  
+  .centered-card {
+    background-color: lightgrey;
+    width: 100%;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
