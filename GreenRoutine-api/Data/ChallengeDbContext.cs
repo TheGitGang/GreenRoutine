@@ -8,6 +8,7 @@ namespace GreenRoutine;
 public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Challenge> Challenges { get; set; }
+    public DbSet<Category> Categories{ get; set; }
 
     public ChallengeDbContext(DbContextOptions<ChallengeDbContext> options) : base(options)
     {
