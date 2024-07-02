@@ -5,10 +5,12 @@ import About from './components/About.jsx'
 import Challenges from './components/Challenges.jsx'
 import Profile from './components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
+import Fetch from './components/Fetch.jsx'
 //import Friends from './Components/Friends.jsx'
 
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
+import CreateChallenge from './components/CreateChallenge.jsx'
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -31,8 +33,16 @@ const router = createBrowserRouter([
         element: <Challenges />
       },
       {
+        path: '/createchallenge',
+        element: <CreateChallenge/>
+      },
+      {
         path: '/profile',
         element: <Profile name={name} title={title} profileImg={profileImg}/>
+      },
+      {
+        path: '/fetch',
+        element: <Fetch />
       },
     //   {
     //     path: '/friends',
