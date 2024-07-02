@@ -23,7 +23,6 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
-    action: contactAction,
     children: [
       {
         errorElement: <ErrorPage />,
