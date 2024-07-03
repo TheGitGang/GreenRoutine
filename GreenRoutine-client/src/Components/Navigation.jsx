@@ -32,6 +32,9 @@ import {
                       <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
                   </NavItem>
                   <NavItem>
+                      <Link to='/challenges/delete' className="nav-link">Delete a Challenge</Link>
+                  </NavItem>
+                  <NavItem>
                       <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
                   </NavItem>
               </Nav>
