@@ -17,6 +17,17 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
     .AddEntityFrameworkStores<ChallengeDbContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+    builder =>
+    {
+        builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+    });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -28,6 +39,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapIdentityApi<ApplicationUser>();

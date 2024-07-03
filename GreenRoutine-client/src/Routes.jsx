@@ -11,6 +11,8 @@ import Fetch from './Components/Fetch.jsx'
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
 import CreateChallenge from './Components/CreateChallenge.jsx'
+import RegisterForm from './Components/RegisterForm.jsx'
+
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -41,13 +43,9 @@ const router = createBrowserRouter([
         element: <Profile name={name} title={title} profileImg={profileImg}/>
       },
       {
-        path: '/fetch',
-        element: <Fetch />
+        path: '/register',
+        element: <RegisterForm/>
       },
-    //   {
-    //     path: '/friends',
-    //     element: <Friends/>
-    //   }
     ]
   }
 ])
