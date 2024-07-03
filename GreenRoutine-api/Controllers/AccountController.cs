@@ -45,5 +45,20 @@ namespace TodoApi.Controllers
 
             return BadRequest(result.Errors);
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Invalid login data");
+            }
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Login successful" });
+            }
+            
+            return Unauthorized(new { message = "Invalid email or password" });
+        }
     }
 }

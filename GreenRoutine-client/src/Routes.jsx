@@ -3,14 +3,16 @@ import App from './App.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import Challenges from './Components/Challenges.jsx'
+//import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
-import Fetch from './Components/Fetch.jsx'
+//import Fetch from './Components/Fetch.jsx'
 //import Friends from './Components/Friends.jsx'
 
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
 import RegisterForm from './Components/RegisterForm.jsx'
+import LoginForm from './Components/LoginForm.jsx'
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -32,10 +34,10 @@ const router = createBrowserRouter([
         path: '/challenges',
         element: <Challenges />
       },
-      {
-        path: '/createchallenge',
-        element: <CreateChallenge/>
-      },
+    //   {
+    //     path: '/createchallenge',
+    //     element: <CreateChallenge/>
+    //   },
       {
         path: '/profile',
         element: <Profile name={name} title={title} profileImg={profileImg}/>
@@ -44,6 +46,10 @@ const router = createBrowserRouter([
         path: '/register',
         element: <RegisterForm/>
       },
+      {
+        path: '/login',
+        element: <LoginForm/>
+      }
     ]
   }
 ])
