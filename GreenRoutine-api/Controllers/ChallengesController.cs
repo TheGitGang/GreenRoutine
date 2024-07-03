@@ -15,8 +15,18 @@ public class ChallengesController : ControllerBase
     {
         context = dbContext;
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ChallengesDTO>>> RenderChallengesPage()
+        {
+            return await context
+                .Challenges
+                .Select(c => new ChallengesDTO(c))
+                .ToListAsync();
+        }
+
     [HttpPost("create")]
-    public IActionResult CreateChallenge(/*[FromBody]*/ Challenge challenge)
+    public IActionResult CreateChallenge(Challenge challenge)
     {
         context.Challenges.Add(challenge);
         context.SaveChanges();
