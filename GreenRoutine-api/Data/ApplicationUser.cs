@@ -8,6 +8,8 @@ namespace TodoApi.Server.Data
         public string? LastName { get; set; }
         public DateTime DateJoined { get; set; }
 
+        public int Points { get; set; } = 0;
+
         public ApplicationUser()
         {
             DateJoined = DateTime.Now;
@@ -18,5 +20,7 @@ namespace TodoApi.Server.Data
             FirstName = firstName;
             LastName = lastName;
         }
+
+        
     }
 }
