@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TodoApi.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace TodoApi.Controllers;
@@ -48,8 +50,12 @@ private static readonly HttpClient client = new HttpClient();
             }
             return StatusCode(500, "An error occurred while fetching data");
         }
-    }
-// }
+}
+
+
+
+
+
 
 
 

@@ -4,7 +4,6 @@ public class VehicalEstimateDTO
 {
   public class VehicalDto
     {
-      
         public string type { get; set; }
         public string Id { get; set; }
         public int distance_value { get; set; }
