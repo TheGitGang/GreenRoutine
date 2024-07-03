@@ -10,29 +10,12 @@ using Microsoft.Extensions.Logging;
 
 
 namespace TodoApi.Controllers;
-
-
-public class CarbonInterFaceAPI
-{  
-    public int Id { get; set; }
-        public string Vehicle_make { get; set; }
-        public string Vehicle_model { get; set; }
-       public string  Vehicle_year { get; set; }
- 
-    
-    public CarbonInterFaceAPI (int id, string vehicle_make, string vehicle_model, string vehicle_year)
-    {
-        Id = id;
-        Vehicle_make = vehicle_make;
-        Vehicle_model = vehicle_model;
-        Vehicle_year = vehicle_year;
-    }
-
-
-  [ApiController]
+ [ApiController]
     [Route("[controller]")]
-    public class YourController : ControllerBase
-    {
+
+public class CarbonInterFaceController : ControllerBase
+{  
+    
 private static readonly HttpClient client = new HttpClient();
 
     public static async Task<string> GetCarbonDataAsync(string apiKey)
@@ -66,7 +49,7 @@ private static readonly HttpClient client = new HttpClient();
             return StatusCode(500, "An error occurred while fetching data");
         }
     }
-}
+// }
 
 
 
