@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         element: <Challenges />
       },
       {
-        path: '/createchallenge',
+        path: '/challenges/create',
         element: <CreateChallenge/>
       },
       {

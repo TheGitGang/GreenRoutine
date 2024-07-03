@@ -29,7 +29,7 @@ import {
                       <Link to='/challenges' className="nav-link">Challenges</Link>
                   </NavItem>
                   <NavItem>
-                      <Link to='/createchallenge' className="nav-link">Create Challenge</Link>
+                      <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
                   </NavItem>
                   <NavItem>
                       <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
