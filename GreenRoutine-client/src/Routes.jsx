@@ -11,8 +11,10 @@ import ErrorPage from './ErrorPage.jsx'
 
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
+import CreateChallenge from './Components/CreateChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
+
 const name = 'Kevin Baranowski';
 const title = 'Lead Developer';
 
@@ -34,10 +36,10 @@ const router = createBrowserRouter([
         path: '/challenges',
         element: <Challenges />
       },
-    //   {
-    //     path: '/createchallenge',
-    //     element: <CreateChallenge/>
-    //   },
+      {
+        path: '/challenges/create',
+        element: <CreateChallenge/>
+      },
       {
         path: '/profile',
         element: <Profile name={name} title={title} profileImg={profileImg}/>

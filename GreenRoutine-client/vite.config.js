@@ -10,7 +10,11 @@ export default defineConfig({
         target: 'http://localhost:5299',
         changeOrigin: true,
         secure: false
-      }
+      },
+      '^/chall': {
+        target: 'http://localhost:5299',
+        secure: false
+      },
       // '^/pingauth': {
       //   target: 'http://localhost:5299',
       //   secure: false
