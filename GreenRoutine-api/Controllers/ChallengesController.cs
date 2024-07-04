@@ -51,11 +51,13 @@ public class ChallengesController : ControllerBase
     }
 
     [HttpPost("delete")]
-    public IActionResult ProcessDeleteChallengesPage(int[] challengeIds)
+    // public IActionResult ProcessDeleteChallengesPage(int[] challengeIds)
+    public ActionResult ProcessDeleteChallengesPage(Challenge challenge)
     {
-        foreach (int id in challengeIds)
+        // foreach (int id in challengeIds)
         {
-            Challenge? theChallenge = context.Challenges.Find(id);
+            // Challenge? theChallenge = context.Challenges.Find(id);
+            Challenge? theChallenge = context.Challenges.Find(challenge.Id);
             if (theChallenge != null)
             {
 

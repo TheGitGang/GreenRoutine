@@ -1,10 +1,135 @@
-/*import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AvailableChallenge } from './AvailableChallenge'
 
 const DeleteChallenge = () => {
 
-}
 
+
+    const [name, setName] = useState('');
+    const [difficulty, setDifficulty] = useState('');
+    const [length, setLength] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
+    // const navigate = useNavigate();
+
+    const [error, setError] = useState('');
+
+    const handleLoginClick = () => {
+        navigate('/challenges')
+    }
+
+    /*const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'name') setName(value);
+        if (name === 'difficulty') setDifficulty(value);
+        if (name === 'length') setLength(value);
+        if (name === 'description') setDescription(value);
+        if (name === 'category') setCategory(value);
+    }*/
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        //do error handling
+        setError('');
+        const payload = 3
+            /*name: name,
+            length: length,
+            description: description,
+            category: category*/
+        
+        console.log(payload);
+        fetch('/api/Challenges/delete', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {id: 3}
+        }).then((data) => {
+            console.log(data);
+            if (data.ok) {
+                setError("Successful challenge submission.")
+            } else {
+                setError("Error with challenge submission.")
+            }
+        }).catch((error) => {
+            console.error(error);
+            setError('Error with challenge submission.')
+        })
+    }
+
+
+    return (
+        <div>
+            <h1>
+                Delete Options
+            </h1>
+
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <input
+                        type="radio"
+                        id="option1"
+                        value="1"
+                        checked={
+                            selectedValue ===
+                            "option1"
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                "option1"
+                            )
+                        }
+                    />
+                    <label htmlFor="option1">
+                        1
+                    </label>
+                </div>
+
+                <div>
+                    <input
+                        type="radio"
+                        id="option2"
+                        value="2"
+                        checked={
+                            selectedValue ===
+                            "option2"
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                "option2"
+                            )
+                        }
+                    />
+                    <label htmlFor="option2">
+                        2
+                    </label>
+                </div>
+
+                <div>
+                    <input
+                        type="radio"
+                        id="3"
+                        value="3"
+                        checked={
+                            selectedValue ===
+                            3
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                3
+                            )
+                        }
+                    />
+                    <label htmlFor="option3">
+                        3
+                    </label>
+                </div>
+                <button type='submit'>Submit</button>
+            </form>
+        </div>
+    )
+};
+/*
 <div>
 <div>
     <h1>
