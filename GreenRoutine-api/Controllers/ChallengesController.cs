@@ -2,6 +2,7 @@ using GreenRoutine.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GreenRoutine;
+using Mono.TextTemplating;
 
 namespace TodoApi;
 
@@ -51,11 +52,11 @@ public class ChallengesController : ControllerBase
     }
 
     [HttpPost("delete")]
-    public IActionResult ProcessDeleteChallengesPage(int[] challengeIds)
+    public ActionResult ProcessDeleteChallengesPage(int challengeId)
     {
-        foreach (int id in challengeIds)
+        // foreach (int id in challengeIds)
         {
-            Challenge? theChallenge = context.Challenges.Find(id);
+            Challenge? theChallenge = context.Challenges.Find(challengeId);
             if (theChallenge != null)
             {
 

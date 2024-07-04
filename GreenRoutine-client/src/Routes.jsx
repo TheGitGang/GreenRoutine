@@ -12,6 +12,7 @@ import ErrorPage from './ErrorPage.jsx'
 ///dummy data for profile///
 import profileImg from './assets/images/ProfilePlaceholder.jpg'
 import CreateChallenge from './Components/CreateChallenge.jsx'
+import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
 
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/challenges/delete',
-        element: <CreateChallenge/>
+        element: <DeleteChallenge/>
       },
       {
         path: '/profile',
