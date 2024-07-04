@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GreenRoutine.Controllers;
 
@@ -6,39 +7,52 @@ namespace GreenRoutine.Controllers;
 [Route("api/[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly string[] _quotes = new[]
-    {
-        "Leave the gun. Take the cannoli.",
-        "Get busy living, or get busy dying.",
-        "How do you like them apples?",
-        "I think this is the beginning of a beautiful friendship"
-    };
+    private readonly HttpClient _httpClient;
 
-    private readonly ChallengeDbContext _context;
-
-    public TestController(ChallengeDbContext context)
+    public TestController(HttpClient httpClient)
     {
-        _context = context;
+        _httpClient = httpClient;
     }
 
 
     //Get /api/test
     [HttpGet]
-    public IResult Get()
+    public async Task<ActionResult<ComicModel>> Get()
     {
-        return Results.Ok(_quotes);
+        string apiUrl = "https://xkcd.com/info.0.json";
+
+        try
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                ComicModel data = JsonConvert.DeserializeObject<ComicModel>(json);
+                return Ok(data);
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "Error fetching data from external API");
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+        
     }
 
-    //GET /api/test/{id}
-    [HttpGet("{id}")]
-    [ProducesResponseType<string>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IResult Get(int id)
-    {
-        if (id < 0 || id >= _quotes.Length)
-        {
-            return Results.NotFound("These are not the droids you are looking for.");
-        }
-        return Results.Ok(_quotes[id]);
-    }
+    // //GET /api/test/{id}
+    // [HttpGet("{id}")]
+    // [ProducesResponseType<string>(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+    // public IResult Get(int id)
+    // {
+    //     if (id < 0 || id >= _quotes.Length)
+    //     {
+    //         return Results.NotFound("These are not the droids you are looking for.");
+    //     }
+    //     return Results.Ok(_quotes[id]);
+    // }
 }
