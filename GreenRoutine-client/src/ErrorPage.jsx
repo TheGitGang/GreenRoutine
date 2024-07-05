@@ -11,7 +11,7 @@ const ErrorPage = () => {
         <div className="app-layout">
             <Navigation/>
             <div id="error-page" className="pt-5">
-                <Card class='centered-card'>
+                <Card className='centered-card'>
                     <h1 className="error-header">Oops!</h1>
                     <p className="error-header">Sorry, an unexpected error has occurred.</p>
                     <p className="error-header">

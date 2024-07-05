@@ -101,10 +101,22 @@ import {
                         <Link to='/about' className="nav-link">About</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/challenges' className="nav-link">Challenges</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
+                        <UncontrolledDropdown>
+                            <DropdownToggle nav caret className="dropdown-link">
+                                Challenges
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem tag={Link} to='/challenges' className="dropdown-link">
+                                    View Challenges
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to='/challenges/create' className="dropdown-link">
+                                    Create Challenges
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to='/challenges/delete' className="dropdown-link">
+                                    Delete Challenges
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
                     </NavItem>
                     <NavItem>
                         <Link to='/leaderboard' className="nav-link">Leaderboard</Link>

@@ -52,7 +52,7 @@ const DeleteChallenge = () => {
                 setChallenges(data);
             });
 
-    });
+    }, []);
 
 
 
