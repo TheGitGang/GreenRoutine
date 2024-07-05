@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import { AvailableChallenge } from './AvailableChallenge'
 import { useNavigate } from "react-router-dom";
-// import { AvailableChallenge } from './AvailableChallenge'
 
 const DeleteChallenge = () => {
     const [challenges, setChallenges] = useState([]);
@@ -8,27 +8,33 @@ const DeleteChallenge = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'id') setId(value);
     }
 
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         //do error handling
         setError('');
+
         const payload = { id: id, }
 
         console.log(payload);
+
 
         fetch('/api/Challenges/delete', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify(payload)
         }).then((data) => {
             console.log(data);
+
 
             if (data.ok) {
                 setError("Successful challenge submission.")
@@ -39,6 +45,7 @@ const DeleteChallenge = () => {
             console.error(error);
             setError('Error with challenge submission.')
         })
+
         navigate('/challenges')
     }
 
@@ -56,11 +63,13 @@ const DeleteChallenge = () => {
 
 
 
+
     return (
         <div>
             <h1>
                 Delete Options
             </h1>
+
             <form onSubmit={handleSubmit}>
                 <div>
                     {challenges.map((challenge, index) => (
@@ -83,6 +92,7 @@ const DeleteChallenge = () => {
 export default DeleteChallenge;
 
 {/* <input
+
                         type="radio"
                         id="option1"
                         value="1"
@@ -124,8 +134,10 @@ export default DeleteChallenge;
                 <div>
                     <input
                         type="radio"
+
                         id="third challenge"
                         value="3 e"
+
                         checked={
                             selectedValue ===
                             3
@@ -137,8 +149,10 @@ export default DeleteChallenge;
                         }
                     />
                     <label htmlFor="option3">
+
                         red
                     </label> */}
+
 /*
 <div>
 <div>
