@@ -1,5 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
+
+
+import DataComponent from './Components/ExternalApiTester/Data.jsx'
+
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import Challenges from './Components/Challenges.jsx'
@@ -10,6 +14,7 @@ import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -36,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/challenges/delete',
         element: <DeleteChallenge/>
+      },
+      {
+        path: '/data',
+        element: <DataComponent/>
       },
       {
         path: '/profile',
