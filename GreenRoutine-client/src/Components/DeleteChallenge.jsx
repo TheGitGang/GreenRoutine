@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AvailableChallenge } from './AvailableChallenge'
+//import { AvailableChallenge } from './AvailableChallenge'
 import { useNavigate } from "react-router-dom";
 
 const DeleteChallenge = () => {

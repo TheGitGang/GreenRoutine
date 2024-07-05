@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 
 
-import DataComponent from './components/ExternalApiTester/Data.jsx'
+import DataComponent from './Components/ExternalApiTester/Data.jsx'
 
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
