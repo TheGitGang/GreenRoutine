@@ -58,6 +58,7 @@ const CreateChallenge = () => {
                 console.error(error);
                 setError('Error with challenge submission.')
             })
+            navigate('/challenges')
         }
     
 

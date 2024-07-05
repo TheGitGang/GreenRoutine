@@ -30,6 +30,7 @@ public class ChallengesController : ControllerBase
     [HttpPost("create")]
     public IActionResult CreateChallenge(/*[FromBody]*/ Challenge challenge)
     {
+        Console.WriteLine("you added a challenge");
         context.Challenges.Add(challenge);
         context.SaveChanges();
         return Ok(new {message="Challenge successfully added"});
@@ -52,11 +53,11 @@ public class ChallengesController : ControllerBase
     }
 
     [HttpPost("delete")]
-    public ActionResult ProcessDeleteChallengesPage(int challengeId)
+    public ActionResult ProcessDeleteChallengesPage(Challenge challenge)
     {
         // foreach (int id in challengeIds)
         {
-            Challenge? theChallenge = context.Challenges.Find(challengeId);
+            Challenge? theChallenge = context.Challenges.Find(challenge.Id);
             if (theChallenge != null)
             {
 
