@@ -11,8 +11,9 @@ import {
   import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
   import { useState, useEffect } from 'react'
+
   import logo from '../assets/images/green_routine_logo.png'
-  
+
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
@@ -121,8 +122,8 @@ import {
                     <DropdownItem tag={Link} to='/friends' className="dropdown-link">
                         Friends
                     </DropdownItem>
-                    <DropdownItem tag={Link} to='/points' className="dropdown-link">
-                        Points
+                    <DropdownItem className="dropdown-link">
+                        <Link to='/leaves' className="dropdown-link">Leaves</Link>
                     </DropdownItem>
                     <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
                         Logout

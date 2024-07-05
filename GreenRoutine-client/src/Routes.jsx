@@ -6,7 +6,8 @@ import Challenges from './Components/Challenges.jsx'
 import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
-//import Fetch from './Components/Fetch.jsx'
+import Leaves from './Components/Leaves.jsx'
+
 //import Friends from './Components/Friends.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginForm/>
+      },
+      {
+        path: '/leaves',
+        element: <Leaves />
       }
     ]
   }
