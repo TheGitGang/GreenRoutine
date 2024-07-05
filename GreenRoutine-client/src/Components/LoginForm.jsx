@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Alert, Button, Card } from "reactstrap";
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ const LoginForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'email') setEmail(value);
+        if (name === 'username') setUsername(value);
         if (name === 'password') setPassword(value);
     }
 
@@ -21,32 +21,30 @@ const LoginForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!email || !password) {
+        if (!username || !password) {
             setError('All fields are required.')
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setError('Please enter a valid email address.')
         } else {
-            //clear error message
+            let loginURL = '/login?useCookies=true'
             setError('');
             const payload = {
-                email: email,
+                email: username,
                 password: password
             }
             console.log(payload)
-            fetch('api/Account/Login', {
+            fetch(loginURL, { //api/Account/login
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(payload)
-            }).then((response => response.json()))
+            })
             .then((data) => {
                 console.log(data);
                 if (data.ok) {
                     setError("Successful login.")
-                    navigate('/')
+                    window.location.href = '/'
                 } else {
-                    setError("Error with login.")
+                    setError("Invalid password or username.")
                 }
             }).catch((error) => {
                 console.error(error);
@@ -61,14 +59,14 @@ const LoginForm = () => {
             <h3>Login to Your Account</h3>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor='email'>Email:</label>
+                    <label htmlFor='username'>Username:</label>
                 </div>
                 <div>
                     <input
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={email}
+                        type='username'
+                        id='username'
+                        name='username'
+                        value={username}
                         onChange={handleChange}
                     />
                 </div>

@@ -1,51 +1,41 @@
 import { useState, useEffect } from 'react';
 import { AvailableChallenge } from './AvailableChallenge'
+import { useNavigate } from "react-router-dom";
 
 const DeleteChallenge = () => {
-
-
-
-    const [name, setName] = useState('');
-    const [difficulty, setDifficulty] = useState('');
-    const [length, setLength] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    // const navigate = useNavigate();
-
+    const [challenges, setChallenges] = useState([]);
+    const [id, setId] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleLoginClick = () => {
-        navigate('/challenges')
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'id') setId(value);
     }
 
-    /*const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'name') setName(value);
-        if (name === 'difficulty') setDifficulty(value);
-        if (name === 'length') setLength(value);
-        if (name === 'description') setDescription(value);
-        if (name === 'category') setCategory(value);
-    }*/
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         //do error handling
         setError('');
-        const payload = 3
-            /*name: name,
-            length: length,
-            description: description,
-            category: category*/
-        
+
+        const payload = { id: id, }
+
         console.log(payload);
+
+
         fetch('/api/Challenges/delete', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: {id: 3}
+
+            body: JSON.stringify(payload)
         }).then((data) => {
             console.log(data);
+
+
             if (data.ok) {
                 setError("Successful challenge submission.")
             } else {
@@ -55,7 +45,23 @@ const DeleteChallenge = () => {
             console.error(error);
             setError('Error with challenge submission.')
         })
+
+        navigate('/challenges')
     }
+
+    useEffect(() => {
+        fetch('/api/Challenges')
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((data) => {
+                console.log(data);
+                setChallenges(data);
+            });
+
+    });
+
+
 
 
     return (
@@ -66,7 +72,27 @@ const DeleteChallenge = () => {
 
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input
+                    {challenges.map((challenge, index) => (
+                        <div key={index}>
+                            <br />
+                            <label>
+                                <input type="checkbox" name="id" value={challenge.id} onChange={handleChange} />
+                                Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
+                            </label>
+                        </div>
+                    ))}
+
+                </div>
+                <button type='submit'>Submit</button>
+            </form>
+        </div>
+    )
+};
+
+export default DeleteChallenge;
+
+{/* <input
+
                         type="radio"
                         id="option1"
                         value="1"
@@ -108,8 +134,10 @@ const DeleteChallenge = () => {
                 <div>
                     <input
                         type="radio"
-                        id="3"
-                        value="3"
+
+                        id="third challenge"
+                        value="3 e"
+
                         checked={
                             selectedValue ===
                             3
@@ -121,14 +149,10 @@ const DeleteChallenge = () => {
                         }
                     />
                     <label htmlFor="option3">
-                        3
-                    </label>
-                </div>
-                <button type='submit'>Submit</button>
-            </form>
-        </div>
-    )
-};
+
+                        red
+                    </label> */}
+
 /*
 <div>
 <div>
@@ -240,5 +264,4 @@ const DeleteChallenge = () => {
 //         </>
 //     );
 // };
-// export default Challenges;
 

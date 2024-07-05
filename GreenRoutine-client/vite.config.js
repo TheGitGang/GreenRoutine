@@ -15,22 +15,22 @@ export default defineConfig({
         target: 'http://localhost:5299',
         secure: false
       },
-      // '^/pingauth': {
-      //   target: 'http://localhost:5299',
-      //   secure: false
-      // },
+      '^/pingauth': {
+        target: 'http://localhost:5299',
+        secure: false
+      },
       // '^/register': {
       //   target: 'http://localhost:5299',
       //   secure: false
       // },
-      // '^/login': {
-      //   target: 'http://localhost:5299',
-      //   secure: false
-      // },
-      // '^/logout': {
-      //   target: 'http://localhost:5299',
-      //   secure: false
-      // },
+      '^/login': {
+        target: 'http://localhost:5299',
+        secure: false
+      },
+      '^/logout': {
+        target: 'http://localhost:5299',
+        secure: false
+      },
     }
   }
 })

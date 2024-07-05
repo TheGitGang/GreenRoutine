@@ -1,30 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
-import Home from './components/Home.jsx'
-import About from './components/About.jsx'
-import Challenges from './components/Challenges.jsx'
-//import CreateChallenge from './Components/CreateChallenge.jsx'
-import Profile from './components/Profile.jsx'
-import ErrorPage from './ErrorPage.jsx'
-//import Fetch from './Components/Fetch.jsx'
-//import Friends from './Components/Friends.jsx'
 
-///dummy data for profile///
-import profileImg from './assets/images/ProfilePlaceholder.jpg'
-import CreateChallenge from './components/CreateChallenge.jsx'
-import RegisterForm from './components/RegisterForm.jsx'
-import LoginForm from './components/LoginForm.jsx'
 
 import DataComponent from './components/ExternalApiTester/Data.jsx'
 
-const name = 'Kevin Baranowski';
-const title = 'Lead Developer';
+import Home from './Components/Home.jsx'
+import About from './Components/About.jsx'
+import Challenges from './Components/Challenges.jsx'
+import CreateChallenge from './Components/CreateChallenge.jsx'
+import Profile from './Components/Profile.jsx'
+import ErrorPage from './ErrorPage.jsx'
+import Leaves from './Components/Leaves.jsx'
+import DeleteChallenge from './Components/DeleteChallenge.jsx'
+import RegisterForm from './Components/RegisterForm.jsx'
+import LoginForm from './Components/LoginForm.jsx'
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App name={name}/>,
-    errorElement: <ErrorPage name={name}/>,
+    element: <App />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: '/',
@@ -44,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/challenges/delete',
-        element: <CreateChallenge/>
+        element: <DeleteChallenge/>
       },
       {
         path: '/data',
@@ -52,7 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <Profile name={name} title={title} profileImg={profileImg}/>
+        element: <Profile/>
       },
       {
         path: '/register',
@@ -61,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginForm/>
+      },
+      {
+        path: '/leaves',
+        element: <Leaves />
       }
     ]
   }

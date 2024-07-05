@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 
@@ -34,7 +35,10 @@ namespace TodoApi.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                DateJoined = DateTime.Now
+                DateJoined = DateTime.Now,
+                Leaves = 0,
+                Bio = "",
+                Pronouns = ""
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -45,20 +49,16 @@ namespace TodoApi.Controllers
 
             return BadRequest(result.Errors);
         }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        [HttpGet("IsUserAuthenticated")]
+        public async Task<IActionResult> IsUserAuthenticated()
         {
-            if (model == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return BadRequest("Invalid login data");
-            }
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            if (result.Succeeded)
+                return Ok();
+            } else
             {
-                return Ok(new { message = "Login successful" });
+                return Unauthorized(new { message = "User in not authenticated"});
             }
-            
-            return Unauthorized(new { message = "Invalid email or password" });
         }
     }
 }

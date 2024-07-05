@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button } from "reactstrap";
+import { Alert, Button, Card } from "reactstrap";
 
 const RegisterForm = () => {
     //state variables for email, first, last names, passwords
@@ -75,6 +75,7 @@ const RegisterForm = () => {
 
     return (
         <div>
+            <Card className='centered-card p-3'>
             <h3>Register an Account</h3>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -155,6 +156,7 @@ const RegisterForm = () => {
             </div>
             <br/>
             {error && <Alert color='danger'>{error}</Alert>}
+            </Card>
         </div>
     )
 };

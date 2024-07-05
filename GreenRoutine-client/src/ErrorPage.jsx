@@ -4,12 +4,12 @@ import { Card } from 'reactstrap';
 import './App.css'
 import './ErrorPage.css'
 
-const ErrorPage = (props) => {
+const ErrorPage = () => {
     const error = useRouteError();
     console.error(error);
     return (
         <div className="app-layout">
-            <Navigation name={props.name} />
+            <Navigation/>
             <div id="error-page" className="pt-5">
                 <Card class='centered-card'>
                     <h1 className="error-header">Oops!</h1>

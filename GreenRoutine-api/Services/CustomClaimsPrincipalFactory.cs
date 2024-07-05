@@ -1,0 +1,47 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using TodoApi.Server.Data;
+
+namespace TodoApi.Server.Services // Ensure this namespace is correct
+{
+    public class CustomClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
+    {
+        public CustomClaimsPrincipalFactory(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IOptions<IdentityOptions> optionsAccessor)
+            : base(userManager, roleManager, optionsAccessor)
+        {
+        }
+
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        {
+            var identity = await base.GenerateClaimsAsync(user);
+
+            // Add custom claims
+            if (!string.IsNullOrEmpty(user.FirstName))
+            {
+                identity.AddClaim(new Claim("FirstName", user.FirstName));
+            }
+            if (!string.IsNullOrEmpty(user.LastName))
+            {
+                identity.AddClaim(new Claim("LastName", user.LastName));
+            }
+            if (!string.IsNullOrEmpty(user.Bio))
+            {
+                identity.AddClaim(new Claim("Bio", user.Bio));
+            }
+            if (!string.IsNullOrEmpty(user.Pronouns)) 
+            {
+                identity.AddClaim(new Claim("Pronouns", user.Pronouns));
+            }
+            identity.AddClaim(new Claim("Leaves", user.Leaves.ToString()));
+            identity.AddClaim(new Claim("DateJoined", user.DateJoined.ToString()));
+
+
+            return identity;
+        }
+    }
+}
