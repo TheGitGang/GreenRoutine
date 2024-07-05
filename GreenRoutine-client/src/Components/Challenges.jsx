@@ -12,7 +12,7 @@ const Challenges = () => {
                 console.log(data);
                 setChallenges(data);
             });
-    });
+    }, []);
 
     return (
         <>
