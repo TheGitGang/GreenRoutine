@@ -36,7 +36,9 @@ namespace TodoApi.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 DateJoined = DateTime.Now,
-                //Leaves = 0
+                Leaves = 0,
+                Bio = "",
+                Pronouns = ""
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

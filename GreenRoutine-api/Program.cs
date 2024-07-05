@@ -65,15 +65,25 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 
 app.MapGet("/pingauth", (ClaimsPrincipal user) =>
 {
+    var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
     var email = user.FindFirstValue(ClaimTypes.Email); //get the user's email from the claim
     var userName = user.FindFirstValue(ClaimTypes.Name);
     var firstName = user.FindFirstValue("FirstName");
     var lastName = user.FindFirstValue("LastName");
+    var bio = user.FindFirstValue("Bio");
+    var leaves = user.FindFirstValue("Leaves");
+    var dateJoined = user.FindFirstValue("DateJoined");
+    var pronouns = user.FindFirstValue("Pronouns");
     return Results.Json(new { 
+        Id = id,
         Email = email,
         UserName = userName,
         FirstName = firstName,
-        LastName = lastName 
+        LastName = lastName,
+        Bio = bio,
+        Leaves = leaves,
+        DateJoined = dateJoined,
+        Pronouns = pronouns
     }); // return the email as a plain text response
 }).RequireAuthorization();
 
