@@ -1,0 +1,4 @@
+#square-tiles{
+    display: flex;
+    flex-direction: row;
+}
