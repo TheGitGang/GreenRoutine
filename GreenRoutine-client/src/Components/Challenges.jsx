@@ -25,24 +25,22 @@ const Challenges = () => {
     return (
         <>
             <p>There are {challenges.length} challenges in the DB</p>
-            <p>{JSON.stringify(challenges)}</p>
             <div>
                 {challenges.map((challenge, index) => (
-                    <div key={index}>
-                        Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
+                    <>
+                    <div class="card" key={index}>
+                        <h5 class="card-title">{challenge.name}</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Difficulty: {challenge.difficulty},</li>
+                            <li class="list-group-item">Length: {challenge.length}</li>
+                            <li class="list-group-item">Description: {challenge.description}</li>
+                        </ul>
                     </div>
+                    <br/>
+                    </>
                 ))}
             </div>
             <br/>
-            <div>
-                {challenges.map((challenge, index) => (
-                    <div key={index}>
-                        Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
-                    </div>
-                ))}
-            </div>
-
-
 
             <div>
                 <div>

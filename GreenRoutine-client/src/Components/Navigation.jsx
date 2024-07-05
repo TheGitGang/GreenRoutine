@@ -107,7 +107,7 @@ import {
                         <Link to='/friends' className="dropdown-link">Friends</Link>
                     </DropdownItem>
                     <DropdownItem className="dropdown-link">
-                        <Link to='/points' className="dropdown-link">Points</Link>
+                        <Link to='/leaves' className="dropdown-link">Leaves</Link>
                     </DropdownItem>
                     <DropdownItem divider/>
                     <DropdownItem className="dropdown-link">
