@@ -11,6 +11,8 @@ import {
   import { Link } from 'react-router-dom'
   import './Navigation.css'
   import { useState, useEffect } from 'react'
+
+  import Logo from './styling/Logo'
   
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -74,8 +76,7 @@ import {
         return (
             <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
                 <NavbarBrand href="/">
-                  <img src="src/assets/images/Green Routine Logo Higher Quality.png" width="200
-                  " height="35"/>
+                  <Logo/>
                 </NavbarBrand>
                 <Nav className="me-auto" navbar>
                     <NavItem>
