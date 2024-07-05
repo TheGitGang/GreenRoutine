@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Alert, Button, Card } from "reactstrap";
 
 const RegisterForm = () => {
     //state variables for email, first, last names, passwords
@@ -45,6 +46,7 @@ const RegisterForm = () => {
                 firstName: firstName,
                 lastName: lastName,
                 password: password,
+                confirmPassword: confirmPassword,
                 username: username
             }
             console.log(payload);
@@ -59,6 +61,7 @@ const RegisterForm = () => {
                 console.log(data);
                 if (data.ok) {
                     setError("Successful registration.")
+                    navigate('/login')
                 } else {
                     setError("Error with registration.")
                 }
@@ -72,6 +75,7 @@ const RegisterForm = () => {
 
     return (
         <div>
+            <Card className='centered-card p-3'>
             <h3>Register an Account</h3>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -140,16 +144,19 @@ const RegisterForm = () => {
                         onChange={handleChange}
                     />
                 </div>
+                <br/>
                 <div>
-                    <button type='submit' className="btn btn-primary">Register</button>
-                </div>
-                <div>
-                    <p>Already have an account?</p>
-                    <button type='button'onClick={handleLoginClick}>Go to Login</button>
+                    <Button color="primary">Register</Button>
                 </div>
             </form>
-
-            {error && <p className='error'>{error}</p>}
+            <br/>
+            <div>
+                    <p>Already have an account?</p>
+                    <Button onClick={handleLoginClick}>Go to Login</Button>
+            </div>
+            <br/>
+            {error && <Alert color='danger'>{error}</Alert>}
+            </Card>
         </div>
     )
 };

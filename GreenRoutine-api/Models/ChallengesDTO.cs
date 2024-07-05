@@ -1,25 +1,26 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using TodoApi;
 
 namespace GreenRoutine.Models;
 
-public class Challenge
+public class ChallengesDTO
 {
     public int Id { get; set; }
     public string? Name { get; set; }
-    public int Difficulty { get; set; }
+    public int? Difficulty { get; set; }
     public TimeSpan? Length { get; set; }
     public string? Description { get; set; } 
     public List<Category>? Categories { get; set; } = [];
 
-    public Challenge(){}
     
-    public Challenge(string name, int difficulty, TimeSpan length, string description) : this()
+    public ChallengesDTO(Challenge challenges) 
     {
-        Name = name;
-        Difficulty = difficulty;
-        Length = length;
-        Description = description;
+        Id = challenges.Id;
+        Name = challenges.Name;
+        Difficulty = challenges.Difficulty;
+        Length = challenges.Length;
+        Description = challenges.Description;
     }
 
 }

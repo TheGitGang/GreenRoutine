@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 
@@ -34,7 +35,8 @@ namespace TodoApi.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                DateJoined = DateTime.Now
+                DateJoined = DateTime.Now,
+                //Leaves = 0
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -44,6 +46,17 @@ namespace TodoApi.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+        [HttpGet("IsUserAuthenticated")]
+        public async Task<IActionResult> IsUserAuthenticated()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Ok();
+            } else
+            {
+                return Unauthorized(new { message = "User in not authenticated"});
+            }
         }
     }
 }

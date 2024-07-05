@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240702025403_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240703045025_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,38 +25,6 @@ namespace TodoApi.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryChallenge", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChallengesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "ChallengesId");
-
-                    b.HasIndex("ChallengesId");
-
-                    b.ToTable("CategoryChallenge");
-                });
-
-            modelBuilder.Entity("GreenRoutine.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("GreenRoutine.Models.Challenge", b =>
                 {
                     b.Property<int>("Id")
@@ -65,21 +33,8 @@ namespace TodoApi.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
-
-                    b.Property<TimeSpan>("Length")
-                        .HasColumnType("time(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -289,21 +244,6 @@ namespace TodoApi.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("CategoryChallenge", b =>
-                {
-                    b.HasOne("GreenRoutine.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GreenRoutine.Models.Challenge", null)
-                        .WithMany()
-                        .HasForeignKey("ChallengesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
