@@ -7,12 +7,13 @@ namespace TodoApi.Server.Data
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime DateJoined { get; set; }
-        //public int? Leaves { get; set; }
+        public int Leaves { get; set; } = 0;
+        public string Bio { get; set; } = "";
+        public string Pronouns { get; set; } = "";
 
         public ApplicationUser()
         {
             DateJoined = DateTime.Now;
-           // Leaves = 0;
         }
 
         public ApplicationUser(string firstName, string lastName) : this()

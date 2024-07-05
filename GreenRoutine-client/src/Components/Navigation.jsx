@@ -8,14 +8,18 @@ import {
     DropdownMenu,
     DropdownItem,
   } from 'reactstrap';
-  import { Link } from 'react-router-dom'
+  import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
   import { useState, useEffect } from 'react'
+  import logo from '../assets/images/green_routine_logo.png'
   
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
@@ -56,25 +60,36 @@ import {
     }, [isAuthenticated])
 
     const handleLogoutClick = async () => {
-        await fetch('/logout', {
-            method: "POST"
-        }).then((data) => {
-            if (data.ok) {
+        setShouldNavigate(false)
+        try {
+            const response = await fetch('/logout', {
+                method: "POST"
+            })
+            if (response.ok) {
                 setIsAuthenticated(false);
                 setUserInfo({});
                 setError('User logged out successfully.')
-                window.location.href = '/'
+                setShouldNavigate(true)
             } else {
                 setError('Unable to logout.')
             }
-        })
+        } catch (e) {
+            console.error('Logout unsuccessful. ' + e)
+        }
     }
+
+    useEffect(() => {
+        if (shouldNavigate && !isAuthenticated) {
+            setShouldNavigate(false);
+            navigate('/login');
+        }
+    }, [shouldNavigate, isAuthenticated]);
 
     if (isAuthenticated) {
         return (
             <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
                 <NavbarBrand href="/">
-                  <img src="src/assets/images/Green Routine Logo Higher Quality.png" width="200
+                  <img src={logo} width="200
                   " height="35"/>
                 </NavbarBrand>
                 <Nav className="me-auto" navbar>
@@ -100,18 +115,17 @@ import {
                     Hello, {userInfo.firstName} {userInfo.lastName}!
                   </DropdownToggle>
                   <DropdownMenu end >
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/profile' className="dropdown-link">Profile</Link>
+                    <DropdownItem tag={Link} to='/profile' className="dropdown-link">
+                        Profile
                     </DropdownItem>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/friends' className="dropdown-link">Friends</Link>
+                    <DropdownItem tag={Link} to='/friends' className="dropdown-link">
+                        Friends
                     </DropdownItem>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/points' className="dropdown-link">Points</Link>
+                    <DropdownItem tag={Link} to='/points' className="dropdown-link">
+                        Points
                     </DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/login' className="dropdown-link" onClick={handleLogoutClick}>Logout</Link>
+                    <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
+                        Logout
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -122,7 +136,7 @@ import {
         return (
                 <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
                     <NavbarBrand href="/">
-                      <img src="src/assets/images/Green Routine Logo Higher Quality.png" width="200
+                      <img src={logo} width="200
                       " height="35"/>
                     </NavbarBrand>
                     <Nav className="me-auto" navbar>
@@ -148,11 +162,11 @@ import {
                         Account
                       </DropdownToggle>
                       <DropdownMenu end >
-                        <DropdownItem className="dropdown-link">
-                            <Link to='/login' className="dropdown-link">Login</Link>
+                        <DropdownItem tag={Link} to='/login' className="dropdown-link">
+                            Login
                         </DropdownItem>
-                        <DropdownItem className="dropdown-link">
-                            <Link to='/register' className="dropdown-link">Sign up</Link>
+                        <DropdownItem tag={Link} to='/register'className="dropdown-link">
+                            Sign up
                         </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>

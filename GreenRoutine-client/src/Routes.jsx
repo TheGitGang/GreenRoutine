@@ -11,11 +11,6 @@ import ErrorPage from './ErrorPage.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
 
-///dummy data for profile///
-import profileImg from './assets/images/ProfilePlaceholder.jpg'
-const name = 'Kevin Baranowski';
-const title = 'Lead Developer';
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -40,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <Profile name={name} title={title} profileImg={profileImg}/>
+        element: <Profile/>
       },
       {
         path: '/register',
