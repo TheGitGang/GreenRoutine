@@ -7,8 +7,7 @@ import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
 import Leaves from './Components/Leaves.jsx'
-
-//import Friends from './Components/Friends.jsx'
+import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
 
@@ -41,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/challenges/delete',
-        element: <CreateChallenge/>
+        element: <DeleteChallenge/>
       },
       {
         path: '/profile',
