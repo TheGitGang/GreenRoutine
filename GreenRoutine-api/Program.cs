@@ -1,7 +1,12 @@
 using System.Security.Claims;
 using GreenRoutine;
+using GreenRoutine.Models;
 using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
 using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
@@ -40,6 +45,9 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -93,6 +101,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 
