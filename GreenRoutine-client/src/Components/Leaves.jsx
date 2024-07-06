@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import './Leaves.css'
-import { getLocalStorage } from './LocalStorageFunctions';
+import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
 
 const Square = styled.div`
   width: 200px;
@@ -18,11 +18,45 @@ const Square = styled.div`
 `;
 
 const Leaves = () => {
-  const userInfo = getLocalStorage('userInfo');
+  const [ user, setUser ] = useState(getLocalStorage('userInfo'));
+  const [ error, setError] = useState('');
+
+  useEffect(() => {
+    setLocalStorage('user', user);
+  }, [user]);
+
+  const handleClick = async () => {
+      try {
+          const response = await fetch('http://localhost:5000/api/user/add-points', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                UserId: user.UserId,
+                Points: 10
+              })
+          });
+          if (response.ok) {
+              const data = await response.json();
+              setUser(data.User);
+              console.log('Points updated:', data.User.points);
+          } else {
+              const errorData = await response.json();
+              setError(errorData.Message);
+              console.error('Error updating points:', errorData.Message);
+          }
+      } catch (error) {
+          setError('An error occurred while updating points.');
+          console.error('Error:', error);
+      }
+  };
+
   return ( 
     <div id="square-tiles">
-      <Square> Leaves: {userInfo.leaves} </Square>
+      <Square> Leaves: {user.leaves} </Square>
       <Square>Hello </Square>
+      <button onClick={handleClick}>Add 10 points</button>
     </div>
   );
 } 

@@ -54,6 +54,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// Enable detailed logging
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
+
 var app = builder.Build();
 
 app.UseCors("AllowAll");
