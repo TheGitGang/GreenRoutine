@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import './Leaves.css'
+import { getLocalStorage } from './LocalStorageFunctions';
 
 const Square = styled.div`
   width: 200px;
@@ -17,13 +18,14 @@ const Square = styled.div`
 `;
 
 const Leaves = () => {
-    return ( 
-     <div id="square-tiles">
-        <Square>Hello </Square>
-        <Square>Hello </Square>
+  const userInfo = getLocalStorage('userInfo');
+  return ( 
+    <div id="square-tiles">
+      <Square> Leaves: {userInfo.leaves} </Square>
+      <Square>Hello </Square>
     </div>
-    );
-};
+  );
+} 
 
 
 export default Leaves;
