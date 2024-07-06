@@ -6,6 +6,7 @@ import DataComponent from './Components/ExternalApiTester/Data.jsx'
 
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
+import About2 from './Components/About2.jsx'
 import Challenges from './Components/Challenges.jsx'
 import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />
+      },
+      {
+        path: '/about2',
+        element: <About2 />
       },
       {
         path: '/challenges',
