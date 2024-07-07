@@ -1,45 +1,48 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
 
 const About = () => {
     const [makes, setMakes] = useState([]);
     const [makeChoice, setMakeChoice] = useState([]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    
+    const [ user, setUser ] = useState(getLocalStorage('userInfo'));
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'makeChoice') setMakeChoice(value); 
+        if (name === 'makeChoice') setMakeChoice(value);
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         //do error handling
-            setError('');
-            console.log("hi1")
-            const payload = {
-                makeChoice: makeChoice
+        setError('');
+        console.log("hi1")
+        const payload = { makeChoice: makeChoice, Id: user.id, }
+        console.log(payload);
+        fetch('/api/account/about', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }).then((data) => {
+            console.log(data);
+            if (data.ok) {
+                setError("Successful make submission.")
+            } else {
+                setError("Error with make submission.")
             }
-            console.log(payload);
-            fetch('/api/test/about', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            }).then((data) => {
-                console.log(data);
-                if (data.ok) {
-                    setError("Successful make submission.")
-                } else {
-                    setError("Error with make submission.")
-                }
-            }).catch((error) => {
-                console.error(error);
-                setError('Error with make submission.')
-            })
-            navigate('/about2')
-        }
+        }).catch((error) => {
+            console.error(error);
+            setError('Error with make submission.')
+        })
+        navigate('/about2')
+    }
+    useEffect(() => {
+        setLocalStorage('user', user);
+    }, [user]);
 
     useEffect(() => {
         fetch('/api/test/about')
@@ -68,7 +71,7 @@ const About = () => {
                     ))}
 
                 </div>
-                { <button type='submit'>Submit</button> }
+                {<button type='submit'>Submit</button>}
             </form>
         </>
     )

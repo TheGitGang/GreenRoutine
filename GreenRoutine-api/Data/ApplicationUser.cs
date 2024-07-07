@@ -8,6 +8,7 @@ namespace TodoApi.Server.Data
         public string? LastName { get; set; }
         public DateTime DateJoined { get; set; }
         public int Leaves { get; set; } = 0;
+        public Guid makeChoice { get; set; }
         public string Bio { get; set; } = "";
         public string Pronouns { get; set; } = "";
 

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,17 @@ public class TestController : ControllerBase
     private readonly HttpClient _httpClient;
 
     public Guid _makeChoice;
+        private readonly ChallengeDbContext context;
 
-    public TestController(HttpClient httpClient)
+    public TestController(ChallengeDbContext dbContext)
+    {
+        context = dbContext;
+    }
+
+    /*public TestController(HttpClient httpClient)
     {
         _httpClient = httpClient;
-    }
+    }*/
 
     //Get /api/test for models
     [HttpGet("about2")]
@@ -92,17 +99,24 @@ public class TestController : ControllerBase
         }
     }
 
-    [HttpPost("about")]
-    public IActionResult RecordMake(/*[FromBody]*/ Guid makeChoice)
+    /*[HttpPost("about")]
+    public IActionResult RecordMake(/*[FromBody]*//* AddMakeRequest addMakeRequest)
     {
-        Console.WriteLine(makeChoice.ToString());
-        _makeChoice = makeChoice;
+        Console.WriteLine(addMakeRequest.makeChoice.ToString());
+        Console.WriteLine(addMakeRequest.makeChoice);
+        _makeChoice = addMakeRequest.makeChoice;
+
         // context.Challenges.Add(challenge);
         // context.SaveChanges();
         return Ok(new {message="Make successfully registered"});
-    }
+    }*/
 
 
+        public class AddMakeRequest
+        {
+            public Guid makeChoice { get; set; }
+            // public int Points { get; set;}
+        }
 
     [HttpPost("electricity")]
     public async Task<ActionResult<ElectricityModel>> Post()

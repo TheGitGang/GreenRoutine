@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
 
 const About2 = () => {
     const [models, setModels] = useState([]);
