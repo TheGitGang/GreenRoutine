@@ -13,7 +13,6 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
 
     public ChallengeDbContext(DbContextOptions<ChallengeDbContext> options) : base(options)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
