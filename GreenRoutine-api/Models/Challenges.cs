@@ -12,6 +12,8 @@ public class Challenge
     public string? Description { get; set; } 
     public List<Category>? Categories { get; set; } = [];
 
+    public ICollection<UserChallenge> UserChallenges { get; set; } = new List<UserChallenge>();
+
     public Challenge(){}
     
     public Challenge(string name, int difficulty, TimeSpan length, string description) : this()
