@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using GreenRoutine;
 
 namespace TodoApi.Server.Data
 {
@@ -10,6 +11,8 @@ namespace TodoApi.Server.Data
         public int Leaves { get; set; } = 0;
         public string Bio { get; set; } = "";
         public string Pronouns { get; set; } = "";
+
+        public ICollection<UserChallenge> UserChallenges { get; set; }
 
         public ApplicationUser()
         {
