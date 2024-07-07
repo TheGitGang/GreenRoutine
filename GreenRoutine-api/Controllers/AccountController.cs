@@ -66,18 +66,18 @@ namespace TodoApi.Controllers
 
         //Point System items
         [HttpPost("add-leaves")]
-        public async Task<IActionResult> AddPoints([FromBody] AddPointsRequest request)
+        public async Task<IActionResult> AddPoints([FromBody] string userId, int points)
         {
             try
             {
-                Console.WriteLine($"Received request to add points to user: {request.UserId}");
-                var user = await _userManager.FindByIdAsync(request.UserId);
+                Console.WriteLine($"Received request to add points to user: {userId}");
+                var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
                     throw new Exception("User not found");
                 }
 
-            user.Leaves += request.Points;
+            user.Leaves += points;
             var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -92,13 +92,6 @@ namespace TodoApi.Controllers
             {
                 return BadRequest( new { message = ex.Message });
             }
-        }
-
-        //temp class to test
-        public class AddPointsRequest
-        {
-            public string UserId { get; set; }
-            public int Points { get; set;}
         }
     }
 }

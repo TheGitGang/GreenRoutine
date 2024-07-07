@@ -42,6 +42,9 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
     });
 });
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -61,12 +64,13 @@ builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors("AllowAll");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapIdentityApi<ApplicationUser>();
 
@@ -105,6 +109,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 
