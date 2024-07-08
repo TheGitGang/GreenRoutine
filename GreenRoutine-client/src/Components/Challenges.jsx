@@ -47,7 +47,7 @@ const Challenges = () => {
                     <div className="card" key={index}>
                         <h5 className="card-title">{challenge.name}</h5>
                         <ul className="list-group list-group-flush">
-                            <li className="list-group-item">Difficulty: {challenge.difficulty},</li>
+                            <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
                             <li className="list-group-item">Length: {challenge.length}</li>
                             <li className="list-group-item">Description: {challenge.description}</li>
                         </ul>

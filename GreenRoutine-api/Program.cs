@@ -91,6 +91,11 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
     var leaves = user.FindFirstValue("Leaves");
     var dateJoined = user.FindFirstValue("DateJoined");
     var pronouns = user.FindFirstValue("Pronouns");
+    var lifetimeLeaves = user.FindFirstValue("LifetimeLeaves");
+    var currentStreak = user.FindFirstValue("CurrentStreak");
+    var longestStreak = user.FindFirstValue("LongestStreak");
+    var numChallengesComplete = user.FindFirstValue("NumChallengesComplete");
+    var numChallengesCreated = user.FindFirstValue("NumChallengesCreated");
     return Results.Json(new { 
         Id = id,
         Email = email,
@@ -100,7 +105,12 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
         Bio = bio,
         Leaves = leaves,
         DateJoined = dateJoined,
-        Pronouns = pronouns
+        Pronouns = pronouns,
+        LifetimeLeaves = lifetimeLeaves,
+        CurrentStreak = currentStreak,
+        LongestStreak = longestStreak,
+        NumChallengesComplete = numChallengesComplete,
+        NumChallengesCreated = numChallengesCreated
     }); // return the email as a plain text response
 }).RequireAuthorization();
 

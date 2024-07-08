@@ -38,6 +38,7 @@ const Home = () => {
                     console.log(data);
                     
                     setLocalStorage('userInfo', data);
+
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
