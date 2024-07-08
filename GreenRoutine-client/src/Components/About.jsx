@@ -43,7 +43,7 @@ const About = () => {
             console.error(error);
             setError('Error with make submission.')
         })
-        console.log("hi34")
+        // console.log("hi34")
         console.log(makeChoice)
         console.log()
         navigate('/about2/' + makeChoice.toString())

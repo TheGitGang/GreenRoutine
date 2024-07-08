@@ -126,7 +126,7 @@ namespace TodoApi.Controllers
 
                 user.makeChoice = addMakeRequest.makeChoice;
                 var result = await _userManager.UpdateAsync(user);
-                _makeChoice = addMakeRequest.makeChoice;
+                // _makeChoice = addMakeRequest.makeChoice;
                 if (result.Succeeded)
                 {
                     return Ok(user);
