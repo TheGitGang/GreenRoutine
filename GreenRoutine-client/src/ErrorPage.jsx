@@ -4,14 +4,14 @@ import { Card } from 'reactstrap';
 import './App.css'
 import './ErrorPage.css'
 
-const ErrorPage = (props) => {
+const ErrorPage = () => {
     const error = useRouteError();
     console.error(error);
     return (
         <div className="app-layout">
-            <Navigation name={props.name} />
+            <Navigation/>
             <div id="error-page" className="pt-5">
-                <Card class='centered-card'>
+                <Card className='lightgrey-card'>
                     <h1 className="error-header">Oops!</h1>
                     <p className="error-header">Sorry, an unexpected error has occurred.</p>
                     <p className="error-header">

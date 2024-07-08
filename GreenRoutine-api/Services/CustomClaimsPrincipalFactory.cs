@@ -29,6 +29,22 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             {
                 identity.AddClaim(new Claim("LastName", user.LastName));
             }
+            if (!string.IsNullOrEmpty(user.Bio))
+            {
+                identity.AddClaim(new Claim("Bio", user.Bio));
+            }
+            if (!string.IsNullOrEmpty(user.Pronouns)) 
+            {
+                identity.AddClaim(new Claim("Pronouns", user.Pronouns));
+            }
+            identity.AddClaim(new Claim("Leaves", user.Leaves.ToString()));
+            identity.AddClaim(new Claim("DateJoined", user.DateJoined.ToString()));
+            identity.AddClaim(new Claim("LifetimeLeaves", user.LifetimeLeaves.ToString()));
+            identity.AddClaim(new Claim("CurrentStreak", user.CurrentStreak.ToString()));
+            identity.AddClaim(new Claim("LongestStreak", user.LongestStreak.ToString()));
+            identity.AddClaim(new Claim("NumChallengesComplete", user.NumChallengesComplete.ToString()));
+            identity.AddClaim(new Claim("NumChallengesCreated", user.NumChallengesCreated.ToString()));
+
 
             return identity;
         }

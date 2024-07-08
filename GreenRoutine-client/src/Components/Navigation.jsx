@@ -8,16 +8,20 @@ import {
     DropdownMenu,
     DropdownItem,
   } from 'reactstrap';
-  import { Link } from 'react-router-dom'
+  import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
-  import { useState, useEffect } from 'react'
+  import { useState, useEffect, useContext } from 'react'
 
-  import Logo from './styling/Logo'
-  
+  import logo from '../assets/images/green_routine_logo.png'
+// import { AuthContext } from '../AuthContext';
+
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
+    // const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
@@ -45,7 +49,6 @@ import {
                 if (response.ok) {
                     const data = await response.json();
                     setUserInfo(data);
-                    console.log(data);
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
@@ -58,25 +61,37 @@ import {
     }, [isAuthenticated])
 
     const handleLogoutClick = async () => {
-        await fetch('/logout', {
-            method: "POST"
-        }).then((data) => {
-            if (data.ok) {
+        setShouldNavigate(false)
+        try {
+            const response = await fetch('/logout', {
+                method: "POST"
+            })
+            if (response.ok) {
                 setIsAuthenticated(false);
                 setUserInfo({});
                 setError('User logged out successfully.')
-                window.location.href = '/'
+                setShouldNavigate(true)
             } else {
                 setError('Unable to logout.')
             }
-        })
+        } catch (e) {
+            console.error('Logout unsuccessful. ' + e)
+        }
     }
+
+    useEffect(() => {
+        if (shouldNavigate && !isAuthenticated) {
+            setShouldNavigate(false);
+            navigate('/login');
+        }
+    }, [shouldNavigate, isAuthenticated]);
 
     if (isAuthenticated) {
         return (
             <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
                 <NavbarBrand href="/">
-                  <Logo/>
+                  <img src={logo} width="200
+                  " height="35"/>
                 </NavbarBrand>
                 <Nav className="me-auto" navbar>
                     <NavItem>
@@ -86,10 +101,22 @@ import {
                         <Link to='/about' className="nav-link">About</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/challenges' className="nav-link">Challenges</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
+                        <UncontrolledDropdown>
+                            <DropdownToggle nav caret className="dropdown-link">
+                                Challenges
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem tag={Link} to='/challenges' className="dropdown-link">
+                                    View Challenges
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to='/challenges/create' className="dropdown-link">
+                                    Create Challenges
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to='/challenges/delete' className="dropdown-link">
+                                    Delete Challenges
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
                     </NavItem>
                     <NavItem>
                         <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
@@ -101,18 +128,14 @@ import {
                     Hello, {userInfo.firstName} {userInfo.lastName}!
                   </DropdownToggle>
                   <DropdownMenu end >
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/profile' className="dropdown-link">Profile</Link>
+                    <DropdownItem tag={Link} to='/profile' className="dropdown-link">
+                        Profile
                     </DropdownItem>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/friends' className="dropdown-link">Friends</Link>
+                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
+                        Leaves
                     </DropdownItem>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/leaves' className="dropdown-link">Leaves</Link>
-                    </DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/login' className="dropdown-link" onClick={handleLogoutClick}>Logout</Link>
+                    <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
+                        Logout
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -123,7 +146,7 @@ import {
         return (
                 <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
                     <NavbarBrand href="/">
-                      <img src="src/assets/images/Green Routine Logo Higher Quality.png" width="200
+                      <img src={logo} width="200
                       " height="35"/>
                     </NavbarBrand>
                     <Nav className="me-auto" navbar>
@@ -149,11 +172,11 @@ import {
                         Account
                       </DropdownToggle>
                       <DropdownMenu end >
-                        <DropdownItem className="dropdown-link">
-                            <Link to='/login' className="dropdown-link">Login</Link>
+                        <DropdownItem tag={Link} to='/login' className="dropdown-link">
+                            Login
                         </DropdownItem>
-                        <DropdownItem className="dropdown-link">
-                            <Link to='/register' className="dropdown-link">Sign up</Link>
+                        <DropdownItem tag={Link} to='/register'className="dropdown-link">
+                            Sign up
                         </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>

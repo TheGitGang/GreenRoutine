@@ -1,7 +1,12 @@
 using System.Security.Claims;
 using GreenRoutine;
+using GreenRoutine.Models;
 using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
 using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
@@ -37,23 +42,35 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
     });
 });
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// Enable detailed logging
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
+
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowAll");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapIdentityApi<ApplicationUser>();
 
@@ -65,15 +82,35 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 
 app.MapGet("/pingauth", (ClaimsPrincipal user) =>
 {
+    var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
     var email = user.FindFirstValue(ClaimTypes.Email); //get the user's email from the claim
     var userName = user.FindFirstValue(ClaimTypes.Name);
     var firstName = user.FindFirstValue("FirstName");
     var lastName = user.FindFirstValue("LastName");
+    var bio = user.FindFirstValue("Bio");
+    var leaves = user.FindFirstValue("Leaves");
+    var dateJoined = user.FindFirstValue("DateJoined");
+    var pronouns = user.FindFirstValue("Pronouns");
+    var lifetimeLeaves = user.FindFirstValue("LifetimeLeaves");
+    var currentStreak = user.FindFirstValue("CurrentStreak");
+    var longestStreak = user.FindFirstValue("LongestStreak");
+    var numChallengesComplete = user.FindFirstValue("NumChallengesComplete");
+    var numChallengesCreated = user.FindFirstValue("NumChallengesCreated");
     return Results.Json(new { 
+        Id = id,
         Email = email,
         UserName = userName,
         FirstName = firstName,
-        LastName = lastName 
+        LastName = lastName,
+        Bio = bio,
+        Leaves = leaves,
+        DateJoined = dateJoined,
+        Pronouns = pronouns,
+        LifetimeLeaves = lifetimeLeaves,
+        CurrentStreak = currentStreak,
+        LongestStreak = longestStreak,
+        NumChallengesComplete = numChallengesComplete,
+        NumChallengesCreated = numChallengesCreated
     }); // return the email as a plain text response
 }).RequireAuthorization();
 
@@ -82,7 +119,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
+
 
 app.UseHttpsRedirection();
 
