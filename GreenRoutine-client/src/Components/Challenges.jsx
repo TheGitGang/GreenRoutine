@@ -19,17 +19,14 @@ const Challenges = () => {
             <p>There are {challenges.length} challenges in the DB</p>
             <div>
                 {challenges.map((challenge, index) => (
-                    <>
-                    <div class="card" key={index}>
-                        <h5 class="card-title">{challenge.name}</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Difficulty: {challenge.difficulty},</li>
-                            <li class="list-group-item">Length: {challenge.length}</li>
-                            <li class="list-group-item">Description: {challenge.description}</li>
+                    <div className="card" key={index}>
+                        <h5 className="card-title">{challenge.name}</h5>
+                        <ul className="list-group list-group-flush">
+                            <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
+                            <li className="list-group-item">Length: {challenge.length}</li>
+                            <li className="list-group-item">Description: {challenge.description}</li>
                         </ul>
                     </div>
-                    <br/>
-                    </>
                 ))}
             </div>
 

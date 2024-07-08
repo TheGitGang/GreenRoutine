@@ -1,13 +1,24 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Input, Label, Col, Row } from "reactstrap";
-import { useState } from 'react'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Input, Label, Col, Row, Alert } from "reactstrap";
+import { useState, useEffect } from 'react'
 
-const EditAboutModal = ({ isOpen, toggle, user }) => {
+const EditAboutModal = ({ isOpen, toggle, user, userId, setUserInfo, fetchUserInfo }) => {
 
     const [pronouns, setPronouns] = useState(user.pronouns);
     const [email, setEmail] = useState(user.email);
     const [bio, setBio] = useState(user.bio);
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (user) {
+            setPronouns(user.pronouns || '');
+            setEmail(user.email || '');
+            setBio(user.bio || '');
+            setFirstName(user.firstName || '');
+            setLastName(user.lastName || '');
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,17 +30,41 @@ const EditAboutModal = ({ isOpen, toggle, user }) => {
     }
 
 
-    const handleSubmit = () => {
-        console.log('this is working');
-        toggle();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!firstName || !lastName || !email) {
+            setError("First name, last name, and email are required.")
+        } else {
+            setError("");
+            const payload = {
+                userId: userId,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                bio: bio,
+                pronouns: pronouns
+            }
+            const response = await fetch("/api/Account/updateUserInfo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                await fetchUserInfo();
+                toggle();
+            } else {
+                setError('Can not update user info')
+            }
+        }
+        //toggle();
     }
-
-
 
     return (
         <div>
             <Modal isOpen={isOpen} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Edit User Info</ModalHeader>
+                <ModalHeader>Edit User Info</ModalHeader>
                 <ModalBody>
                     <form>
                         <Row>
@@ -45,7 +80,7 @@ const EditAboutModal = ({ isOpen, toggle, user }) => {
                                 />
                             </Col>
                             <Col>
-                                <Label htmlFor='lastName'>First Name:</Label>
+                                <Label htmlFor='lastName'>Last Name:</Label>
                                 <Input 
                                     type='text'
                                     id='lastName'
@@ -97,8 +132,19 @@ const EditAboutModal = ({ isOpen, toggle, user }) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button onClick={handleSubmit}color='primary'>Submit</Button>
-                    <Button onClick={toggle}>Cancel</Button>
+                    <Button onClick={() => {
+                            toggle();
+                            setError("");
+                            setBio(user.bio);
+                            setFirstName(user.firstName);
+                            setLastName(user.lastName);
+                            setEmail(user.email);
+                            setPronouns(user.pronouns);
+                        }}>
+                        Cancel
+                    </Button>
                 </ModalFooter>
+                {error && <Alert color='danger' className="mr-2 ml-2">{error}</Alert>}
             </Modal>
         </div>
     );
