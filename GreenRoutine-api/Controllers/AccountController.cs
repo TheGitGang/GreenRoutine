@@ -6,6 +6,13 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
+using System;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace TodoApi.Controllers
 {
@@ -15,6 +22,7 @@ namespace TodoApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        public Guid _makeChoice;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -118,6 +126,7 @@ namespace TodoApi.Controllers
 
                 user.makeChoice = addMakeRequest.makeChoice;
                 var result = await _userManager.UpdateAsync(user);
+                _makeChoice = addMakeRequest.makeChoice;
                 if (result.Succeeded)
                 {
                     return Ok(user);
@@ -126,11 +135,15 @@ namespace TodoApi.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
+        Console.WriteLine("hi");
             }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
+
+
+
         }
 
         /*public IActionResult RecordMake( /*[FromBody]*//*
@@ -145,6 +158,44 @@ namespace TodoApi.Controllers
             // context.SaveChanges();
             return Ok(new { message = "Make successfully registered" });
         }*/
+
+    [HttpGet("about2/{id}")]
+    public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
+    {
+        // var user = await _userManager.FindByIdAsync(userId);
+        using (var httpClient = new HttpClient())
+        {
+        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
+        Console.WriteLine(_makeChoice);
+        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+        // Add headers to the request
+        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
+        try
+        {
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
+                return Ok(data);
+            }
+            else
+            {
+                return StatusCode(
+                    (int)response.StatusCode,
+                    "Error fetching data from external API"
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+        }
+    }
+
 
         public class AddMakeRequest
         {

@@ -7,6 +7,8 @@ const About = () => {
     const [makeChoice, setMakeChoice] = useState([]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [userInfo1, setUserInfo1] = useState({});
+
     const [ user, setUser ] = useState(getLocalStorage('userInfo'));
 
     const handleChange = (e) => {
@@ -30,6 +32,9 @@ const About = () => {
         }).then((data) => {
             console.log(data);
             if (data.ok) {
+                // setUser(data.User);
+                setLocalStorage('userInfo1', data);
+
                 setError("Successful make submission.")
             } else {
                 setError("Error with make submission.")
@@ -38,7 +43,10 @@ const About = () => {
             console.error(error);
             setError('Error with make submission.')
         })
-        navigate('/about2')
+        console.log("hi34")
+        console.log(makeChoice)
+        console.log()
+        navigate('/about2/' + makeChoice.toString())
     }
     useEffect(() => {
         setLocalStorage('user', user);
