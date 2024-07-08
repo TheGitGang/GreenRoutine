@@ -22,15 +22,15 @@ namespace TodoApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public Guid _makeChoice;
 
-        public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager
-        )
+        private readonly ChallengeDbContext context;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ChallengeDbContext dbContext)
+
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            context = dbContext;
         }
 
         [HttpPost("register")]
@@ -50,7 +50,12 @@ namespace TodoApi.Controllers
                 DateJoined = DateTime.Now,
                 Leaves = 0,
                 Bio = "",
-                Pronouns = ""
+                Pronouns = "",
+                LifetimeLeaves = 0,
+                CurrentStreak = 0,
+                LongestStreak = 0,
+                NumChallengesComplete = 0,
+                NumChallengesCreated = 0
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -61,6 +66,59 @@ namespace TodoApi.Controllers
 
             return BadRequest(result.Errors);
         }
+
+
+        [HttpPost("updateUserInfo")]
+        public async Task<IActionResult> UpdateUserInfo(UpdateUserInforModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Invalid user info");
+            }
+
+            var user = await context.Users.FindAsync(model.UserId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Bio = model.Bio;
+            user.Email = model.Email;
+            user.Pronouns = model.Pronouns;
+
+            try
+            {
+                await context.SaveChangesAsync();
+                await _signInManager.RefreshSignInAsync(user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Internal server error: {e.Message}");
+            }
+
+            var updatedUser = new {
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.UserName,
+                user.Bio,
+                user.Leaves,
+                user.DateJoined,
+                user.Pronouns,
+                user.LifetimeLeaves,
+                user.CurrentStreak,
+                user.LongestStreak,
+                user.NumChallengesComplete,
+                user.NumChallengesCreated
+            };
+
+            return Ok(updatedUser);
+        }
+
 
         [HttpGet("IsUserAuthenticated")]
         public async Task<IActionResult> IsUserAuthenticated()
@@ -77,19 +135,21 @@ namespace TodoApi.Controllers
 
         //Point System items
         [HttpPost("add-leaves")]
-        public async Task<IActionResult> AddPoints([FromBody] AddPointsRequest request)
+        public async Task<IActionResult> AddPoints([FromBody] string userId, int points)
         {
             try
             {
-                Console.WriteLine($"Received request to add points to user: {request.UserId}");
-                var user = await _userManager.FindByIdAsync(request.UserId);
+                Console.WriteLine($"Received request to add points to user: {userId}");
+                var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
                     throw new Exception("User not found");
                 }
 
+
                 user.Leaves += request.Points;
                 var result = await _userManager.UpdateAsync(user);
+
                 if (result.Succeeded)
                 {
                     return Ok(user);
@@ -104,6 +164,7 @@ namespace TodoApi.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
         //temp class to test
         public class AddPointsRequest
@@ -202,5 +263,6 @@ namespace TodoApi.Controllers
             public Guid makeChoice { get; set; }
             public string Id { get; set;}
         }
+
     }
 }

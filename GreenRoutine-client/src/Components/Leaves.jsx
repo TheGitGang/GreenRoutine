@@ -17,30 +17,31 @@ const Square = styled.div`
   font-size: 16px;
 `;
 
+
 const Leaves = () => {
   const [ user, setUser ] = useState(getLocalStorage('userInfo'));
   const [ error, setError] = useState('');
 
-  useEffect(() => {
-    setLocalStorage('user', user);
-  }, [user]);
-
   const handleClick = async () => {
       try {
-          const response = await fetch('http://localhost:5000/api/user/add-points', {
+        console.log(user.id);
+          const response = await fetch('/api/account/add-leaves', {
+              mode: 'cors',
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                UserId: user.UserId,
+                UserId: user.id,
                 Points: 10
               })
           });
+
           if (response.ok) {
               const data = await response.json();
-              setUser(data.User);
-              console.log('Points updated:', data.User.points);
+              console.log('Points added successfully:', data);
+              setUser(data);
+              setLocalStorage('userInfo', data);
           } else {
               const errorData = await response.json();
               setError(errorData.Message);
@@ -54,9 +55,12 @@ const Leaves = () => {
 
   return ( 
     <div id="square-tiles">
-      <Square> Leaves: {user.leaves} </Square>
-      <Square>Hello </Square>
+      {user || user.Leaves!== undefined ? (
+        <Square> Leaves: {user.leaves} </Square>): 
+        <Square> Leave: 0 </Square>}
+        <Square>Hello </Square>
       <button onClick={handleClick}>Add 10 points</button>
+      {error && <p style={{color: 'red'}}>{error}</p>}
     </div>
   );
 } 

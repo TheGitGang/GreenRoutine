@@ -30,7 +30,6 @@ const LoginForm = () => {
                 email: username,
                 password: password
             }
-            console.log(payload)
             fetch(loginURL, { //api/Account/login
                 method: "POST",
                 headers: {
@@ -55,7 +54,7 @@ const LoginForm = () => {
 
     return (
         <div className="center-content">
-        <Card className='centered-card p-3'>
+        <Card className='lightgrey-card p-3'>
             <h3>Login to Your Account</h3>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -90,7 +89,7 @@ const LoginForm = () => {
             <br/>
             <div>
                     <p>Don't have an account?</p>
-                    <Button onClick={handleSignupClick}>Sign Up!</Button>
+                    <Button color="success"onClick={handleSignupClick}>Sign Up!</Button>
             </div>
             <br/>
             {error && <Alert color='danger'>{error}</Alert>}

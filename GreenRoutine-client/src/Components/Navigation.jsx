@@ -10,16 +10,17 @@ import {
   } from 'reactstrap';
   import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
-  import { useState, useEffect } from 'react'
+  import { useState, useEffect, useContext } from 'react'
 
   import logo from '../assets/images/green_routine_logo.png'
+// import { AuthContext } from '../AuthContext';
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
-
+    // const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,7 +49,6 @@ import {
                 if (response.ok) {
                     const data = await response.json();
                     setUserInfo(data);
-                    console.log(data);
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
@@ -134,11 +134,8 @@ import {
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
                     </DropdownItem>
-                    <DropdownItem tag={Link} to='/friends' className="dropdown-link">
-                        Friends
-                    </DropdownItem>
-                    <DropdownItem className="dropdown-link">
-                        <Link to='/leaves' className="dropdown-link">Leaves</Link>
+                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
+                        Leaves
                     </DropdownItem>
                     <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
                         Logout
