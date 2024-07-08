@@ -3,6 +3,8 @@ using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 
@@ -117,6 +119,37 @@ namespace TodoApi.Controllers
             } else
             {
                 return Unauthorized(new { message = "User in not authenticated"});
+            }
+        }
+
+
+        //Point System items
+        [HttpPost("add-leaves")]
+        public async Task<IActionResult> AddPoints([FromBody] string userId, int points)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to add points to user: {userId}");
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
+            user.Leaves += points;
+            var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Ok (user);
+                }
+                else 
+                {
+                    return BadRequest(result.Errors);
+                } 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest( new { message = ex.Message });
             }
         }
     }
