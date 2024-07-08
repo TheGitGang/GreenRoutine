@@ -1,10 +1,159 @@
-/*import { useState, useEffect } from 'react';
-import { AvailableChallenge } from './AvailableChallenge'
+import { useState, useEffect } from 'react';
+//import { AvailableChallenge } from './AvailableChallenge'
+import { useNavigate } from "react-router-dom";
 
 const DeleteChallenge = () => {
+    const [challenges, setChallenges] = useState([]);
+    const [id, setId] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-}
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'id') setId(value);
+    }
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        //do error handling
+        setError('');
+
+        const payload = { id: id, }
+
+        console.log(payload);
+
+
+        fetch('/api/Challenges/delete', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(payload)
+        }).then((data) => {
+            console.log(data);
+
+
+            if (data.ok) {
+                setError("Successful challenge submission.")
+            } else {
+                setError("Error with challenge submission.")
+            }
+        }).catch((error) => {
+            console.error(error);
+            setError('Error with challenge submission.')
+        })
+
+        navigate('/challenges')
+    }
+
+    useEffect(() => {
+        fetch('/api/Challenges')
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((data) => {
+                console.log(data);
+                setChallenges(data);
+            });
+
+    }, []);
+
+
+
+
+    return (
+        <div>
+            <h1>
+                Delete Options
+            </h1>
+
+            <form onSubmit={handleSubmit}>
+                <div>
+                    {challenges.map((challenge, index) => (
+                        <div key={index}>
+                            <br />
+                            <label>
+                                <input type="checkbox" name="id" value={challenge.id} onChange={handleChange} />
+                                Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
+                            </label>
+                        </div>
+                    ))}
+
+                </div>
+                <button type='submit'>Submit</button>
+            </form>
+        </div>
+    )
+};
+
+export default DeleteChallenge;
+
+{/* <input
+
+                        type="radio"
+                        id="option1"
+                        value="1"
+                        checked={
+                            selectedValue ===
+                            "option1"
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                "option1"
+                            )
+                        }
+                    />
+                    <label htmlFor="option1">
+                        1
+                    </label>
+                </div>
+
+                <div>
+                    <input
+                        type="radio"
+                        id="option2"
+                        value="2"
+                        checked={
+                            selectedValue ===
+                            "option2"
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                "option2"
+                            )
+                        }
+                    />
+                    <label htmlFor="option2">
+                        2
+                    </label>
+                </div>
+
+                <div>
+                    <input
+                        type="radio"
+
+                        id="third challenge"
+                        value="3 e"
+
+                        checked={
+                            selectedValue ===
+                            3
+                        }
+                        onChange={() =>
+                            handleRadioChange(
+                                3
+                            )
+                        }
+                    />
+                    <label htmlFor="option3">
+
+                        red
+                    </label> */}
+
+/*
 <div>
 <div>
     <h1>
@@ -115,5 +264,4 @@ const DeleteChallenge = () => {
 //         </>
 //     );
 // };
-// export default Challenges;
 

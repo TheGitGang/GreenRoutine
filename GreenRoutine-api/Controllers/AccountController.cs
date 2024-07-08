@@ -3,6 +3,8 @@ using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 
@@ -14,11 +16,13 @@ namespace TodoApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ChallengeDbContext context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ChallengeDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            context = dbContext;
         }
 
         [HttpPost("register")]
@@ -38,7 +42,12 @@ namespace TodoApi.Controllers
                 DateJoined = DateTime.Now,
                 Leaves = 0,
                 Bio = "",
-                Pronouns = ""
+                Pronouns = "",
+                LifetimeLeaves = 0,
+                CurrentStreak = 0,
+                LongestStreak = 0,
+                NumChallengesComplete = 0,
+                NumChallengesCreated = 0
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -49,6 +58,58 @@ namespace TodoApi.Controllers
 
             return BadRequest(result.Errors);
         }
+
+        [HttpPost("updateUserInfo")]
+        public async Task<IActionResult> UpdateUserInfo(UpdateUserInforModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Invalid user info");
+            }
+
+            var user = await context.Users.FindAsync(model.UserId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Bio = model.Bio;
+            user.Email = model.Email;
+            user.Pronouns = model.Pronouns;
+
+            try
+            {
+                await context.SaveChangesAsync();
+                await _signInManager.RefreshSignInAsync(user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Internal server error: {e.Message}");
+            }
+
+            var updatedUser = new {
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.UserName,
+                user.Bio,
+                user.Leaves,
+                user.DateJoined,
+                user.Pronouns,
+                user.LifetimeLeaves,
+                user.CurrentStreak,
+                user.LongestStreak,
+                user.NumChallengesComplete,
+                user.NumChallengesCreated
+            };
+
+            return Ok(updatedUser);
+        }
+
         [HttpGet("IsUserAuthenticated")]
         public async Task<IActionResult> IsUserAuthenticated()
         {
@@ -58,6 +119,37 @@ namespace TodoApi.Controllers
             } else
             {
                 return Unauthorized(new { message = "User in not authenticated"});
+            }
+        }
+
+
+        //Point System items
+        [HttpPost("add-leaves")]
+        public async Task<IActionResult> AddPoints([FromBody] string userId, int points)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to add points to user: {userId}");
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
+            user.Leaves += points;
+            var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Ok (user);
+                }
+                else 
+                {
+                    return BadRequest(result.Errors);
+                } 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest( new { message = ex.Message });
             }
         }
     }

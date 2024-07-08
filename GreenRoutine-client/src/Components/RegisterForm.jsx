@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, Card } from "reactstrap";
+import { Alert, Button, Card, Form, Input, Label, Row, Col, CardHeader, CardBody } from "reactstrap";
 
 const RegisterForm = () => {
     //state variables for email, first, last names, passwords
@@ -75,87 +75,91 @@ const RegisterForm = () => {
 
     return (
         <div>
-            <Card className='centered-card p-3'>
-            <h3>Register an Account</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='firstName'>First Name:</label>
-                </div>
-                <div>
-                    <input
-                        type='text'
-                        id='firstName'
-                        name='firstName'
-                        value={firstName}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='lastName'>Last Name:</label>
-                </div>
-                <div>
-                    <input
-                        type='text'
-                        id='lastName'
-                        name='lastName'
-                        value={lastName}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='email'>Email:</label>
-                </div>
-                <div>
-                    <input
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={email}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='username'>Username:</label>
-                </div>
-                <div>
-                    <input type='text' id='username' name='username' value={username} onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password:</label>
-                </div>
-                <div>
-                    <input
-                        type='password'
-                        id='password'
-                        name='password'
-                        value={password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='confirmPassword'>Confirm Password:</label>
-                </div>
-                <div>
-                    <input
-                        type='password'
-                        id='confirmPassword'
-                        name='confirmPassword'
-                        value={confirmPassword}
-                        onChange={handleChange}
-                    />
-                </div>
-                <br/>
-                <div>
-                    <Button color="primary">Register</Button>
-                </div>
-            </form>
-            <br/>
-            <div>
-                    <p>Already have an account?</p>
-                    <Button onClick={handleLoginClick}>Go to Login</Button>
-            </div>
-            <br/>
-            {error && <Alert color='danger'>{error}</Alert>}
+            <Card className='lightgrey-card w-100'>
+                <CardHeader className='center-content'>
+                    <h3 className='pt-2'>Create an Account</h3>
+                </CardHeader>
+                <CardBody>
+                    <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Col>
+                                <Label htmlFor='firstName'>First Name:</Label>
+                                <Input
+                                    type='text'
+                                    id='firstName'
+                                    name='firstName'
+                                    value={firstName}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col>
+                                <Label htmlFor='lastName'>Last Name:</Label>
+                                <Input
+                                type='text'
+                                id='lastName'
+                                name='lastName'
+                                value={lastName}
+                                onChange={handleChange}
+                            />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label htmlFor='email'>Email:</Label>
+                                <Input
+                                    type='email'
+                                    id='email'
+                                    name='email'
+                                    value={email}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col>
+                                <Label htmlFor='username'>Username:</Label>
+                                <Input 
+                                    type='text' 
+                                    id='username' 
+                                    name='username' 
+                                    value={username} 
+                                    onChange={handleChange} 
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label htmlFor='password'>Password:</Label>
+                                <Input
+                                    type='password'
+                                    id='password'
+                                    name='password'
+                                    value={password}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col>
+                                <Label htmlFor='confirmPassword'>Confirm Password:</Label>
+                                <Input
+                                    type='password'
+                                    id='confirmPassword'
+                                    name='confirmPassword'
+                                    value={confirmPassword}
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+                        <div className='center-content pt-3'>
+                            <Button color="primary">Register</Button>
+                        </div>
+                    </Form>
+                    <hr />
+                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <p>Already have an account?</p>
+                        <Button onClick={handleLoginClick} color='success'>Go to Login</Button>
+                    </div>
+                    <br />
+                    {error && <Alert color='danger'>{error}</Alert>}
+                </CardBody>     
+                
             </Card>
         </div>
     )

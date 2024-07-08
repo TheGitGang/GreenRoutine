@@ -5,13 +5,14 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    historyApiFallback: true,
     proxy: {
       '^/api': {
         target: 'http://localhost:5299',
         changeOrigin: true,
         secure: false
       },
-      '^/chall': {
+      '^/challenges': {
         target: 'http://localhost:5299',
         secure: false
       },
@@ -19,10 +20,6 @@ export default defineConfig({
         target: 'http://localhost:5299',
         secure: false
       },
-      // '^/register': {
-      //   target: 'http://localhost:5299',
-      //   secure: false
-      // },
       '^/login': {
         target: 'http://localhost:5299',
         secure: false

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240705183937_moreUserFields")]
-    partial class moreUserFields
+    [Migration("20240707152243_UserChallenge")]
+    partial class UserChallenge
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,24 @@ namespace TodoApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Challenges");
+                });
+
+            modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SignupDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("UserId", "ChallengeId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("UserChallenges");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -271,6 +289,10 @@ namespace TodoApi.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Pronouns")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -306,6 +328,25 @@ namespace TodoApi.Migrations
                         .HasForeignKey("ChallengesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
+                {
+                    b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Challenge");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -357,6 +398,16 @@ namespace TodoApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GreenRoutine.Models.Challenge", b =>
+                {
+                    b.Navigation("UserChallenges");
+                });
+
+            modelBuilder.Entity("TodoApi.Server.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("UserChallenges");
                 });
 #pragma warning restore 612, 618
         }
