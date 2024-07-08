@@ -51,38 +51,4 @@ public class CarbonInterFaceController : ControllerBase
                 return StatusCode(500, "An error occurred while fetching data");
             }
         }
-    }
-
-    // public class VehicleEstimateRequest
-    // {
-    //     [JsonProperty("type")]
-    //     public string Type { get; set; } = "vehicle";
-
-    //     [JsonProperty("distance_unit")]
-    //     public string DistanceUnit { get; set; }
-
-    //     [JsonProperty("distance_value")]
-    //     public double DistanceValue { get; set; }
-
-    //     [JsonProperty("vehicle_model_id")]
-    //     public string VehicleModelId { get; set; }
-    // }
-
-
-
-
-
-
-// make conditional logic for getting the dat you need 
-// git checkout development git pull 
-
-
-
-
-
-
-
-
-
-
-
+}
