@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { getLocalStorage} from './LocalStorageFunctions';
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
+    const [message, setMessage] = useState('');
     
     useEffect(() => {
         fetch('/api/Challenges')
@@ -14,24 +16,46 @@ const Challenges = () => {
             });
     }, []);
 
+    const ChallengeSignUp = async (challengeId) => {
+        const user = getLocalStorage('userInfo');
+
+        const response = await fetch('/api/challenges/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserId: user.id, 
+                ChallengeId: challengeId,
+            }),
+        });
+
+        const result = await response.json();
+        if(response.ok) {
+            setMessage(`Signed up for challenge: ${challengeId}`);
+        } else {
+            setMessage(result.message || 'Failed to sign up for the challenge');
+            console.log(user);
+        }
+    };
+
     return (
         <>
             <p>There are {challenges.length} challenges in the DB</p>
             <div>
                 {challenges.map((challenge, index) => (
-                    <>
-                    <div class="card" key={index}>
-                        <h5 class="card-title">{challenge.name}</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Difficulty: {challenge.difficulty},</li>
-                            <li class="list-group-item">Length: {challenge.length}</li>
-                            <li class="list-group-item">Description: {challenge.description}</li>
+                    <div className="card" key={index}>
+                        <h5 className="card-title">{challenge.name}</h5>
+                        <ul className="list-group list-group-flush">
+                            <li className="list-group-item">Difficulty: {challenge.difficulty},</li>
+                            <li className="list-group-item">Length: {challenge.length}</li>
+                            <li className="list-group-item">Description: {challenge.description}</li>
                         </ul>
+                        <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
                     </div>
-                    <br/>
-                    </>
                 ))}
             </div>
+            {message && <p>{message}</p>}
 
         </>
     );

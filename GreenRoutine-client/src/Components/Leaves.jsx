@@ -24,7 +24,7 @@ const Leaves = () => {
 
   const handleClick = async () => {
       try {
-        console.log(user.id);
+        console.log(user);
           const response = await fetch('/api/account/add-leaves', {
               mode: 'cors',
               method: 'POST',
@@ -55,7 +55,7 @@ const Leaves = () => {
 
   return ( 
     <div id="square-tiles">
-      {user || user.Leaves!== undefined ? (
+      {user || user.leaves!== undefined ? (
         <Square> Leaves: {user.leaves} </Square>): 
         <Square> Leave: 0 </Square>}
         <Square>Hello </Square>
