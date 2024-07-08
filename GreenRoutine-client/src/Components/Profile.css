@@ -5,12 +5,23 @@
 
 .edit-button {
     margin-left: auto;
-    background-color: #dedcdc;
+    background-color: rgb(198, 231, 197);
     border: 0;
     padding-top: 0
 }
 
 .edit-button:hover {
-    background-color: #e4e3e3;
+    background-color: rgb(209, 236, 208);
     border: 0;
+}
+
+.no-bullets-on-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.statistics-margin {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }

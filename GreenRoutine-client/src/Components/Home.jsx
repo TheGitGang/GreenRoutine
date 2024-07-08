@@ -34,7 +34,6 @@ const Home = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setUserInfo(data);
-                    console.log(data);
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
