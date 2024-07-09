@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
-import styled from 'styled-components';
 import './Leaderboard.css';
 
 
@@ -27,11 +26,9 @@ const Leaderboard = () => {
         <div>
             {users.map((user, index) => (
                 <div key={user.id} className="square">
-                        <div className="table-row">
                             <div className="cell">{index + 1}</div>
                             <div className="cell">{user.userName}</div>
-                            <div className="cell">{user.leaves} Leaves</div>
-                        </div>
+                            <div className="rightCell">{user.leaves} Leaves</div>
                 </div>
             ))}
         </div>
