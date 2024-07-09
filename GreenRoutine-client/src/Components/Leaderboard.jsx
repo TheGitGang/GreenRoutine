@@ -2,18 +2,6 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import './Leaderboard.css';
-const Square = styled.div`
-  width: 1000px;
-  height: 50px;
-  background-color: #B0EC92;
-  margin: 10px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  font-size: 25px;
-`;
 
 
 const Leaderboard = () => {
@@ -37,9 +25,13 @@ const Leaderboard = () => {
   return ( 
     <div id="square-tiles">
         <div>
-            {users.map(user => (
-                <div key={user.id}>
-                    <Square>{user.userName}, Leaves: {user.leaves}</Square>
+            {users.map((user, index) => (
+                <div key={user.id} className="square">
+                        <div className="table-row">
+                            <div className="cell">{index + 1}</div>
+                            <div className="cell">{user.userName}</div>
+                            <div className="cell">{user.leaves} Leaves</div>
+                        </div>
                 </div>
             ))}
         </div>

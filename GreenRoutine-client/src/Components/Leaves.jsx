@@ -1,21 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
-import styled from 'styled-components';
 import './Leaves.css'
-import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
-
-const Square = styled.div`
-  width: 200px;
-  height: 50px;
-  background-color: #B0EC92;
-  margin: 10px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  font-size: 16px;
-`;
 
 
 const Leaves = () => {
@@ -92,10 +77,11 @@ const Leaves = () => {
 
   return ( 
     <div id="square-tiles">
+      <div id="square">
       {userInfo || userInfo.leaves!== undefined ? (
-        <Square> Leaves: {userInfo.leaves} </Square>): 
-        <Square> Leave: 0 </Square>}
-        <Square>Hello </Square>
+        <div> Leaves: {userInfo.leaves} </div>): 
+        <div> Leave: 0 </div>}
+      </div>
       <button onClick={handleClick}>Add 10 points</button>
       {error && <p style={{color: 'red'}}>{error}</p>}
     </div>

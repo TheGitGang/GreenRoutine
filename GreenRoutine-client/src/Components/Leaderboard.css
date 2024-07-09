@@ -3,3 +3,30 @@
     display: flex;
     justify-content: center;
 }
+.table-row {
+    display: grid;
+    grid-template-columns: 100px auto auto;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem; 
+  }
+  .cell {
+    text-align: left; 
+    justify-self: left;
+  }
+
+  .square{
+    width: 1000px;
+    height: 50px;
+    background-color: #B0EC92;
+    margin: 10px;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #40C100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 25px;
+  }
