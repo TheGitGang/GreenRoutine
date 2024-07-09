@@ -19,12 +19,50 @@ const Square = styled.div`
 
 
 const Leaves = () => {
-  const [ user, setUser ] = useState(getLocalStorage('userInfo'));
-  const [ error, setError] = useState('');
+    const [userInfo, setUserInfo] = useState({});
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchIsAuthenticated = async () => {
+            try {
+                const response = await fetch('api/Account/IsUserAuthenticated', {
+                    method: "GET"
+                });
+
+                if (response.ok) {
+                    setIsAuthenticated(true)
+                }
+            } catch (error) {
+                setError('An error occurred while fetching data.');
+            }
+        };
+        fetchIsAuthenticated();
+    }, []);
+
+    const fetchUserInfo = async () => {
+        const response = await fetch('pingauth', {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUserInfo(data);
+            setError('User info set.')
+        } else {
+            setError('Could not set user info')
+        }
+    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchUserInfo();
+        } else {
+            setError('User is not authenticated.')
+        }
+    }, [isAuthenticated])
 
   const handleClick = async () => {
       try {
-        console.log(user);
           const response = await fetch('/api/account/add-leaves', {
               mode: 'cors',
               method: 'POST',
@@ -32,16 +70,15 @@ const Leaves = () => {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                UserId: user.id,
+                UserId: userInfo.id,
                 Points: 10
               })
           });
 
           if (response.ok) {
               const data = await response.json();
+              setUserInfo(data);
               console.log('Points added successfully:', data);
-              setUser(data);
-              setLocalStorage('userInfo', data);
           } else {
               const errorData = await response.json();
               setError(errorData.Message);
@@ -55,8 +92,8 @@ const Leaves = () => {
 
   return ( 
     <div id="square-tiles">
-      {user || user.leaves!== undefined ? (
-        <Square> Leaves: {user.leaves} </Square>): 
+      {userInfo || userInfo.leaves!== undefined ? (
+        <Square> Leaves: {userInfo.leaves} </Square>): 
         <Square> Leave: 0 </Square>}
         <Square>Hello </Square>
       <button onClick={handleClick}>Add 10 points</button>

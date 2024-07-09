@@ -1,17 +1,8 @@
-using System.Security.Claims;
 using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
-using System;
-using System.ComponentModel;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace TodoApi.Controllers
@@ -149,6 +140,7 @@ namespace TodoApi.Controllers
 
             user.Leaves += request.Points;
             var result = await _userManager.UpdateAsync(user);
+            await _signInManager.RefreshSignInAsync(user);
 
                 if (result.Succeeded)
                 {
@@ -195,7 +187,6 @@ namespace TodoApi.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
-        Console.WriteLine("hi");
             }
             catch (Exception ex)
             {
@@ -226,7 +217,6 @@ namespace TodoApi.Controllers
         using (var httpClient = new HttpClient())
         {
         string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
-        Console.WriteLine(_makeChoice);
         var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
         // Add headers to the request
