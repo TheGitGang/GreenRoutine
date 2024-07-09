@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import styled from 'styled-components';
-import './Leaves.css'
-import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
-
+import './Leaderboard.css';
 const Square = styled.div`
-  width: 200px;
+  width: 1000px;
   height: 50px;
   background-color: #B0EC92;
   margin: 10px;
@@ -14,7 +12,7 @@ const Square = styled.div`
   justify-content: center;
   align-items: center;
   color: black;
-  font-size: 16px;
+  font-size: 25px;
 `;
 
 
@@ -40,11 +38,8 @@ const Leaderboard = () => {
     <div id="square-tiles">
         <div>
             {users.map(user => (
-                <div className="card" key={user.id}>
-                    <h5 className="card-title">{user.userName}</h5>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">Leaves: {user.leaves}</li>
-                    </ul>
+                <div key={user.id}>
+                    <Square>{user.userName}, Leaves: {user.leaves}</Square>
                 </div>
             ))}
         </div>
