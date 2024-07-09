@@ -44,6 +44,7 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             identity.AddClaim(new Claim("LongestStreak", user.LongestStreak.ToString()));
             identity.AddClaim(new Claim("NumChallengesComplete", user.NumChallengesComplete.ToString()));
             identity.AddClaim(new Claim("NumChallengesCreated", user.NumChallengesCreated.ToString()));
+            identity.AddClaim(new Claim("MakeChoice", user.makeChoice.ToString()));
 
 
             return identity;

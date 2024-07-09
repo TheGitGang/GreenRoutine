@@ -185,6 +185,7 @@ namespace TodoApi.Controllers
                 }
 
                 user.makeChoice = addMakeRequest.makeChoice;
+                await _signInManager.RefreshSignInAsync(user);
                 var result = await _userManager.UpdateAsync(user);
                 // _makeChoice = addMakeRequest.makeChoice;
                 if (result.Succeeded)
@@ -226,7 +227,7 @@ namespace TodoApi.Controllers
         using (var httpClient = new HttpClient())
         {
         string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
-        Console.WriteLine(_makeChoice);
+        // Console.WriteLine(_makeChoice);
         var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
         // Add headers to the request

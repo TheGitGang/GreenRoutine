@@ -46,7 +46,7 @@ const About = () => {
         // console.log("hi34")
         console.log(makeChoice)
         console.log()
-        navigate('/about2/' + makeChoice.toString())
+        navigate('/about2/' /*+ makeChoice.toString()*/)
     }
     useEffect(() => {
         setLocalStorage('user', user);
