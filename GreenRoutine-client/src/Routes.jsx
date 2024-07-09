@@ -15,6 +15,7 @@ import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
+import Leaderboard from './Components/Leaderboard.jsx'
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/challenges/delete',
         element: <DeleteChallenge/>
+      },
+      {
+        path: '/leaderboard',
+        element: <Leaderboard />
       },
       {
         path: '/data',

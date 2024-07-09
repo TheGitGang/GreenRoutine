@@ -78,9 +78,26 @@ namespace TodoApi.Migrations
                     b.ToTable("Challenges");
                 });
 
+            modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("UserFriends");
+                });
 
             modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
-            {
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
@@ -92,22 +109,7 @@ namespace TodoApi.Migrations
                     b.HasIndex("ChallengeId");
 
                     b.ToTable("UserChallenges");
-             }); 
-             
-             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
-             {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-                        
-                    b.Property<string>("FriendId")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("UserId", "FriendId");
-
-                    b.HasIndex("FriendId");
-
-                    b.ToTable("UserFriends");
-              });
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -358,23 +360,6 @@ namespace TodoApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
-                {
-                    b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
-                        .WithMany("UserChallenges")
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
-                        .WithMany("UserChallenges")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Challenge");
-                 });
-
             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
                 {
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "Friend")
@@ -390,6 +375,25 @@ namespace TodoApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Friend");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
+                {
+                    b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Challenge");
 
                     b.Navigation("User");
                 });
@@ -452,13 +456,11 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Server.Data.ApplicationUser", b =>
                 {
-                    b.Navigation("UserChallenges");
-                });
-            modelBuilder.Entity("TodoApi.Server.Data.ApplicationUser", b =>
-                {
                     b.Navigation("FriendOf");
 
                     b.Navigation("Friends");
+
+                    b.Navigation("UserChallenges");
                 });
 #pragma warning restore 612, 618
         }
