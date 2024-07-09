@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240708222857_NewItems")]
-    partial class NewItems
+    [Migration("20240709205404_ImpactInUsers")]
+    partial class ImpactInUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,10 @@ namespace TodoApi.Migrations
 
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Impact")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");

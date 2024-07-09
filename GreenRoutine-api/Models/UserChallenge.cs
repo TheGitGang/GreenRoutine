@@ -12,4 +12,6 @@ public class UserChallenge
     public Challenge Challenge { get; set; }
 
     public DateTime SignupDate { get; set; } = DateTime.Now;
+
+    public string Impact { get; set; }
 }
