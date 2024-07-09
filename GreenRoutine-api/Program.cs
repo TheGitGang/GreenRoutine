@@ -96,6 +96,7 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
     var longestStreak = user.FindFirstValue("LongestStreak");
     var numChallengesComplete = user.FindFirstValue("NumChallengesComplete");
     var numChallengesCreated = user.FindFirstValue("NumChallengesCreated");
+    var profilePhoto = user.FindFirstValue("ProfilePhoto");
     return Results.Json(new { 
         Id = id,
         Email = email,
@@ -110,7 +111,8 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
         CurrentStreak = currentStreak,
         LongestStreak = longestStreak,
         NumChallengesComplete = numChallengesComplete,
-        NumChallengesCreated = numChallengesCreated
+        NumChallengesCreated = numChallengesCreated,
+        ProfilePhoto = profilePhoto
     }); // return the email as a plain text response
 }).RequireAuthorization();
 

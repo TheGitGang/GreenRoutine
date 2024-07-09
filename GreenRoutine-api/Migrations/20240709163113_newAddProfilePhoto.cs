@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class UserChallenge : Migration
+    public partial class newAddProfilePhoto : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,6 +46,11 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateJoined = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Leaves = table.Column<int>(type: "int", nullable: false),
+                    LifetimeLeaves = table.Column<int>(type: "int", nullable: false),
+                    CurrentStreak = table.Column<int>(type: "int", nullable: false),
+                    LongestStreak = table.Column<int>(type: "int", nullable: false),
+                    NumChallengesComplete = table.Column<int>(type: "int", nullable: false),
+                    NumChallengesCreated = table.Column<int>(type: "int", nullable: false),
                     Bio = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Pronouns = table.Column<string>(type: "longtext", nullable: false)
@@ -241,6 +246,57 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ProfilePhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Photo = table.Column<byte[]>(type: "longblob", nullable: true),
+                    ContentType = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfilePhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProfilePhotos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserFriends",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FriendId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFriends", x => new { x.UserId, x.FriendId });
+                    table.ForeignKey(
+                        name: "FK_UserFriends_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserFriends_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "CategoryChallenge",
                 columns: table => new
                 {
@@ -335,9 +391,20 @@ namespace TodoApi.Migrations
                 column: "ChallengesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProfilePhotos_UserId",
+                table: "ProfilePhotos",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserChallenges_ChallengeId",
                 table: "UserChallenges",
                 column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_FriendId",
+                table: "UserFriends",
+                column: "FriendId");
         }
 
         /// <inheritdoc />
@@ -362,7 +429,13 @@ namespace TodoApi.Migrations
                 name: "CategoryChallenge");
 
             migrationBuilder.DropTable(
+                name: "ProfilePhotos");
+
+            migrationBuilder.DropTable(
                 name: "UserChallenges");
+
+            migrationBuilder.DropTable(
+                name: "UserFriends");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -371,10 +444,10 @@ namespace TodoApi.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Challenges");
 
             migrationBuilder.DropTable(
-                name: "Challenges");
+                name: "AspNetUsers");
         }
     }
 }

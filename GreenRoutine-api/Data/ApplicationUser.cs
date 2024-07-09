@@ -17,6 +17,7 @@ namespace TodoApi.Server.Data
         public int NumChallengesCreated { get; set; } = 0;
         public string Bio { get; set; } = "";
         public string Pronouns { get; set; } = "";
+        public virtual ProfilePhoto? ProfilePhoto { get; set; }
 
         public ICollection<UserChallenge> UserChallenges { get; set; }
 

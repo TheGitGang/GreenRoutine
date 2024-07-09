@@ -1,16 +1,37 @@
 import { useState } from "react";
-import { Modal, ModalHeader, ModalBody, Row, Col, Label, Input, Button, ModalFooter, Form } from 'reactstrap'
+import { Modal, ModalHeader, ModalBody, Row, Col, Label, Input, Button, ModalFooter, Form, Alert } from 'reactstrap'
 
-const UploadProfilePhotoModal = ({ isOpen, toggle }) => {
-    const [selectedFile, setSelectedFile] = useState(null);
+const UploadProfilePhotoModal = ({ isOpen, toggle, userId, onPhotoUpload }) => {
+    const [file, setFile] = useState(null);
+    const [error, setError] = useState("");
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+        setFile(event.target.files[0]);
     };
 
-    const handleSubmit = () => {
-        console.log('File upload');
-        toggle();
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+            if (!file) {
+                setError('Please select a file');
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append('profilePhoto', file);
+            formData.append('userId', userId);
+    
+            const response = await fetch(`/api/Account/UploadProfilePhoto`, {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                onPhotoUpload(data);
+                toggle();
+            } else {
+                setError('Failed to upload photo');
+            }
     };
 
     return (
@@ -26,7 +47,7 @@ const UploadProfilePhotoModal = ({ isOpen, toggle }) => {
                                     type='file'
                                     id='profilePhoto'
                                     name='profilePhoto'
-                                    value={selectedFile}
+                                   // value={file || ""}
                                     onChange={handleFileChange}
                                 />
                             </Col>
@@ -37,6 +58,7 @@ const UploadProfilePhotoModal = ({ isOpen, toggle }) => {
                     <Button onClick={handleSubmit}color='primary'>Upload</Button>
                     <Button onClick={toggle}>Cancel</Button>
                 </ModalFooter>
+                {error && <Alert className="danger">{error}</Alert>}
             </Modal>
         </div>
     )

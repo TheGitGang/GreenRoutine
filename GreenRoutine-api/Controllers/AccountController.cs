@@ -1,10 +1,12 @@
 using System.Security.Claims;
 using GreenRoutine;
+using GreenRoutine.Models;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 
@@ -150,6 +152,74 @@ namespace TodoApi.Controllers
             catch (Exception ex)
             {
                 return BadRequest( new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("UploadProfilePhoto")]
+        public async Task<IActionResult> UploadProfilePhoto([FromForm] UploadProfilePhotoModel model)
+        {
+            if (model.ProfilePhoto == null || model.ProfilePhoto.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var profilePhoto = new ProfilePhoto
+            {
+                Photo = await ConvertToByteArray(model.ProfilePhoto),
+                ContentType = model.ProfilePhoto.ContentType,
+                UserId = model.UserId
+            };
+
+            var existingPhoto = await context.ProfilePhotos.SingleOrDefaultAsync(p => p.UserId == model.UserId);
+            if (existingPhoto != null)
+            {
+                existingPhoto.Photo = profilePhoto.Photo;
+                existingPhoto.ContentType = profilePhoto.ContentType;
+            }
+            else
+            {
+                context.ProfilePhotos.Add(profilePhoto);
+            }
+
+            await context.SaveChangesAsync();
+
+            return Ok(new { message = "Profile photo uploaded successfully." });
+        }
+
+        [HttpGet("{userId}/getUserPhoto")]
+        public async Task<IActionResult> GetUserPhoto(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found...");
+            }
+
+            var profilePhoto = await context.ProfilePhotos.SingleOrDefaultAsync(p => p.UserId == userId);
+            if (profilePhoto == null)
+            {
+                return NotFound("User does not have a profile photo");
+            }
+
+            var base64Photo = Convert.ToBase64String(profilePhoto.Photo);
+            var photoData = $"data:{profilePhoto.ContentType};base64,{base64Photo}";
+
+            return Ok(new { Photo = photoData });
+        }
+
+        private async Task<byte[]> ConvertToByteArray(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
             }
         }
     }

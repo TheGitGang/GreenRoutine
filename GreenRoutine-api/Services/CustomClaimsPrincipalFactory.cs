@@ -37,6 +37,11 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             {
                 identity.AddClaim(new Claim("Pronouns", user.Pronouns));
             }
+            // if (user.ProfilePhoto != null && user.ProfilePhoto.Length > 0) 
+            // {
+            //     var base64Photo = Convert.ToBase64String(user.ProfilePhoto);
+            //     identity.AddClaim(new Claim("ProfilePhoto", base64Photo));
+            // }
             identity.AddClaim(new Claim("Leaves", user.Leaves.ToString()));
             identity.AddClaim(new Claim("DateJoined", user.DateJoined.ToString()));
             identity.AddClaim(new Claim("LifetimeLeaves", user.LifetimeLeaves.ToString()));
@@ -44,7 +49,8 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             identity.AddClaim(new Claim("LongestStreak", user.LongestStreak.ToString()));
             identity.AddClaim(new Claim("NumChallengesComplete", user.NumChallengesComplete.ToString()));
             identity.AddClaim(new Claim("NumChallengesCreated", user.NumChallengesCreated.ToString()));
-
+           
+            
 
             return identity;
         }
