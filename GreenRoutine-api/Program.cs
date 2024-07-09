@@ -97,6 +97,7 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
     var numChallengesComplete = user.FindFirstValue("NumChallengesComplete");
     var numChallengesCreated = user.FindFirstValue("NumChallengesCreated");
     var makeChoice = user.FindFirstValue("MakeChoice");
+    var modelChoice = user.FindFirstValue("ModelChoice");
     return Results.Json(new { 
         Id = id,
         Email = email,

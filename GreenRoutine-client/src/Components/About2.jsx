@@ -6,6 +6,7 @@ const About2 = () => {
     const [models, setModels] = useState([]);
     // const [makes, setMakes] = useState([]);
     const [modelChoice, setModelChoice] = useState([]);
+    const [makeChoice, setMakeChoice] = useState([]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
     // const [ user, setUser ] = useState(getLocalStorage('userInfo1'));
@@ -38,6 +39,11 @@ const About2 = () => {
     //     console.log(isAuthenticated)
     // }, []);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'modelChoice') setModelChoice(value);
+    }
+
     const fetchUserInfo = async () => {
         const response = await fetch('pingauth', {
             method: "GET"
@@ -53,7 +59,16 @@ const About2 = () => {
 useEffect(() => {
     setIsAuthenticated(true)
     fetchUserInfo();
+    // fetchCarModelInfo();
+
 },[])
+useEffect(() => {
+    setIsAuthenticated(true)
+    // fetchUserInfo();
+    fetchCarModelInfo();
+
+},[userInfo, models])
+
     // useEffect(() => {
     //     if (isAuthenticated) {
     //         fetchUserInfo();
@@ -78,35 +93,89 @@ useEffect(() => {
     //     getLocalStorage('user', user);
     //   }, [user]);
 
-    useEffect(() => {
+   /* useEffect(() => {
+
         fetch(`/api/account/about2/${userInfo.makeChoice}`)
             .then((resp) => {
                 return resp.json();
             })
             .then((data1) => {
-                console.log(data1);
-                console.log("hi");
+                // console.log(data1);
+                // console.log("hi");
                 // console.log(userInfo.makeChoice)
                 setModels(data1);
             });
-    }, []);
+    }, []);*/
 
+    const fetchCarModelInfo = async () => {
+        const response = await fetch(`/api/account/about2/${userInfo.makeChoice}`, {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+            // setUserInfo(data);
+            setModels(data);
+            // console.log(data)
+            setError('User info set.')
+        } else {
+            setError('Could not set user info')
+        }
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        //do error handling
+        setError('');
+        console.log("hi1")
+        const payload = { makeChoice: modelChoice, Id: userInfo.id, }
+        console.log(payload);
+        console.log("ty")
+        fetch('/api/account/about2', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }).then((data) => {
+            console.log(data);
+            if (data.ok) {
+                // setUser(data.User);
+                // setLocalStorage('userInfo1', data);
+
+                setError("Successful make submission.")
+            } else {
+                setError("Error with make submission.")
+            }
+        }).catch((error) => {
+            console.error(error);
+            setError('Error with make submission.')
+        })
+        // console.log("hi34")
+        console.log(makeChoice)
+        console.log()
+        // navigate('/about2/' /*+ makeChoice.toString()*/)
+    }
+    
     return (
         <>
              {/* {models.map((model) => (
                 <div>{model.data.attributes.name}</div>
             ))}  */}
             {userInfo.makeChoice} 123
-            <div>
-                {models.map((model, index) => (
+            <form onSubmit={handleSubmit}>
+
+            {models.map((model, index) => (
                     <div key={index}>
                         <br />
                         <label>
-                            <input type="checkbox" name="modelChoice" value={model.data.id} /*onChange={handleChange}*/ />
+                            <input type="checkbox" name="modelChoice" value={model.data.id} onChange={handleChange} />
                             Name: {model.data.attributes.name}
+                            Year: {model.data.attributes.year}
                         </label>
                     </div>))}
-            </div>
+                    {<button type='submit'>Submit</button>}
+              </form>
+        
 
 
 

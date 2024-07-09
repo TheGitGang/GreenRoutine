@@ -257,7 +257,41 @@ namespace TodoApi.Controllers
         }
     }
 
+[HttpPost("about2")]
+        public async Task<IActionResult> AddModel([FromBody] AddMakeRequest addMakeRequest)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to add points to user: {addMakeRequest.Id}");
+                Console.WriteLine("here");
+                var user = await _userManager.FindByIdAsync(addMakeRequest.Id);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
 
+                user.modelChoice = addMakeRequest.makeChoice;
+                await _signInManager.RefreshSignInAsync(user);
+                var result = await _userManager.UpdateAsync(user);
+                // _makeChoice = addMakeRequest.makeChoice;
+                if (result.Succeeded)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
+                }
+        Console.WriteLine("hi");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+
+
+        }
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
