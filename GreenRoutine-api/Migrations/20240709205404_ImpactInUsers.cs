@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class NewItems : Migration
+    public partial class ImpactInUsers : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -305,7 +305,9 @@ namespace TodoApi.Migrations
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
-                    SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Impact = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

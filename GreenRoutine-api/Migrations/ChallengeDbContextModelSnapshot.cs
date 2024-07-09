@@ -101,6 +101,10 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Impact")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
