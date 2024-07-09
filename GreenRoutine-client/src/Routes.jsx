@@ -3,7 +3,7 @@ import App from './App.jsx'
 
 
 import DataComponent from './Components/ExternalApiTester/Data.jsx'
-import VehicleForm from './Components/Carbonfootprint.jsx'
+import VehicleMake from './Components/Carbonfootprint.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import Challenges from './Components/Challenges.jsx'
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/test',
-        element: <VehicleForm/>
+        element: <VehicleMake/>
       }
 
     ]
