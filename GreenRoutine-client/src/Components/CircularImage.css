@@ -1,0 +1,5 @@
+.circular-photo {
+    width: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+}

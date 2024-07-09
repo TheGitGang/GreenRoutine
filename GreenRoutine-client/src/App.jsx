@@ -3,13 +3,16 @@ import React from 'react';
 import Navigation from './Components/Navigation';
 import { Outlet } from 'react-router-dom';
 import "./App.css"
+// import { AuthProvider } from './AuthContext';
 
 function App() {
   return (
-      <div className='app-layout'>
-        <Navigation/>
-        <Outlet />
-      </div>
+      // <AuthProvider>
+        <div className='app-layout'>
+          <Navigation/>
+          <Outlet />
+        </div>
+      // </AuthProvider>
   )
 }
 

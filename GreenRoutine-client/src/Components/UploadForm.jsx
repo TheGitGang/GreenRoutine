@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
+
+import { Button, Col, Form, Input, Row } from 'reactstrap';
 
 const UploadForm = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -18,7 +19,8 @@ const UploadForm = () => {
         formData.append('image', selectedFile);
 
         try {
-            const response = await axios.post('', formData, {
+            const response = await fetch('/api/Account/UploadProfilePicture', {
+                method: "POST",
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -30,10 +32,16 @@ const UploadForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type='file' onChange={handleFileChange}/>
-            <button type='submit'>Upload</button>
-        </form>
+        <Form onSubmit={handleSubmit}>
+            <Row className='mt-3'>
+                <Col>
+                    <Input type='file' onChange={handleFileChange} />
+                </Col>
+                <Col xs= '2'>
+                    <Button type='submit'>Upload</Button>
+                </Col>
+            </Row>
+        </Form>
     )
 }
 

@@ -1,6 +1,7 @@
 import JSConfetti from 'js-confetti';
 import './Home.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
+import { setLocalStorage } from './LocalStorageFunctions';
 
 const Home = () => {
 
@@ -26,7 +27,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && !userInfo.id) {
             const fetchUserInfo = async () => {
                 const response = await fetch('pingauth', {
                     method: "GET"
@@ -35,6 +36,9 @@ const Home = () => {
                     const data = await response.json();
                     setUserInfo(data);
                     console.log(data);
+                    
+                    setLocalStorage('userInfo', data);
+
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
