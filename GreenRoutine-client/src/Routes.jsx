@@ -15,15 +15,14 @@ import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
-import CarProfile from './Components/CarProfile.jsx'
 import Leaderboard from './Components/Leaderboard.jsx'
-
+import CarProfile from './Components/CarProfile.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: '/',
@@ -34,22 +33,20 @@ const router = createBrowserRouter([
         element: <About />
       },
       {
-        path: '/about2/',
+        path: '/about2/2b1d0cd5-59be-4010-83b3-b60c5e5342da',
         element: <About2 />
       },
       {
         path: '/challenges',
-        element: <Challenges />,
-        children: [
-          {
-            path: 'create',
-            element: <CreateChallenge />
-          },
-          {
-            path: 'delete',
-            element: <DeleteChallenge />
-          }
-        ]
+        element: <Challenges />
+      },
+      {
+        path: '/challenges/create',
+        element: <CreateChallenge/>
+      },
+      {
+        path: '/challenges/delete',
+        element: <DeleteChallenge/>
       },
       {
         path: '/leaderboard',
@@ -57,31 +54,32 @@ const router = createBrowserRouter([
       },
       {
         path: '/data',
-        element: <DataComponent />
+        element: <DataComponent/>
       },
       {
         path: '/profile',
-        element: <Profile />
+        element: <Profile/>
       },
       {
         path: '/register',
-        element: <RegisterForm />
+        element: <RegisterForm/>
       },
       {
         path: '/login',
-        element: <LoginForm />
+        element: <LoginForm/>
       },
       {
         path: '/leaves',
         element: <Leaves />
-      },
-      {
-        path: '/carprofile',
-        element: <CarProfile />
+
       },
       {
         path: '/test',
         element: <VehicleMake/>
+      },
+      {
+        path: '/carprofile',
+        element: <CarProfile/>
       }
 
     ]

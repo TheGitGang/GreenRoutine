@@ -71,7 +71,7 @@ const DeleteChallenge = () => {
             </h1>
 
             <form onSubmit={handleSubmit}>
-                <div>
+                {/* <div>
                     {challenges.map((challenge, index) => (
                         <div key={index}>
                             <br />
@@ -82,12 +82,26 @@ const DeleteChallenge = () => {
                         </div>
                     ))}
 
+                </div> */}
+                
+                <div>
+                {challenges.map((challenge, index) => (
+                        <div key={index}>
+                            <br />
+                            <label>
+                                <input type="radio" name="id" value={challenge.id} onChange={handleChange} />
+                                Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
+                            </label>
+                        </div>
+                    ))}
+                   
                 </div>
                 <button type='submit'>Submit</button>
             </form>
         </div>
     )
 };
+
 
 export default DeleteChallenge;
 

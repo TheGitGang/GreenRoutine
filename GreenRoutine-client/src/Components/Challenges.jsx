@@ -64,9 +64,9 @@ const Challenges = () => {
                         const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
                         if (userChallengesResponse.ok){
                             const userChallengesData = await userChallengesResponse.json();
-                            console.log(userChallengesData);
+                            // console.log(userChallengesData);
                             setUserChallenges(userChallengesData);
-                            console.log(userInfo.id);
+                            // console.log(userInfo.id);
                             setError('userChallenge set');
                         } else {
                             setError('Could not set userChallenges');
@@ -74,7 +74,7 @@ const Challenges = () => {
                     }
                 }
             } catch (error) {
-                console.error('Error fetching challenges:', error);
+                // console.error('Error fetching challenges:', error);
                 setMessage(error.message);
             }
         }
@@ -99,7 +99,7 @@ const Challenges = () => {
             setMessage(`Signed up for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
-            console.log(user);
+            // console.log(user);
         }
     };
 
@@ -131,18 +131,18 @@ const Challenges = () => {
         );
     }
     
-    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.ChallengeId);
+    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
 
-    console.log(userChallengeIds);
+    // console.log(userChallengeIds);
     
     
     return (
         <>
             <h2>Your Challenges</h2>
             <div>{renderChallenges(userChallengesToRender, true)}</div>
-            {console.log(userChallengesToRender)}
+            {/* {console.log(userChallengesToRender)} */}
             <h2>Available Challenges</h2>
             <div>{renderChallenges(availableChallengesToRender, false)}</div>
             {message && <p>{message}</p>}

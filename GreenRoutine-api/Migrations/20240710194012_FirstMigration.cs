@@ -307,7 +307,7 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Impact = table.Column<string>(type: "longtext", nullable: false)
+                    Impact = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>

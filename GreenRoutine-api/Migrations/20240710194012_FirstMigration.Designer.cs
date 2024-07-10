@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240710184718_FirstMigration")]
+    [Migration("20240710194012_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -105,7 +105,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Impact")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignupDate")
