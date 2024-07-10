@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getLocalStorage} from './LocalStorageFunctions';
+// import { getLocalStorage} from './LocalStorageFunctions';
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
