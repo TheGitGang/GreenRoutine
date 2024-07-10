@@ -3,7 +3,7 @@ import App from './App.jsx'
 
 
 import DataComponent from './Components/ExternalApiTester/Data.jsx'
-
+import VehicleMake from './Components/Carbonfootprint.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import About2 from './Components/About2.jsx'
@@ -16,7 +16,6 @@ import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
 import Leaderboard from './Components/Leaderboard.jsx'
-
 
 const router = createBrowserRouter([
   {
@@ -71,7 +70,13 @@ const router = createBrowserRouter([
       {
         path: '/leaves',
         element: <Leaves />
+
+      },
+      {
+        path: '/test',
+        element: <VehicleMake/>
       }
+
     ]
   }
 ])
