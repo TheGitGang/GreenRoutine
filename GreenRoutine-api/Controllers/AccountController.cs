@@ -177,6 +177,7 @@ namespace TodoApi.Controllers
                 }
 
                 user.makeChoice = addMakeRequest.makeChoice;
+                await _signInManager.RefreshSignInAsync(user);
                 var result = await _userManager.UpdateAsync(user);
                 // _makeChoice = addMakeRequest.makeChoice;
                 if (result.Succeeded)
@@ -217,6 +218,7 @@ namespace TodoApi.Controllers
         using (var httpClient = new HttpClient())
         {
         string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
+
         var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
         // Add headers to the request
@@ -246,10 +248,49 @@ namespace TodoApi.Controllers
         }
     }
 
+[HttpPost("about2")]
+        public async Task<IActionResult> AddModel([FromBody] AddModelRequest addModelRequest)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to add points to user: {addModelRequest.Id}");
+                Console.WriteLine("here");
+                var user = await _userManager.FindByIdAsync(addModelRequest.Id);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
 
+                user.modelChoice = addModelRequest.modelChoice;
+                await _signInManager.RefreshSignInAsync(user);
+                var result = await _userManager.UpdateAsync(user);
+                // _makeChoice = addMakeRequest.makeChoice;
+                if (result.Succeeded)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
+                }
+        Console.WriteLine("hi");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+
+
+        }
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
+            public string Id { get; set;}
+        }
+        public class AddModelRequest
+        {
+            public Guid modelChoice { get; set; }
             public string Id { get; set;}
         }
 

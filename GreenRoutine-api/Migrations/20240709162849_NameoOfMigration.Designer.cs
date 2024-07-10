@@ -4,6 +4,7 @@ using GreenRoutine;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    partial class ChallengeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240709162849_NameoOfMigration")]
+    partial class NameoOfMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,10 +103,6 @@ namespace TodoApi.Migrations
 
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Impact")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
