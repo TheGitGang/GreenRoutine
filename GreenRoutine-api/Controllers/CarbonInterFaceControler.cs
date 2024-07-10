@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;  // Add this import for JSON parsing
 
 namespace TodoApi.Controllers
 {
@@ -11,12 +11,13 @@ namespace TodoApi.Controllers
     [Route("api/[controller]")]
     public class CarbonInterfaceController : ControllerBase
     {
-        private static readonly HttpClient client = new HttpClient();
-
-        public CarbonInterfaceController()
+        private static readonly HttpClient client = new HttpClient
         {
-            // Set the base address and default headers for HttpClient
-            client.BaseAddress = new Uri("https://www.carboninterface.com/");
+            BaseAddress = new Uri("https://www.carboninterface.com/"),
+        };
+
+        static CarbonInterfaceController()
+        {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -25,7 +26,6 @@ namespace TodoApi.Controllers
         [HttpGet("vehicle_makes")]
         public async Task<IActionResult> GetVehicleMakes()
         {
-            // Replace 'your_api_key_here' with your actual API key
             string apiKey = "11oVkRMXcMSHMlUmyTKrg";
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
@@ -33,7 +33,7 @@ namespace TodoApi.Controllers
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                return Ok(responseBody);
+                return Content(responseBody, "application/json"); // Explicitly set content type
             }
             else
             {
@@ -42,5 +42,3 @@ namespace TodoApi.Controllers
         }
     }
 }
-
-
