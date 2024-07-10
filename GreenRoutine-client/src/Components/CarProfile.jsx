@@ -6,6 +6,7 @@ const CarProfile = () => {
     const [userInfo, setUserInfo] = useState({});
     const [makeChoice, setMakeChoice] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [ready, setReady] = useState(false);
     const [error, setError] = useState('');
 
     const fetchUserInfo = async () => {
@@ -53,7 +54,7 @@ const CarProfile = () => {
     return (
         <>
             <MakeSelect user={userInfo} userId={userInfo.id} makeChoice={makeChoice} setMakeChoice={setMakeChoice} />
-            <ModelSelect user={userInfo} userId={userInfo.id} makeChoice={makeChoice} />
+            <ModelSelect user={userInfo} userId={userInfo.id} makeChoice={makeChoice} ready={ready} setReady={setReady} />
         </>
 
     );

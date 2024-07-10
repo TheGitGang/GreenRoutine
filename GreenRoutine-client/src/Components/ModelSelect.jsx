@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import fetchCarMakeInfo from './Fetch.jsx';
 
-const ModelSelect = ( user, makeChoice ) => {
+const ModelSelect = ( user, makeChoice, ready, setReady ) => {
     const [models, setModels] = useState([]);
     const [modelChoice, setModelChoice] = useState([]);
     const [error, setError] = useState('');
@@ -13,6 +13,7 @@ const ModelSelect = ( user, makeChoice ) => {
         if (response.ok) {
             const data = await response.json();
             setModels(data);
+            setReady(true);
             setError('Car make info set.')
         } else {
             setError('Could not set car make info')
@@ -21,7 +22,7 @@ const ModelSelect = ( user, makeChoice ) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'modelChoice') setModelChoice(value);
-        console.log(modelChoice)
+        // setReady(true)
     }
 
     const handleSubmitCarModel = async (e) => {
@@ -31,7 +32,6 @@ const ModelSelect = ( user, makeChoice ) => {
                 Id: user.userId,
                 modelChoice: modelChoice
             }
-            console.log(payload)
             const response = await fetch('/api/account/about2', {
                 method: "POST",
                 headers: {
@@ -54,8 +54,8 @@ const ModelSelect = ( user, makeChoice ) => {
 
     return (
         <>
+            <form style={ready ? { opacity: 1 } : { opacity: 0.4 }}>
             <h4>Please select your vehicle model:</h4>
-            <form>
                 <select onChange={handleChange} name='modelChoice'>
                     {models.map(model => (
                         <option key={model.data.id} value={model.data.id} >
@@ -63,7 +63,7 @@ const ModelSelect = ( user, makeChoice ) => {
                         </option>
                     ))}
                 </select>
-                <button onClick={handleSubmitCarModel}>Click</button>
+                <button disabled={models.length === 0} onClick={handleSubmitCarModel}>Click</button>
             </form>
             {/* {models && } */}
         </>

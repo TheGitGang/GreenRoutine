@@ -20,7 +20,6 @@ const MakeSelect = ({ user, userId, makeChoice, setMakeChoice }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'makeChoice') setMakeChoice(value);
-        console.log(makeChoice)
     }
 
     const handleSubmit = async (e) => {
