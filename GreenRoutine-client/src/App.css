@@ -26,9 +26,29 @@
     padding-right: 10rem!important; 
     box-sizing: border-box; 
   } */
+   
+  .circular-photo {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profile-photo {
+    width: 15rem;
+    height: 15rem;
+    align-self: center;
+    padding: .5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
   
   .lightgrey-card {
     background-color: rgb(214, 244, 213);
+  }
+
+  .deep-green-card {
+    background-color: #198754;
   }
 
 .center-content {

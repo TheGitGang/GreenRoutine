@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 const Profile = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userPhoto, setUserPhoto] = useState(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -21,8 +22,9 @@ const Profile = () => {
                 if (response.ok) {
                     setIsAuthenticated(true)
                 }
-            } catch (error) {
+            } catch (e) {
                 setError('An error occurred while fetching data.');
+                console.log(error)
             }
         };
         fetchIsAuthenticated();
@@ -51,18 +53,18 @@ const Profile = () => {
 
     const handlePhotoUpload = (data) => {
         setUserInfo(prevState => ({...prevState, profilePhoto: data.photo}));
+        return true
     }
 
     if (!userInfo) {
         return <p>Loading...</p>;
     }
 
-    //photo={userPhoto}
     return (
         <>
             <Row>
                 <Col xs={3}>
-                    <ProfilePhoto user={userInfo} userId={userInfo.id}  onPhotoUpload={handlePhotoUpload}/>
+                    <ProfilePhoto user={userInfo} userId={userInfo.id} photo={userPhoto} onPhotoUpload={handlePhotoUpload}/>
                 </Col>
                 <Col>
                     <AboutCard user={userInfo} userId={userInfo.id} setUserInfo={setUserInfo} fetchUserInfo={fetchUserInfo}/>

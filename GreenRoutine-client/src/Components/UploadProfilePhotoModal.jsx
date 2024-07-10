@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, ModalHeader, ModalBody, Row, Col, Label, Input, Button, ModalFooter, Form, Alert } from 'reactstrap'
 
-const UploadProfilePhotoModal = ({ isOpen, toggle, userId, onPhotoUpload }) => {
+const UploadProfilePhotoModal = ({ isOpen, toggle, userId, onPhotoUpload, fetchUserPhoto }) => {
     const [file, setFile] = useState(null);
     const [error, setError] = useState("");
 
@@ -27,8 +27,11 @@ const UploadProfilePhotoModal = ({ isOpen, toggle, userId, onPhotoUpload }) => {
     
             if (response.ok) {
                 const data = await response.json();
-                onPhotoUpload(data);
-                toggle();
+                const photoUploaded = await onPhotoUpload(data);
+                if (photoUploaded) {
+                    fetchUserPhoto();
+                    toggle();
+                }
             } else {
                 setError('Failed to upload photo');
             }
@@ -47,7 +50,6 @@ const UploadProfilePhotoModal = ({ isOpen, toggle, userId, onPhotoUpload }) => {
                                     type='file'
                                     id='profilePhoto'
                                     name='profilePhoto'
-                                   // value={file || ""}
                                     onChange={handleFileChange}
                                 />
                             </Col>
