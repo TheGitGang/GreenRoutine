@@ -13,5 +13,5 @@ public class UserChallenge
 
     public DateTime SignupDate { get; set; } = DateTime.Now;
 
-    public string Impact { get; set; }
+    public string? Impact { get; set; }
 }

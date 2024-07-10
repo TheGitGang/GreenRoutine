@@ -34,20 +34,23 @@ const Leaderboard = () => {
   return ( 
     <div id="square-tiles">
         <div className="topThreeBackground">
-            <Row>
+            <div>
+                <h1 className="leaderboardText">LEADERBOARD</h1>
+                <Row>
                     {topThreeUsers.map((user, index) => (
                         <TopUsers user={user} photo={dummyUser.profileImg} rank={index} key={index}/>
                     ))}
-            </Row>
-        </div>
-        <div>
-            {users.slice(3).map((user, index) => (
-                <div key={user.id} className="square">
-                            <div className="cell">{index + 4 }</div>
-                            <div className="cell">{user.userName}</div>
-                            <div className="rightCell">{user.leaves} Leaves</div>
-                </div>
-            ))}
+                </Row>
+            </div>
+            <div>
+                {users.slice(3).map((user, index) => (
+                    <div key={user.id} className="square">
+                        <div className="cell">{index + 4 }</div>
+                        <div className="middleCell">{user.userName}</div>
+                        <div className="rightCell">{user.leaves} Leaves</div>
+                    </div>
+                ))}
+            </div>
         </div>
       {error && <p style={{color: 'red'}}>{error}</p>}
     </div>

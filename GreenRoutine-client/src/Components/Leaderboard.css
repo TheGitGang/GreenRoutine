@@ -10,6 +10,12 @@
     padding-left: 20px;
 }
 
+.middle {
+    text-align: left; 
+    justify-self: left;
+    padding-left: 20px;
+}
+
 .rightCell{
     text-align: left; 
     justify-self: right;
@@ -17,15 +23,15 @@
 }
 
 .square{
-    width: 100%;
+
+    width: 900px;
     height: 50px;
     background-color: #B0EC92;
-    margin: 5px;
     border-radius: 20px;
     border-style: solid;
     border-width: 1px;
     border-color: #40C100;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     color: black;
     font-size: 25px;
     display: inline-grid;
@@ -36,14 +42,26 @@
 }
 
 .topThreeBackground{
-    width: 100%;
-    
+    width: 80%;
     height: 400px;
     background-color: #B0EC92;
-    margin: 10px;
+    margin: 20px;
     border-radius: 20px;
     border-style: solid;
     border-width: 1px;
     border-color: #40C100;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboardText{
+    text-align: center;
+    color: white;
+    font-family: "Bayon", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 10px;
+    font-size: xxx-large;
+    text-shadow: 0 0 2px #000; 
+    -moz-text-shadow: 0 0 2px #000;
+    -webkit-text-shadow: 0 0 2px #000;
 }
