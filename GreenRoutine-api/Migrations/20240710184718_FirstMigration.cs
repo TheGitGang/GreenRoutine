@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class ImpactInUsers : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,6 +47,7 @@ namespace TodoApi.Migrations
                     DateJoined = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Leaves = table.Column<int>(type: "int", nullable: false),
                     makeChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    modelChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     LifetimeLeaves = table.Column<int>(type: "int", nullable: false),
                     CurrentStreak = table.Column<int>(type: "int", nullable: false),
                     LongestStreak = table.Column<int>(type: "int", nullable: false),

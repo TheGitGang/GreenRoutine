@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
 
 const About = () => {
+
+    return (
+        <>
+        <Calendar />
+        </>
+    )
+    /*
     const [makes, setMakes] = useState([]);
     const [makeChoice, setMakeChoice] = useState([]);
     const [error, setError] = useState('');
@@ -46,7 +55,7 @@ const About = () => {
         // console.log("hi34")
         console.log(makeChoice)
         console.log()
-        navigate('/test/' /*+ makeChoice.toString()*/)
+        navigate('/test/' /*+ makeChoice.toString()*//*)
     }
     useEffect(() => {
         setLocalStorage('user', user);
@@ -84,5 +93,6 @@ const About = () => {
         </>
     )
 };
-
+*/
+};
 export default About;
