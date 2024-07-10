@@ -127,7 +127,7 @@ useEffect(() => {
         //do error handling
         setError('');
         console.log("hi1")
-        const payload = { makeChoice: modelChoice, Id: userInfo.id, }
+        const payload = { modelChoice: modelChoice, Id: userInfo.id, }
         console.log(payload);
         console.log("ty")
         fetch('/api/account/about2', {
@@ -153,7 +153,7 @@ useEffect(() => {
         // console.log("hi34")
         console.log(makeChoice)
         console.log()
-        // navigate('/about2/' /*+ makeChoice.toString()*/)
+        navigate('/test' /*+ makeChoice.toString()*/)
     }
     
     return (

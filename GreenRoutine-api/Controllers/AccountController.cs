@@ -258,19 +258,19 @@ namespace TodoApi.Controllers
     }
 
 [HttpPost("about2")]
-        public async Task<IActionResult> AddModel([FromBody] AddMakeRequest addMakeRequest)
+        public async Task<IActionResult> AddModel([FromBody] AddModelRequest addModelRequest)
         {
             try
             {
-                Console.WriteLine($"Received request to add points to user: {addMakeRequest.Id}");
+                Console.WriteLine($"Received request to add points to user: {addModelRequest.Id}");
                 Console.WriteLine("here");
-                var user = await _userManager.FindByIdAsync(addMakeRequest.Id);
+                var user = await _userManager.FindByIdAsync(addModelRequest.Id);
                 if (user == null)
                 {
                     throw new Exception("User not found");
                 }
 
-                user.modelChoice = addMakeRequest.makeChoice;
+                user.modelChoice = addModelRequest.modelChoice;
                 await _signInManager.RefreshSignInAsync(user);
                 var result = await _userManager.UpdateAsync(user);
                 // _makeChoice = addMakeRequest.makeChoice;
@@ -295,6 +295,11 @@ namespace TodoApi.Controllers
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
+            public string Id { get; set;}
+        }
+        public class AddModelRequest
+        {
+            public Guid modelChoice { get; set; }
             public string Id { get; set;}
         }
 

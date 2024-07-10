@@ -15,13 +15,14 @@ import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
+import CarProfile from './Components/CarProfile.jsx'
 
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
@@ -37,35 +38,41 @@ const router = createBrowserRouter([
       },
       {
         path: '/challenges',
-        element: <Challenges />
-      },
-      {
-        path: '/challenges/create',
-        element: <CreateChallenge/>
-      },
-      {
-        path: '/challenges/delete',
-        element: <DeleteChallenge/>
+        element: <Challenges />,
+        children: [
+          {
+            path: 'create',
+            element: <CreateChallenge />
+          },
+          {
+            path: 'delete',
+            element: <DeleteChallenge />
+          }
+        ]
       },
       {
         path: '/data',
-        element: <DataComponent/>
+        element: <DataComponent />
       },
       {
         path: '/profile',
-        element: <Profile/>
+        element: <Profile />
       },
       {
         path: '/register',
-        element: <RegisterForm/>
+        element: <RegisterForm />
       },
       {
         path: '/login',
-        element: <LoginForm/>
+        element: <LoginForm />
       },
       {
         path: '/leaves',
         element: <Leaves />
+      },
+      {
+        path: '/carprofile',
+        element: <CarProfile />
       }
     ]
   }
