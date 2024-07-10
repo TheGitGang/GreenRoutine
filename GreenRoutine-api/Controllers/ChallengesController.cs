@@ -19,12 +19,12 @@ public class ChallengesController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ChallengesDTO>>> RenderChallengesPage()
-        {
-            return await context
-                .Challenges
-                .Select(c => new ChallengesDTO(c))
-                .ToListAsync();
-        }
+    {
+        return await 
+            context.Challenges
+            .Select(c => new ChallengesDTO(c))
+            .ToListAsync();
+    }
 
 
     [HttpPost("create")]
@@ -42,6 +42,7 @@ public class ChallengesController : ControllerBase
     // {
 
     // }
+    
     [HttpGet("delete")]
     public async Task<ActionResult<IEnumerable<ChallengesDTO>>>RenderDeleteChallengesPage()
     {
