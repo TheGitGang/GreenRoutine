@@ -28,7 +28,8 @@ const Challenges = () => {
     }, []);
 
     //fetching user information and setting it
-    const fetchUserInfo = async () => {
+    useEffect(() => {
+        const fetchUserInfo = async () => {
         const response = await fetch('pingauth', {
             method: "GET"
         });
@@ -39,41 +40,38 @@ const Challenges = () => {
         } else {
             setError('Could not set user info')
         }
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchUserInfo();
-        } else {
-            setError('User is not authenticated.')
         }
-    }, [isAuthenticated])
+        if(isAuthenticated) {
+            fetchUserInfo();
+        }
+    }, [isAuthenticated]);
 
-    //fetching user challenges
     useEffect(() => {
         const fetchChallenges = async () => {
             try {
                 // Fetching all challenges
+                if(userInfo.id){
+                    const allChallengesResponse = await fetch('/api/Challenges');
+                    if (allChallengesResponse.ok) {
+                        const allChallengesData = await allChallengesResponse.json();
+                        setChallenges(allChallengesData);
+                        setError('User info set');
+                    } else {
+                        setError('Could not set user info');
+                    }
 
-                const allChallengesResponse = await fetch('/api/Challenges',{
-                    method: "GET"
-                });
-                if (allChallengesResponse.ok) {
-                    const allChallengesData = await allChallengesResponse.json();
-                    setChallenges(allChallengesData);
-                    setError('User info set');
-                } else {
-                    setError('Could not set user info');
-                }
-
-                // Fetching userChallenges
-                const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
-                if (userChallengesResponse.ok){
-                    const userChallengesData = await userChallengesResponse.json();
-                    setUserChallenges(userChallengesData);
-                    setError('userChallenge set');
-                } else {
-                    setError('Could not set userChallenges');
+                    if(userInfo.id){
+                        const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
+                        if (userChallengesResponse.ok){
+                            const userChallengesData = await userChallengesResponse.json();
+                            console.log(userChallengesData);
+                            setUserChallenges(userChallengesData);
+                            console.log(userInfo.id);
+                            setError('userChallenge set');
+                        } else {
+                            setError('Could not set userChallenges');
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching challenges:', error);
@@ -81,7 +79,8 @@ const Challenges = () => {
             }
         }
         fetchChallenges();
-    }, []);
+    }, [userInfo.id])
+
 
     //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId) => {
@@ -104,12 +103,13 @@ const Challenges = () => {
         }
     };
 
+    
     const renderChallenges = (challengesToRender, isUserChallenge) => {
         return (
             <>
-                <p>There are {challenges.length} challenges in the DB</p>
+                <p>There are {challengesToRender.length} challenges in the DB</p> 
                 <div>
-                    {challenges.map((challenge, index) => (
+                    {challengesToRender.map((challenge, index) => (
                         <div className="card" key={index}>
                             <h5 className="card-title">{challenge.name}</h5>
                             <ul className="list-group list-group-flush">
@@ -130,17 +130,19 @@ const Challenges = () => {
             </>
         );
     }
-
+    
     const userChallengeIds = userChallenges.map(userChallenge => userChallenge.ChallengeId);
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
 
-
+    console.log(userChallengeIds);
+    
+    
     return (
         <>
-            <p>There are {challenges.length} challenges in the DB</p>
             <h2>Your Challenges</h2>
             <div>{renderChallenges(userChallengesToRender, true)}</div>
+            {console.log(userChallengesToRender)}
             <h2>Available Challenges</h2>
             <div>{renderChallenges(availableChallengesToRender, false)}</div>
             {message && <p>{message}</p>}

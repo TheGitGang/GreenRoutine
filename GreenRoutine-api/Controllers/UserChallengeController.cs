@@ -22,9 +22,18 @@ public class UserChallengeController : ControllerBase
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserChallenges(string userId)
     {
-        var userChallenges = await context.UserChallenges.Where(uc => uc.UserId == userId).Select(uc => uc.Challenge).ToListAsync();
+            var userChallenges = await context.UserChallenges.Where(uc => uc.UserId == userId).Select(uc => new UserChallengeDTO
+            {
+                ChallengeId = uc.ChallengeId,
+                UserId = uc.UserId
+            }).ToListAsync();
         return Ok(userChallenges);
-
     }
+
+}
+public class UserChallengeDTO
+{
+    public int ChallengeId { get; set; }
+    public string UserId { get; set; }
 }
 }
