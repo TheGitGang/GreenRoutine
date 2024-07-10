@@ -13,7 +13,7 @@ const ModelSelect = ( user, makeChoice, ready, setReady ) => {
         if (response.ok) {
             const data = await response.json();
             setModels(data);
-            setReady(true);
+            // setReady(true);
             setError('Car make info set.')
         } else {
             setError('Could not set car make info')
