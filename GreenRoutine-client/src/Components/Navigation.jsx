@@ -95,14 +95,14 @@ import {
                 </NavbarBrand>
                 <Nav className="me-auto" navbar>
                     <NavItem>
-                        <Link to='/' className="nav-link">Home</Link>
+                        <Link to='/' className="nav-link white-text">Home</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/about' className="nav-link">About</Link>
+                        <Link to='/about' className="nav-link white-text">About</Link>
                     </NavItem>
                     <NavItem>
                         <UncontrolledDropdown>
-                            <DropdownToggle nav caret className="dropdown-link">
+                            <DropdownToggle nav caret className="dropdown-link white-text">
                                 Challenges
                             </DropdownToggle>
                             <DropdownMenu>
@@ -122,7 +122,7 @@ import {
                         </UncontrolledDropdown>
                     </NavItem>
                     <NavItem>
-                        <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
+                        <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>
                     </NavItem>
                 </Nav>
                 <Nav>
@@ -147,29 +147,29 @@ import {
         )
     } else {
         return (
-                <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
+                <Navbar color="success" light expand="md" className="fixed-top white-text" id="navbar-margin">
                     <NavbarBrand href="/">
                       <img src={logo} width="200
                       " height="35"/>
                     </NavbarBrand>
                     <Nav className="me-auto" navbar>
                         <NavItem>
-                            <Link to='/' className="nav-link">Home</Link>
+                            <Link to='/' className="nav-link white-text">Home</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/about' className="nav-link">About</Link>
+                            <Link to='/about' className="nav-link white-text">About</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges' className="nav-link">Challenges</Link>
+                            <Link to='/challenges' className="nav-link white-text">Challenges</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
+                            <Link to='/challenges/create' className="nav-link white-text">Create Challenge</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/about2' className="nav-link">About2</Link>
+                            <Link to='/about2' className="nav-link white-text">About2</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
+                            <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>
                         </NavItem>
                     </Nav>
                     <Nav>
