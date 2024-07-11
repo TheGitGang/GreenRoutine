@@ -114,7 +114,8 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
         LongestStreak = longestStreak,
         NumChallengesComplete = numChallengesComplete,
         NumChallengesCreated = numChallengesCreated,
-        MakeChoice = makeChoice
+        MakeChoice = makeChoice,
+        ModelChoice = modelChoice
     }); // return the email as a plain text response
 }).RequireAuthorization();
 

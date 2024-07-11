@@ -1,7 +1,61 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-// import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
 
+
+const CustomCalendar = () => {
+    const [markedDates, setMarkedDates] = useState([]);
+
+    useEffect(() => {
+        const fetchMarkedDates = async () => {
+            try {
+                const response = await fetch('/api/UserChallenge/dates');
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data)
+                    setMarkedDates(data); 
+                } else {
+                    console.error('Failed to fetch marked dates');
+                }
+            } catch (error) {
+                console.error('Error fetching marked dates:', error);
+            }
+        };
+
+        fetchMarkedDates();
+    }, []);
+
+    const tileClassName = ({ date, view }) => {
+        // Add class to tile if the date is in the markedDates array
+        if (view === 'month') {
+            const dateString = date.toISOString().split('T')[0]; // Convert date to YYYY-MM-DD format
+            if (markedDates.includes(dateString)) {
+                return 'highlight';
+            }
+        }
+        return null;
+    };
+
+    return (
+        <div>
+            <Calendar
+                tileClassName={tileClassName}
+            />
+            <style>
+                {`
+                    .highlight {
+                        background-color: yellow !important;
+                    }
+                `}
+            </style>
+        </div>
+    );
+};
+
+export default CustomCalendar;
+// import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
+/*
 const About2 = () => {
     const [models, setModels] = useState([]);
     // const [makes, setMakes] = useState([]);
@@ -105,7 +159,7 @@ useEffect(() => {
                 // console.log(userInfo.makeChoice)
                 setModels(data1);
             });
-    }, []);*/
+    }, []);*//*
 
     const fetchCarModelInfo = async () => {
         const response = await fetch(`/api/account/about2/${userInfo.makeChoice}`, {
@@ -153,14 +207,14 @@ useEffect(() => {
         // console.log("hi34")
         console.log(makeChoice)
         console.log()
-        navigate('/test' /*+ makeChoice.toString()*/)
+        navigate('/test' /*+ makeChoice.toString()*//*)
     }
     
     return (
         <>
              {/* {models.map((model) => (
                 <div>{model.data.attributes.name}</div>
-            ))}  */}
+            ))}  *//*}
             {userInfo.makeChoice} 123
             <form onSubmit={handleSubmit}>
 
@@ -182,5 +236,4 @@ useEffect(() => {
         </>
     )
 };
-
-export default About2;
+*/
