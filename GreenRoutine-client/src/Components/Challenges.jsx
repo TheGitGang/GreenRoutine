@@ -157,6 +157,7 @@ const Challenges = () => {
             </>
         );
     }
+
     
     const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
@@ -169,7 +170,8 @@ const Challenges = () => {
         <>
             <h2>Your Challenges</h2>
             <div>{renderChallenges(userChallengesToRender, true)}</div>
-            {/* {console.log(userChallengesToRender)} */}
+
+
             <h2>Available Challenges</h2>
             <div>{renderChallenges(availableChallengesToRender, false)}</div>
             {message && <p>{message}</p>}

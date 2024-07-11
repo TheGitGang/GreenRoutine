@@ -4,6 +4,7 @@ using GreenRoutine;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    partial class ChallengeDbContextModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
+    [Migration("20240709163113_newAddProfilePhoto")]
+    partial class newAddProfilePhoto
+========
+    [Migration("20240710161121_MakingImpactNullable")]
+    partial class MakingImpactNullable
+>>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,9 +77,6 @@ namespace TodoApi.Migrations
 
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time(6)");
-
-                    b.Property<int>("Miles")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
@@ -131,12 +136,12 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Carbon_lb")
-                        .HasColumnType("int");
-
+<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
+========
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");
 
+>>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
@@ -369,9 +374,6 @@ namespace TodoApi.Migrations
                     b.Property<Guid>("makeChoice")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("modelChoice")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -510,8 +512,11 @@ namespace TodoApi.Migrations
 
                     b.Navigation("Friends");
 
+<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
                     b.Navigation("ProfilePhoto");
 
+========
+>>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Navigation("UserChallenges");
                 });
 #pragma warning restore 612, 618

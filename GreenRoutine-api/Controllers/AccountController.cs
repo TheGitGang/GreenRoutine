@@ -1,9 +1,11 @@
 using GreenRoutine;
+using GreenRoutine.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoApi.Controllers
 {
@@ -157,6 +159,79 @@ namespace TodoApi.Controllers
             }
         }
 
+        [HttpPost("UploadProfilePhoto")]
+        public async Task<IActionResult> UploadProfilePhoto([FromForm] UploadProfilePhotoModel model)
+        {
+            if (model.ProfilePhoto == null || model.ProfilePhoto.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var profilePhoto = new ProfilePhoto
+            {
+                Photo = await ConvertToByteArray(model.ProfilePhoto),
+                ContentType = model.ProfilePhoto.ContentType,
+                UserId = model.UserId
+            };
+
+            var existingPhoto = await context.ProfilePhotos.SingleOrDefaultAsync(p => p.UserId == model.UserId);
+            if (existingPhoto != null)
+            {
+                existingPhoto.Photo = profilePhoto.Photo;
+                existingPhoto.ContentType = profilePhoto.ContentType;
+            }
+            else
+            {
+                context.ProfilePhotos.Add(profilePhoto);
+            }
+
+            await context.SaveChangesAsync();
+
+            return Ok(new { message = "Profile photo uploaded successfully." });
+        }
+
+        [HttpGet("{userId}/getUserPhoto")]
+        public async Task<IActionResult> GetUserPhoto(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found...");
+            }
+
+            var profilePhoto = await context.ProfilePhotos.SingleOrDefaultAsync(p => p.UserId == userId);
+            if (profilePhoto == null)
+            {
+                return NotFound("User does not have a profile photo");
+            }
+
+            var base64Photo = Convert.ToBase64String(profilePhoto.Photo);
+            var photoData = $"data:{profilePhoto.ContentType};base64,{base64Photo}";
+
+            return Ok(new { Photo = photoData });
+        }
+
+        // [HttpGet("{userId}/getUserInfo")]
+        // public async Task<IActionResult> GetUserInfo(string userId)
+        // {
+                
+        // }
+
+        private async Task<byte[]> ConvertToByteArray(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
         public class AddPointsRequest
         {
             public string UserId { get; set; }
@@ -211,44 +286,44 @@ namespace TodoApi.Controllers
             return Ok(new { message = "Make successfully registered" });
         }*/
 
-    [HttpGet("about2/{id}")]
-    public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
-    {
-        // var user = await _userManager.FindByIdAsync(userId);
-        using (var httpClient = new HttpClient())
+        [HttpGet("about2/{id}")]
+        public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
         {
-        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
-
-        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
-
-        // Add headers to the request
-        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
-        try
-        {
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
+            // var user = await _userManager.FindByIdAsync(userId);
+            using (var httpClient = new HttpClient())
             {
-                string json = await response.Content.ReadAsStringAsync();
-                List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
-                return Ok(data);
-            }
-            else
-            {
-                return StatusCode(
-                    (int)response.StatusCode,
-                    "Error fetching data from external API"
-                );
-            }
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-        }
-    }
+            string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
 
-[HttpPost("about2")]
+            var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+            // Add headers to the request
+            request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
+            try
+            {
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
+                    return Ok(data);
+                }
+                else
+                {
+                    return StatusCode(
+                        (int)response.StatusCode,
+                        "Error fetching data from external API"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            }
+        }
+
+        [HttpPost("about2")]
         public async Task<IActionResult> AddModel([FromBody] AddModelRequest addModelRequest)
         {
             try
@@ -305,3 +380,4 @@ namespace TodoApi.Controllers
 
     }
 }
+
