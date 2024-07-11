@@ -22,7 +22,7 @@ const DeleteChallenge = () => {
 
         const payload = { id: id, }
 
-        console.log(payload);
+        // console.log(payload);
 
 
         fetch('/api/Challenges/delete', {
@@ -33,7 +33,7 @@ const DeleteChallenge = () => {
 
             body: JSON.stringify(payload)
         }).then((data) => {
-            console.log(data);
+            // console.log(data);
 
 
             if (data.ok) {
@@ -55,7 +55,7 @@ const DeleteChallenge = () => {
                 return resp.json();
             })
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 setChallenges(data);
             });
 
@@ -90,7 +90,7 @@ const DeleteChallenge = () => {
                             <br />
                             <label>
                                 <input type="radio" name="id" value={challenge.id} onChange={handleChange} />
-                                Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}
+                                Name: {challenge.name}, Difficulty: {challenge.difficulty}, Length: {challenge.length}, Description: {challenge.description}, Miles: {challenge.miles}
                             </label>
                         </div>
                     ))}

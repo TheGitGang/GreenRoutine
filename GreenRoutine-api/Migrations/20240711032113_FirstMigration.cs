@@ -110,6 +110,7 @@ namespace TodoApi.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Difficulty = table.Column<int>(type: "int", nullable: false),
+                    Miles = table.Column<int>(type: "int", nullable: false),
                     Length = table.Column<TimeSpan>(type: "time(6)", nullable: true),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -308,7 +309,8 @@ namespace TodoApi.Migrations
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Impact = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Carbon_lb = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

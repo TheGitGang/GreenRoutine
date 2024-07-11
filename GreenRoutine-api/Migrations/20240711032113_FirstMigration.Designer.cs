@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240710194012_FirstMigration")]
+    [Migration("20240711032113_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -73,6 +73,9 @@ namespace TodoApi.Migrations
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time(6)");
 
+                    b.Property<int>("Miles")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
@@ -102,6 +105,9 @@ namespace TodoApi.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Carbon_lb")
                         .HasColumnType("int");
 
                     b.Property<string>("Impact")

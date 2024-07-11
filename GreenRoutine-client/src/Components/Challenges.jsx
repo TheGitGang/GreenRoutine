@@ -103,7 +103,33 @@ const Challenges = () => {
         }
     };
 
-    
+    const CarbonImpact = async (challengeId, miles) => {
+        const response = await fetch('/api/CarbonInterFace/get-estimate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                /*UserId: userInfo.id, 
+                ChallengeId: challengeId,*/
+                Type: "vehicle",
+                DistanceValue: miles,
+                DistanceUnit: "mi",
+                VehicleModelId: userInfo.modelChoice,
+            }),
+        });
+        // console.log(body);
+        console.log(userInfo)
+        const result = await response.json();
+        if(response.ok) {
+            console.log(response)
+            setMessage(`Carbon data registered for challenge: ${challengeId}`);
+        } else {
+            setMessage(result.message || 'Failed to register carbon data for the challenge');
+            // console.log(user);
+        }
+    };
+
     const renderChallenges = (challengesToRender, isUserChallenge) => {
         return (
             <>
@@ -116,9 +142,10 @@ const Challenges = () => {
                                 <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
                                 <li className="list-group-item">Length: {challenge.length}</li>
                                 <li className="list-group-item">Description: {challenge.description}</li>
+                                <li className="list-group-item">Miles: {challenge.miles}</li>
                             </ul>
                             {isUserChallenge ? (
-                                <p>You are signed up for this challenge.</p>
+                                <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpact(challenge.id, challenge.miles)}> Here</button></p>
                             ) : (
                                 <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
                             )}
