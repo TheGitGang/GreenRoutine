@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoApi.Controllers
 {
@@ -230,6 +231,7 @@ namespace TodoApi.Controllers
                 await file.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
+        }
         public class AddPointsRequest
         {
             public string UserId { get; set; }
@@ -284,44 +286,44 @@ namespace TodoApi.Controllers
             return Ok(new { message = "Make successfully registered" });
         }*/
 
-    [HttpGet("about2/{id}")]
-    public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
-    {
-        // var user = await _userManager.FindByIdAsync(userId);
-        using (var httpClient = new HttpClient())
+        [HttpGet("about2/{id}")]
+        public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
         {
-        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
-
-        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
-
-        // Add headers to the request
-        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
-        try
-        {
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
+            // var user = await _userManager.FindByIdAsync(userId);
+            using (var httpClient = new HttpClient())
             {
-                string json = await response.Content.ReadAsStringAsync();
-                List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
-                return Ok(data);
-            }
-            else
-            {
-                return StatusCode(
-                    (int)response.StatusCode,
-                    "Error fetching data from external API"
-                );
-            }
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-        }
-    }
+            string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
 
-[HttpPost("about2")]
+            var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+            // Add headers to the request
+            request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
+            try
+            {
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
+                    return Ok(data);
+                }
+                else
+                {
+                    return StatusCode(
+                        (int)response.StatusCode,
+                        "Error fetching data from external API"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            }
+        }
+
+        [HttpPost("about2")]
         public async Task<IActionResult> AddModel([FromBody] AddModelRequest addModelRequest)
         {
             try
@@ -352,10 +354,8 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
-
-
         }
+
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
@@ -369,4 +369,4 @@ namespace TodoApi.Controllers
 
     }
 }
-}
+
