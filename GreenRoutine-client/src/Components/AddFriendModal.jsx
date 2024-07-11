@@ -1,16 +1,9 @@
-import { useState, useEffect } from "react";
-import { Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row, ModalFooter, Button } from "reactstrap";
+import { useState } from "react";
+import { Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row, ModalFooter, Button, Alert } from "reactstrap";
 
 const AddFriendModal = ({ isOpen, toggle, userId, onAddFriend }) => {
     const [username, setUsername] = useState("");
     const [error, setError] = useState('');
-
-    // useEffect(() => {
-    //     if (userId) {
-    //         userId = userId
-    //         //setId(userId)
-    //     }
-    // }, [userId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +32,7 @@ const AddFriendModal = ({ isOpen, toggle, userId, onAddFriend }) => {
                 onAddFriend(data);
                 setError("Friend added successfully")
             } else {
-                setError("Unable to add friend")
+                setError("Unable to add friend. The entered user may not exist.")
             }
         }
     }
@@ -79,11 +72,13 @@ const AddFriendModal = ({ isOpen, toggle, userId, onAddFriend }) => {
                     onClick={() => {
                         toggle();
                         setUsername("");
+                        setError("");
                     }}
                 >
                     Cancel
                 </Button>
             </ModalFooter>
+            {error && <Alert color='danger'>{error}</Alert>}
         </Modal>
     )
 }

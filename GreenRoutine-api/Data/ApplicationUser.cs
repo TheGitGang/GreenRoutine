@@ -22,6 +22,7 @@ namespace TodoApi.Server.Data
 
         public string Bio { get; set; } = "";
         public string Pronouns { get; set; } = "";
+        public virtual ProfilePhoto? ProfilePhoto { get; set; }
 
         public ICollection<UserChallenge> UserChallenges { get; set; }
 

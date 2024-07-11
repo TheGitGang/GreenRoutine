@@ -22,6 +22,7 @@ const ChallengeButton = () => {
 const FriendsList = ({ userId }) => {
     const [displayAddModal, setDisplayAddModal] = useState(false);
     const [friends, setFriends] = useState([]);
+    const [friendPhotos, setFriendPhotos] = useState([]);
     const [rowData, setRowData] = useState([]);
     const [error, setError] = useState()
 
@@ -41,28 +42,50 @@ const FriendsList = ({ userId }) => {
         }
     }
 
+    const fetchFriendPhotos = async () => {
+        const response = await fetch(`/api/Friend/${userId}/getFriendPhotos`, {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setFriendPhotos(data);
+            setError('Friend Photos set')
+        } else {
+            setError('Could not set friend photos')
+        }
+    }
+
     useEffect(() => {
         if (userId) {
             fetchFriends();
+            fetchFriendPhotos();
+            console.log(friendPhotos)
         }
     }, [userId])
 
     const formatFriends = (friends) => {
         return friends.map((friend) => {
             const name = friend.friendFirstName + " " + friend.friendLastName;
+            const friendPhoto = friendPhotos.find(photo => photo.userId === friend.friendId);
+            let photo;
+            if (!friendPhoto) {
+                photo = "";
+            } else {
+                photo = `data:${friendPhoto.contentType};base64,${friendPhoto.photo}`;
+            }
             return {
                 id: friend.friendId,
                 name: name,
                 username: friend.friendUsername,
                 lifeTimeLeaves: formatNumbers(friend.friendLifetimeLeaves),
-                photo: profileImg//friend.friendPhoto
+                photo: photo ? photo : profileImg
             }
         });
     };
 
     useEffect(() => {
         setRowData(formatFriends(friends))
-    }, [friends])
+    }, [friends, friendPhotos])
 
     const handleRemoveFriendSubmit = async (friendId) => {
         const payload = {
