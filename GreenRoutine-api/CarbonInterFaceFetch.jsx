@@ -22,17 +22,4 @@ const Fetch = () => {
     );
 };
 
-const fetchCarMakeInfo = async () => {
-    const response = await fetch('api/test/about', {
-        method: "GET"
-    });
-    if (response.ok) {
-        const data = await response.json();
-        setMakes(data);
-        setError('Car make info set.')
-    } else {
-        setError('Could not set car make info')
-    }
-}
-
-export default { Fetch, fetchCarMakeInfo };
+export default Fetch;

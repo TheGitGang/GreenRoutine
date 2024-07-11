@@ -7,11 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
-    public partial class newAddProfilePhoto : Migration
-========
-    public partial class MakingStuff : Migration
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,11 +46,8 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateJoined = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Leaves = table.Column<int>(type: "int", nullable: false),
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
-========
                     makeChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     modelChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
                     LifetimeLeaves = table.Column<int>(type: "int", nullable: false),
                     CurrentStreak = table.Column<int>(type: "int", nullable: false),
                     LongestStreak = table.Column<int>(type: "int", nullable: false),
@@ -255,33 +248,6 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
-                name: "ProfilePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Photo = table.Column<byte[]>(type: "longblob", nullable: true),
-                    ContentType = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProfilePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProfilePhotos_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-========
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
                 name: "UserFriends",
                 columns: table => new
                 {
@@ -341,7 +307,7 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Impact = table.Column<string>(type: "longtext", nullable: true)
+                    Impact = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -405,12 +371,6 @@ namespace TodoApi.Migrations
                 column: "ChallengesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfilePhotos_UserId",
-                table: "ProfilePhotos",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserChallenges_ChallengeId",
                 table: "UserChallenges",
                 column: "ChallengeId");
@@ -441,9 +401,6 @@ namespace TodoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryChallenge");
-
-            migrationBuilder.DropTable(
-                name: "ProfilePhotos");
 
             migrationBuilder.DropTable(
                 name: "UserChallenges");

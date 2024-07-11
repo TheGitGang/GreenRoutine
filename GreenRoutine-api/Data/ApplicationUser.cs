@@ -10,11 +10,16 @@ namespace TodoApi.Server.Data
         public string? LastName { get; set; }
         public DateTime DateJoined { get; set; }
         public int Leaves { get; set; } = 0;
+
+        public Guid makeChoice { get; set; }
+        public Guid modelChoice { get; set; }
+
         public int LifetimeLeaves { get; set; } = 0;
         public int CurrentStreak { get; set; } = 0;
         public int LongestStreak { get; set; } = 0;
         public int NumChallengesComplete { get; set; } = 0;
         public int NumChallengesCreated { get; set; } = 0;
+
         public string Bio { get; set; } = "";
         public string Pronouns { get; set; } = "";
         public virtual ProfilePhoto? ProfilePhoto { get; set; }

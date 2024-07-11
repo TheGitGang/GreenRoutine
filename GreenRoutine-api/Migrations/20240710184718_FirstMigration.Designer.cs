@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
-    [Migration("20240709163113_newAddProfilePhoto")]
-    partial class newAddProfilePhoto
-========
-    [Migration("20240710161121_MakingImpactNullable")]
-    partial class MakingImpactNullable
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
+    [Migration("20240710184718_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,33 +81,6 @@ namespace TodoApi.Migrations
                     b.ToTable("Challenges");
                 });
 
-            modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<byte[]>("Photo")
-                        .HasColumnType("longblob");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("ProfilePhotos");
-                });
-
             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
                 {
                     b.Property<string>("UserId")
@@ -136,12 +104,10 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
-========
                     b.Property<string>("Impact")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
@@ -374,6 +340,9 @@ namespace TodoApi.Migrations
                     b.Property<Guid>("makeChoice")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("modelChoice")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -399,17 +368,6 @@ namespace TodoApi.Migrations
                         .HasForeignKey("ChallengesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
-                {
-                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
-                        .WithOne("ProfilePhoto")
-                        .HasForeignKey("GreenRoutine.Models.ProfilePhoto", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
@@ -512,11 +470,6 @@ namespace TodoApi.Migrations
 
                     b.Navigation("Friends");
 
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
-                    b.Navigation("ProfilePhoto");
-
-========
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Navigation("UserChallenges");
                 });
 #pragma warning restore 612, 618

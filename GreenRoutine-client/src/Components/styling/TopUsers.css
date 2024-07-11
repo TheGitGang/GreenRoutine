@@ -1,0 +1,24 @@
+.CardImage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.First{
+    order: 2;
+}
+
+.Second{
+    order: 1;
+}
+
+.Third{
+    order: 3;
+}
+
+.CircularImage{
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}

@@ -9,6 +9,11 @@
     flex-direction: column; */
     /* align-items: center; Horizontal centering */
     /* justify-content: center; Vertical centering */
+    font-family: "Cabin", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: x-large;
+
     padding-bottom: 2rem!important; /* Bottom padding */
     padding-top: 6rem;
     padding-right: 10rem;
@@ -39,4 +44,15 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.patua-one-regular {
+  font-family: "Patua One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.white-text {
+  color: white;
 }

@@ -60,6 +60,7 @@ const Profile = () => {
     //photo={userPhoto}
     return (
         <>
+        {userInfo.makeChoice}
             <Row>
                 <Col xs={3}>
                     <ProfilePhoto user={userInfo} userId={userInfo.id}  onPhotoUpload={handlePhotoUpload}/>

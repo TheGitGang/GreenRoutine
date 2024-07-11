@@ -128,6 +128,9 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Impact")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
@@ -356,6 +359,12 @@ namespace TodoApi.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<Guid>("makeChoice")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("modelChoice")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 

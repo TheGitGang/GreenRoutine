@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,40 +14,111 @@ public class TestController : ControllerBase
 {
     private readonly HttpClient _httpClient;
 
-    public TestController(HttpClient httpClient)
+    public Guid _makeChoice;
+        private readonly ChallengeDbContext context;
+
+    public TestController(ChallengeDbContext dbContext)
     {
-        _httpClient = httpClient;
+        context = dbContext;
     }
 
-    //Get /api/test
-    /*[HttpGet]
-    public async Task<ActionResult<ComicModel>> Get()
+    /*public TestController(HttpClient httpClient)
     {
-        string apiUrl = "https://xkcd.com/info.0.json";
+        _httpClient = httpClient;
+    }*/
 
+    //Get /api/test for models
+    [HttpGet("about2")]
+    public async Task<ActionResult<VehicleModels>> GetModels()
+    {
+        using (var httpClient = new HttpClient())
+        {
+        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + _makeChoice.ToString() + "/vehicle_models";
+        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+        // Add headers to the request
+        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+            HttpResponseMessage response = await httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
                 string json = await response.Content.ReadAsStringAsync();
-                ComicModel data = JsonConvert.DeserializeObject<ComicModel>(json);
+                List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
                 return Ok(data);
             }
             else
             {
-                return StatusCode((int)response.StatusCode, "Error fetching data from external API");
+                return StatusCode(
+                    (int)response.StatusCode,
+                    "Error fetching data from external API"
+                );
             }
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
-        
+        }
+    }
+
+    //Get /api/test for makes
+    [HttpGet("about")]
+    public async Task<ActionResult<VehicleMakes>> GetMakes()
+    {
+        using (var httpClient = new HttpClient())
+        {
+        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes";
+        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+        // Add headers to the request
+        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
+        try
+        {
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<VehicleMakes> data = JsonConvert.DeserializeObject<List<VehicleMakes>>(json);
+                return Ok(data);
+            }
+            else
+            {
+                return StatusCode(
+                    (int)response.StatusCode,
+                    "Error fetching data from external API"
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+        }
+    }
+
+    /*[HttpPost("about")]
+    public IActionResult RecordMake(/*[FromBody]*//* AddMakeRequest addMakeRequest)
+    {
+        Console.WriteLine(addMakeRequest.makeChoice.ToString());
+        Console.WriteLine(addMakeRequest.makeChoice);
+        _makeChoice = addMakeRequest.makeChoice;
+
+        // context.Challenges.Add(challenge);
+        // context.SaveChanges();
+        return Ok(new {message="Make successfully registered"});
     }*/
 
-    [HttpPost]
+
+        public class AddMakeRequest
+        {
+            public Guid makeChoice { get; set; }
+            // public int Points { get; set;}
+        }
+
+    [HttpPost("electricity")]
     public async Task<ActionResult<ElectricityModel>> Post()
     {
         string url = "https://www.carboninterface.com/api/v1/estimates";
@@ -81,7 +153,8 @@ public class TestController : ControllerBase
                     var data = JsonConvert.DeserializeObject<ElectricityModel>(responseBody);
 
                     Console.WriteLine(data);
-                    // Console.WriteLine(data.ElectricityData.Id);
+                    // Console.WriteLine(data.ToString());
+                    Console.WriteLine(data.Data.Id);
                     return Ok(data);
                     // Console.WriteLine("Response: " + responseBody);
                 } /*
