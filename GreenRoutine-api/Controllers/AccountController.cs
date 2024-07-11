@@ -279,10 +279,19 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
-
-
         }
+
+/*[HttpGet("dates")]
+     public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
+        {
+            var markedDates = await _userManager.DateJoined
+                                            .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                            .ToListAsync();
+
+            return Ok(markedDates);
+        }*/
+    
+
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
