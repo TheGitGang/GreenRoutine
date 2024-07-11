@@ -4,6 +4,7 @@ using TodoApi.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using GreenRoutine.Models;
+using System.ComponentModel;
 
 namespace TodoApi.Controllers
 {
@@ -139,6 +140,32 @@ namespace TodoApi.Controllers
                 .ToListAsync();
             
             return Ok(friends);
+        }
+
+        [HttpGet("{userId}/getFriendPhotos")]
+        public async Task<IActionResult> GetFriendPhotos(string userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var friendPhotos = await context.UserFriends
+                .Where(uf => uf.UserId == userId)
+                .Join(context.ProfilePhotos,
+                      uf => uf.FriendId,
+                      pp => pp.UserId,
+                      (uf, pp) => new
+                      {
+                          pp.UserId,
+                          Photo = Convert.ToBase64String(pp.Photo),
+                          pp.ContentType
+                      })
+                .ToListAsync();
+
+            return Ok(friendPhotos);
         }
 
     }

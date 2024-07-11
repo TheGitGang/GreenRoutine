@@ -217,6 +217,12 @@ namespace TodoApi.Controllers
             return Ok(new { Photo = photoData });
         }
 
+        // [HttpGet("{userId}/getUserInfo")]
+        // public async Task<IActionResult> GetUserInfo(string userId)
+        // {
+                
+        // }
+
         private async Task<byte[]> ConvertToByteArray(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())
