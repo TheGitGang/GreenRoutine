@@ -18,6 +18,7 @@ import LoginForm from './Components/LoginForm.jsx'
 import Leaderboard from './Components/Leaderboard.jsx'
 import FriendProfile from './Components/FriendProfile.jsx'
 import CarProfile from './Components/CarProfile.jsx'
+import ThankYou from './Components/ThankYou.jsx'
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: '/carprofile',
         element: <CarProfile/>
+      },
+      {
+        path: '/thankyou',
+        element: <ThankYou/>
       }
     ]
   }
