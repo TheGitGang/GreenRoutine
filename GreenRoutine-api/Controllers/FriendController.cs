@@ -168,5 +168,34 @@ namespace TodoApi.Controllers
             return Ok(friendPhotos);
         }
 
+        [HttpGet("{userId}/getFriendInfo")]
+        public async Task<IActionResult> GetFriendInfo(string userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var friendInfo = new 
+            {
+                user.Email,
+                user.Bio,
+                user.FirstName,
+                user.LastName,
+                user.DateJoined,
+                user.Leaves,
+                user.LifetimeLeaves,
+                user.LongestStreak,
+                user.CurrentStreak,
+                user.Pronouns,
+                user.UserName,
+                user.NumChallengesComplete,
+                user.NumChallengesCreated,
+            };
+
+            return Ok(friendInfo);
+        }
     }
 }

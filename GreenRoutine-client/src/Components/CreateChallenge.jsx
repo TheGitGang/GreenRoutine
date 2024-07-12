@@ -12,6 +12,7 @@ const CreateChallenge = () => {
     const [length, setLength] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [miles, setMiles] = useState('');
     const navigate = useNavigate();
 
     const [error, setError] = useState('');
@@ -27,6 +28,7 @@ const CreateChallenge = () => {
         if (name === 'length') setLength(value);
         if (name === 'description') setDescription(value);
         if (name === 'category') setCategory(value);
+        if (name === 'miles') setMiles(value);
     }
 
     const handleSubmit = async (event) => {
@@ -38,7 +40,8 @@ const CreateChallenge = () => {
                 name: name,
                 length: length,
                 description: description,
-                category: category
+                category: category,
+                miles: miles
             }
             console.log(payload);
             fetch('/api/Challenges/create', {
@@ -58,7 +61,7 @@ const CreateChallenge = () => {
                 console.error(error);
                 setError('Error with challenge submission.')
             })
-            navigate('/challenges')
+            navigate('/thankyou')
         }
     
 
@@ -123,6 +126,18 @@ const CreateChallenge = () => {
                         id='category'
                         name='category'
                         value={category}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='miles'>Miles:</label>
+                </div>
+                <div>
+                    <input
+                        type='text'
+                        id='miles'
+                        name='miles'
+                        value={miles}
                         onChange={handleChange}
                     />
                 </div>

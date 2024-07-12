@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
-    [Migration("20240709163113_newAddProfilePhoto")]
-    partial class newAddProfilePhoto
-========
-    [Migration("20240710161121_MakingImpactNullable")]
-    partial class MakingImpactNullable
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
+    [Migration("20240711052931_july11")]
+    partial class july11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,12 +131,9 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
-========
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");
 
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
@@ -374,6 +366,9 @@ namespace TodoApi.Migrations
                     b.Property<Guid>("makeChoice")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("modelChoice")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -512,11 +507,8 @@ namespace TodoApi.Migrations
 
                     b.Navigation("Friends");
 
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.Designer.cs
                     b.Navigation("ProfilePhoto");
 
-========
->>>>>>>> development:GreenRoutine-api/Migrations/20240710161121_MakingImpactNullable.Designer.cs
                     b.Navigation("UserChallenges");
                 });
 #pragma warning restore 612, 618

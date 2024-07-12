@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+
 // import { getLocalStorage} from './LocalStorageFunctions';
 
 const Challenges = () => {
@@ -8,6 +10,8 @@ const Challenges = () => {
     const [message, setMessage] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
+    const [carbonLb, setCarbonLb] = useState('');
+    const navigate = useNavigate();
 
     //fetching checking user is signed in
     useEffect(() => {
@@ -64,7 +68,9 @@ const Challenges = () => {
                         const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
                         if (userChallengesResponse.ok){
                             const userChallengesData = await userChallengesResponse.json();
+                            // console.log(userChallengesData);
                             setUserChallenges(userChallengesData);
+                            // console.log(userInfo.id);
                             setError('userChallenge set');
                         } else {
                             setError('Could not set userChallenges');
@@ -72,7 +78,7 @@ const Challenges = () => {
                     }
                 }
             } catch (error) {
-                console.error('Error fetching challenges:', error);
+                // console.error('Error fetching challenges:', error);
                 setMessage(error.message);
             }
         }
@@ -97,10 +103,63 @@ const Challenges = () => {
             setMessage(`Signed up for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
+            // console.log(user);
+            navigate('/thankyou')
+        }
+    };
+    const CarbonImpactBackend = async (challengeId) => {
+        const response = await fetch('/api/CarbonInterFace/store-estimate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserId: userInfo.id, 
+                ChallengeId: challengeId,
+                Carbon_lb: carbonLb,
+            }),
+        });
+        // console.log(body);
+        // console.log(userInfo)
+        const result = await response.json();
+        if(response.ok) {
+            console.log(result.data.attributes.carbon_lb)
+            setCarbonLb(result.data.attributes.carbon_lb)
+            setMessage(`Carbon data registered for challenge: ${challengeId}`);
+        } else {
+            setMessage(result.message || 'Failed to register carbon data for the challenge');
+            // console.log(user);
         }
     };
 
-    
+    const CarbonImpactScreen = async (challengeId, miles) => {
+        const response = await fetch('/api/CarbonInterFace/get-estimate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                /*UserId: userInfo.id, 
+                ChallengeId: challengeId,*/
+                Type: "vehicle",
+                DistanceValue: miles,
+                DistanceUnit: "mi",
+                VehicleModelId: userInfo.modelChoice,
+            }),
+        });
+        // console.log(body);
+        // console.log(userInfo)
+        const result = await response.json();
+        if(response.ok) {
+            console.log(result.data.attributes.carbon_lb)
+            setCarbonLb(result.data.attributes.carbon_lb)
+            setMessage(`Carbon data registered for challenge: ${challengeId}`);
+        } else {
+            setMessage(result.message || 'Failed to register carbon data for the challenge');
+            // console.log(user);
+        }
+    };
+
     const renderChallenges = (challengesToRender, isUserChallenge) => {
         return (
             <>
@@ -113,9 +172,10 @@ const Challenges = () => {
                                 <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
                                 <li className="list-group-item">Length: {challenge.length}</li>
                                 <li className="list-group-item">Description: {challenge.description}</li>
+                                <li className="list-group-item">Miles: {challenge.miles}</li>
                             </ul>
                             {isUserChallenge ? (
-                                <p>You are signed up for this challenge.</p>
+                                <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>{carbonLb} lbs <button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</button></p>
                             ) : (
                                 <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
                             )}
@@ -133,12 +193,15 @@ const Challenges = () => {
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
 
+    // console.log(userChallengeIds);
     
     
     return (
         <>
             <h2>Your Challenges</h2>
             <div>{renderChallenges(userChallengesToRender, true)}</div>
+
+
             <h2>Available Challenges</h2>
             <div>{renderChallenges(availableChallengesToRender, false)}</div>
             {message && <p>{message}</p>}

@@ -14,4 +14,5 @@ public class UserChallenge
     public DateTime SignupDate { get; set; } = DateTime.Now;
 
     public string? Impact { get; set; }
+    public double Carbon_lb { get; set; }
 }

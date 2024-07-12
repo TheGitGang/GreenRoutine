@@ -1,7 +1,7 @@
 
 ﻿namespace TodoApi.Models
 {
-    public class VehicalEstimateDTO
+    public class VehicleEstimateDTO
     {
         public string? Type { get; set; }
         public string? Id { get; set; }
@@ -16,9 +16,9 @@
         public double? Carbon_Mt { get; set; }
         public DateTime? Estimated_At { get; set; }
 
-        public VehicalEstimateDTO() { }
+        public VehicleEstimateDTO() { }
 
-        public VehicalEstimateDTO(string? type, string? id, double? distance_Value, int? vehicle_Year, string? vehicle_Model, string? vehicle_Make, string? distance_Unit, double? carbon_G, double? carbon_Lb, double? carbon_Kg, double? carbon_Mt, DateTime? estimated_At)
+        public VehicleEstimateDTO(string? type, string? id, double? distance_Value, int? vehicle_Year, string? vehicle_Model, string? vehicle_Make, string? distance_Unit, double? carbon_G, double? carbon_Lb, double? carbon_Kg, double? carbon_Mt, DateTime? estimated_At)
         {
             Type = type;
             Id = id;

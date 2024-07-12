@@ -9,9 +9,11 @@ import LeavesCount from './LeavesCount';
 import AddFriendModal from './AddFriendModal';
 import RemoveFriendButton from './RemoveFriendButton';
 import profileImg from '../assets/images/ProfilePlaceholder.jpg'
+import { useNavigate } from 'react-router-dom';
+import ViewProfileButton from './ViewProfileButton';
 
 const ChallengeButton = () => {
-    const handleChallengeClick = () => {
+    const handleChallengeClick = (event) => {
         console.log('challenge sent!')
     }; 
     return (
@@ -24,8 +26,8 @@ const FriendsList = ({ userId }) => {
     const [friends, setFriends] = useState([]);
     const [friendPhotos, setFriendPhotos] = useState([]);
     const [rowData, setRowData] = useState([]);
-    const [error, setError] = useState()
-
+    const [error, setError] = useState();
+    
     const toggleAddFriend = () => {
         setDisplayAddModal(!displayAddModal);
     }
@@ -59,7 +61,6 @@ const FriendsList = ({ userId }) => {
         if (userId) {
             fetchFriends();
             fetchFriendPhotos();
-            console.log(friendPhotos)
         }
     }, [userId])
 
@@ -113,7 +114,6 @@ const FriendsList = ({ userId }) => {
             friendLastName: newFriend.friendLastName,
             friendUsername: newFriend.friendUsername,
             friendLifetimeLeaves: newFriend.friendLifetimeLeaves
-            //friendPhoto: newFriend.friendPhoto
         }]);
         toggleAddFriend();
     }
@@ -127,6 +127,13 @@ const FriendsList = ({ userId }) => {
         { field: "name", filter: true, headerName: "Name" },
         { field: "username", filter: true, headerName: "Username" },
         { field: "lifeTimeLeaves", cellRenderer: LeavesCount, headerName: "Lifetime Leaves" },
+        { field: "viewProfile", 
+            cellRenderer: ViewProfileButton, 
+            headerName: "View Profile",
+            cellRendererParams: (params) => ({
+                data: params.data
+            })
+        },
         { field: "button", 
             cellRenderer: ChallengeButton, 
             headerName: "Challenge",
@@ -183,7 +190,10 @@ const FriendsList = ({ userId }) => {
                     defaultColDef={defaultColDef}
                     frameworkComponents={{
                         circularImage: CircularImage,
-                        leavesCount: LeavesCount
+                        leavesCount: LeavesCount,
+                        challengeButton: ChallengeButton,
+                        removeFriendButton: RemoveFriendButton,
+                        viewProfileButton: ViewProfileButton
                     }}
                 />
             </div>

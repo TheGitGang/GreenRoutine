@@ -70,6 +70,9 @@ namespace TodoApi.Migrations
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time(6)");
 
+                    b.Property<int>("Miles")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
@@ -127,6 +130,9 @@ namespace TodoApi.Migrations
 
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Carbon_lb")
+                        .HasColumnType("double");
 
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");

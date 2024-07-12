@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
 import Calendar from 'react-calendar'
+import CustomCalendar from "./About2.jsx";
+
 import 'react-calendar/dist/Calendar.css';
 
 const About = () => {
 
     return (
-        <>
-        <Calendar />
-        </>
-    )
+        <div className="About">
+            <h1>My Custom Calendar</h1>
+            <CustomCalendar />
+        </div>
+    );
     /*
     const [makes, setMakes] = useState([]);
     const [makeChoice, setMakeChoice] = useState([]);
