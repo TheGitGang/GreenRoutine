@@ -219,12 +219,6 @@ namespace TodoApi.Controllers
             return Ok(new { Photo = photoData });
         }
 
-        // [HttpGet("{userId}/getUserInfo")]
-        // public async Task<IActionResult> GetUserInfo(string userId)
-        // {
-                
-        // }
-
         private async Task<byte[]> ConvertToByteArray(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())
@@ -233,6 +227,7 @@ namespace TodoApi.Controllers
                 return memoryStream.ToArray();
             }
         }
+
 
         //Car items
         [HttpPost("about")]
@@ -264,9 +259,6 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
-
-
         }
 
         /*public IActionResult RecordMake( /*[FromBody]*//*
@@ -364,4 +356,3 @@ namespace TodoApi.Controllers
 
     }
 }
-
