@@ -3,6 +3,21 @@
     text-decoration: none!important;
 }
 
+.dropdown-toggle {
+    color: white!important;
+    text-decoration: none!important;
+}
+
+.dropdown-toggle:hover {
+    color: inherit!important;
+    text-decoration: none!important;
+}
+
+.dropdown-link.dropdown-item {
+    color: black!important;
+    text-decoration: none!important;
+}
+
 .dropdown-link:hover {
     color: inherit!important;
     text-decoration: none!important;

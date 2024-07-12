@@ -27,8 +27,7 @@ const FriendsList = ({ userId }) => {
     const [friendPhotos, setFriendPhotos] = useState([]);
     const [rowData, setRowData] = useState([]);
     const [error, setError] = useState();
-    const navigate = useNavigate();
-
+    
     const toggleAddFriend = () => {
         setDisplayAddModal(!displayAddModal);
     }
