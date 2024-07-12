@@ -249,6 +249,30 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ProfilePhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Photo = table.Column<byte[]>(type: "longblob", nullable: true),
+                    ContentType = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfilePhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProfilePhotos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UserFriends",
                 columns: table => new
                 {
@@ -310,7 +334,7 @@ namespace TodoApi.Migrations
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Impact = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Carbon_lb = table.Column<int>(type: "int", nullable: false)
+                    Carbon_lb = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -373,6 +397,12 @@ namespace TodoApi.Migrations
                 column: "ChallengesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProfilePhotos_UserId",
+                table: "ProfilePhotos",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserChallenges_ChallengeId",
                 table: "UserChallenges",
                 column: "ChallengeId");
@@ -403,6 +433,9 @@ namespace TodoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryChallenge");
+
+            migrationBuilder.DropTable(
+                name: "ProfilePhotos");
 
             migrationBuilder.DropTable(
                 name: "UserChallenges");
