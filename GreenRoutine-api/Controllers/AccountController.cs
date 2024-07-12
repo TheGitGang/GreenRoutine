@@ -226,6 +226,7 @@ namespace TodoApi.Controllers
                 return memoryStream.ToArray();
             }
         }    
+
         public class AddPointsRequest
         {
             public string UserId { get; set; }
@@ -262,9 +263,6 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
-
-
         }
 
         /*public IActionResult RecordMake( /*[FromBody]*//*
@@ -280,44 +278,44 @@ namespace TodoApi.Controllers
             return Ok(new { message = "Make successfully registered" });
         }*/
 
-    [HttpGet("about2/{id}")]
-    public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
-    {
-        // var user = await _userManager.FindByIdAsync(userId);
-        using (var httpClient = new HttpClient())
+        [HttpGet("about2/{id}")]
+        public async Task<ActionResult<VehicleModels>> GetModels(Guid id)
         {
-        string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
-
-        var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
-
-        // Add headers to the request
-        request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
-        try
-        {
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
+            // var user = await _userManager.FindByIdAsync(userId);
+            using (var httpClient = new HttpClient())
             {
-                string json = await response.Content.ReadAsStringAsync();
-                List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
-                return Ok(data);
-            }
-            else
-            {
-                return StatusCode(
-                    (int)response.StatusCode,
-                    "Error fetching data from external API"
-                );
-            }
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-        }
-    }
+            string apiUrl = "https://www.carboninterface.com/api/v1/vehicle_makes/" + id.ToString() + "/vehicle_models";
 
-[HttpPost("about2")]
+            var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+
+            // Add headers to the request
+            request.Headers.Add("Authorization", "Bearer z0UbMhCEGZ0XtyG5S4pLA");
+            try
+            {
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
+                    return Ok(data);
+                }
+                else
+                {
+                    return StatusCode(
+                        (int)response.StatusCode,
+                        "Error fetching data from external API"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            }
+        }
+
+        [HttpPost("about2")]
         public async Task<IActionResult> AddModel([FromBody] AddModelRequest addModelRequest)
         {
             try
@@ -348,10 +346,19 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
-
-
         }
+
+/*[HttpGet("dates")]
+     public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
+        {
+            var markedDates = await _userManager.DateJoined
+                                            .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                            .ToListAsync();
+
+            return Ok(markedDates);
+        }*/
+    
+
         public class AddMakeRequest
         {
             public Guid makeChoice { get; set; }
