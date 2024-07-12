@@ -59,7 +59,14 @@ namespace TodoApi.Controllers
                 FriendId = friend.Id
             };
 
+            var otherFriendShip = new UserFriend
+            {
+                UserId = friend.Id,
+                FriendId = model.UserId
+            };
+
             context.UserFriends.Add(userFriend);
+            context.UserFriends.Add(otherFriendShip);
             await context.SaveChangesAsync();
 
             string friendName = friend.FirstName + " " + friend.LastName;
@@ -105,12 +112,21 @@ namespace TodoApi.Controllers
             var friendship = await context.UserFriends
                 .SingleOrDefaultAsync(uf => uf.UserId == model.UserId && uf.FriendId == model.FriendId);
 
+            var otherFriendShip = await context.UserFriends
+                .SingleOrDefaultAsync(uf => uf.UserId == model.FriendId && uf.FriendId == model.UserId);
+
             if (friendship == null)
             {
                 return NotFound("Friendship not found");
             }
 
+            if (otherFriendShip == null)
+            {
+                return NotFound("Friendship not found");
+            }
+
             context.UserFriends.Remove(friendship);
+            context.UserFriends.Remove(otherFriendShip);
             await context.SaveChangesAsync();
 
             return Ok("Friend successfully removed");
