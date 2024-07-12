@@ -167,16 +167,17 @@ const Challenges = () => {
 
     //gets challengeid for challenges in user challenge
     const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-    
-    // const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-
-    console.log(completedUserChallengeIds);
-    //actually filters challenges user is signed up for into a seperate array
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
+    
+    const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
+    const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedUserChallengeIds.includes(challenge.id));
 
+    console.log(noncompletedChallengesToRender);
+    
+    //actually filters challenges user is signed up for into a seperate array
+    
+    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
     const completedChallengesToRender = challenges.filter(challenge => completedUserChallengeIds.includes(challenge.id));
-    console.log(completedChallengesToRender);
 
     //filters challenges to only include ones not in user challenges
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
@@ -187,7 +188,7 @@ const Challenges = () => {
     return (
         <>
             <h2>Your Challenges</h2>
-            <div>{renderChallenges(userChallengesToRender, true, userInfo)}</div>
+            <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
             <h2>Completed Challenges</h2>
             <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
 
