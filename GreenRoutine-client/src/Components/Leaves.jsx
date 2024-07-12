@@ -3,6 +3,8 @@ import React from 'react';
 import './Leaves.css'
 
 
+//TODO SONNIE 5: Add system that allows people to use points and 
+
 const Leaves = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
