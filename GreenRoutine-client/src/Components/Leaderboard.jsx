@@ -3,8 +3,10 @@ import React from 'react';
 import './Leaderboard.css';
 import profileImg from '../assets/images/ProfilePlaceholder.jpg'
 import TopUsers from './styling/TopUsers';
-import { Col, Row } from 'reactstrap';
+import { Col, Row , Container } from 'reactstrap';
 
+
+//TODO SONNIE 4: reformat leaderboard table to look nicer
 const dummyUser = {
     profileImg: profileImg
 }
@@ -42,7 +44,8 @@ const Leaderboard = () => {
                     ))}
                 </Row>
             </div>
-            <div>
+        </div>
+            <div className="bottomUsers">
                 {users.slice(3).map((user, index) => (
                     <div key={user.id} className="square">
                         <div className="cell">{index + 4 }</div>
@@ -51,7 +54,6 @@ const Leaderboard = () => {
                     </div>
                 ))}
             </div>
-        </div>
       {error && <p style={{color: 'red'}}>{error}</p>}
     </div>
   );

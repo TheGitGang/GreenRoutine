@@ -51,6 +51,7 @@
     border-width: 1px;
     border-color: #40C100;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 500px;
 }
 
 .leaderboardText{
@@ -64,4 +65,20 @@
     text-shadow: 0 0 2px #000; 
     -moz-text-shadow: 0 0 2px #000;
     -webkit-text-shadow: 0 0 2px #000;
+}
+
+.bottomUsers{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.leaderboardstuff{
+    padding-bottom: 20px;
+}
+
+.stuuf {
+    padding-bottom: 100px;
 }
