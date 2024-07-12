@@ -1,4 +1,6 @@
-const FriendAboutCard = () => {
+import { Card, CardBody, CardTitle, } from "reactstrap";
+
+const FriendAboutCard = ({ user }) => {
     return (
         <Card className="lightgrey-card p-3">
             <CardBody>

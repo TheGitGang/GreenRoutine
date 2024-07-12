@@ -13,14 +13,12 @@ import {
   import { useState, useEffect, useContext } from 'react'
 
   import logo from '../assets/images/green_routine_logo.png'
-// import { AuthContext } from '../AuthContext';
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
-    // const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -105,7 +103,7 @@ import {
                     </NavItem>
                     <NavItem>
                         <UncontrolledDropdown>
-                            <DropdownToggle nav caret className="dropdown-link white-text">
+                            <DropdownToggle nav caret className="white-text">
                                 Challenges
                             </DropdownToggle>
                             <DropdownMenu>
@@ -130,7 +128,7 @@ import {
                 </Nav>
                 <Nav>
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret className="dropdown-link">
+                  <DropdownToggle nav caret >
                     Hello, {userInfo.firstName} {userInfo.lastName}!
                   </DropdownToggle>
                   <DropdownMenu end >

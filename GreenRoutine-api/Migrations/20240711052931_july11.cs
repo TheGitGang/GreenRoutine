@@ -7,11 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
-    public partial class newAddProfilePhoto : Migration
-========
-    public partial class MakingStuff : Migration
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
+    public partial class july11 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,11 +46,8 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateJoined = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Leaves = table.Column<int>(type: "int", nullable: false),
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
-========
                     makeChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     modelChoice = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
                     LifetimeLeaves = table.Column<int>(type: "int", nullable: false),
                     CurrentStreak = table.Column<int>(type: "int", nullable: false),
                     LongestStreak = table.Column<int>(type: "int", nullable: false),
@@ -255,7 +248,6 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GreenRoutine-api/Migrations/20240709163113_newAddProfilePhoto.cs
                 name: "ProfilePhotos",
                 columns: table => new
                 {
@@ -280,8 +272,6 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-========
->>>>>>>> development:GreenRoutine-api/Migrations/20240710194037_MakingStuff.cs
                 name: "UserFriends",
                 columns: table => new
                 {
