@@ -131,8 +131,11 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Carbon_lb")
+                    b.Property<int?>("Carbon_lb")
                         .HasColumnType("int");
+
+                    b.Property<bool>("ChallengeCompleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");

@@ -13,6 +13,8 @@ public class UserChallenge
 
     public DateTime SignupDate { get; set; } = DateTime.Now;
 
+    public bool ChallengeCompleted { get; set; } = false;
+
     public string? Impact { get; set; }
-    public int Carbon_lb { get; set; }
+    public int? Carbon_lb { get; set; }
 }

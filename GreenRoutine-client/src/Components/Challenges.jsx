@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { getLocalStorage} from './LocalStorageFunctions';
+import CompleteChallengeButton from './CompleteChallengeButton';
 
 const Challenges = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -130,7 +130,11 @@ const Challenges = () => {
         }
     };
 
-    const renderChallenges = (challengesToRender, isUserChallenge) => {
+    //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
+                //When challenges are complete they should no longer appear in your challenges
+    //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
+
+    const renderChallenges = (challengesToRender, isUserChallenge, user) => {
         return (
             <>
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
@@ -144,6 +148,9 @@ const Challenges = () => {
                                 <li className="list-group-item">Description: {challenge.description}</li>
                                 <li className="list-group-item">Miles: {challenge.miles}</li>
                             </ul>
+                            {!challenge.ChallengeCompleted && isUserChallenge && (
+                                <CompleteChallengeButton challengeId={challenge.id} userId={user.id}/>)}
+
                             {isUserChallenge ? (
                                 <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpact(challenge.id, challenge.miles)}> Here</button></p>
                             ) : (
@@ -158,9 +165,20 @@ const Challenges = () => {
         );
     }
 
-    
+    //gets challengeid for challenges in user challenge
     const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
+    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
+    
+    // const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
+
+    console.log(completedUserChallengeIds);
+    //actually filters challenges user is signed up for into a seperate array
     const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
+
+    const completedChallengesToRender = challenges.filter(challenge => completedUserChallengeIds.includes(challenge.id));
+    console.log(completedChallengesToRender);
+
+    //filters challenges to only include ones not in user challenges
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
 
     // console.log(userChallengeIds);
@@ -169,11 +187,12 @@ const Challenges = () => {
     return (
         <>
             <h2>Your Challenges</h2>
-            <div>{renderChallenges(userChallengesToRender, true)}</div>
-
+            <div>{renderChallenges(userChallengesToRender, true, userInfo)}</div>
+            <h2>Completed Challenges</h2>
+            <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
 
             <h2>Available Challenges</h2>
-            <div>{renderChallenges(availableChallengesToRender, false)}</div>
+            <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div>
             {message && <p>{message}</p>}
         </>
     );
