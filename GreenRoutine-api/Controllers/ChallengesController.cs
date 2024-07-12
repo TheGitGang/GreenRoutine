@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GreenRoutine;
 using Mono.TextTemplating;
+using TodoApi.Server.Models;
 
 namespace TodoApi;
 
@@ -35,13 +36,6 @@ public class ChallengesController : ControllerBase
         context.SaveChanges();
         return Ok(new {message="Challenge successfully added"});
     }
-
-
-    // [HttpGet]
-    // public IActionResult RenderChallengesPage()
-    // {
-
-    // }
     
     [HttpGet("delete")]
     public async Task<ActionResult<IEnumerable<ChallengesDTO>>>RenderDeleteChallengesPage()
@@ -91,10 +85,5 @@ public class ChallengesController : ControllerBase
 
         return Ok(new { message = "User signed up for challenge successfully"});
     }
-
-    public class SignUpRequest
-    {
-        public string UserId { get; set; }
-        public int ChallengeId { get; set;}
-    }
+   
 }
