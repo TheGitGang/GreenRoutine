@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 const Profile = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [userPhoto, setUserPhoto] = useState(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -62,10 +61,9 @@ const Profile = () => {
 
     return (
         <>
-        {userInfo.makeChoice}
             <Row>
                 <Col xs={3}>
-                    <ProfilePhoto user={userInfo} userId={userInfo.id} photo={userPhoto} onPhotoUpload={handlePhotoUpload}/>
+                    <ProfilePhoto user={userInfo} userId={userInfo.id} onPhotoUpload={handlePhotoUpload}/>
                 </Col>
                 <Col>
                     <AboutCard user={userInfo} userId={userInfo.id} setUserInfo={setUserInfo} fetchUserInfo={fetchUserInfo}/>

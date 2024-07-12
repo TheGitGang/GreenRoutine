@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoApi.Controllers
 {
@@ -217,12 +218,6 @@ namespace TodoApi.Controllers
             return Ok(new { Photo = photoData });
         }
 
-        // [HttpGet("{userId}/getUserInfo")]
-        // public async Task<IActionResult> GetUserInfo(string userId)
-        // {
-                
-        // }
-
         private async Task<byte[]> ConvertToByteArray(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())
@@ -230,6 +225,7 @@ namespace TodoApi.Controllers
                 await file.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
+        }    
         public class AddPointsRequest
         {
             public string UserId { get; set; }
@@ -368,5 +364,4 @@ namespace TodoApi.Controllers
         }
 
     }
-}
 }

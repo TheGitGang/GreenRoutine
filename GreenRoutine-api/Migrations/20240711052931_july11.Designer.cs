@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240710184718_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240711052931_july11")]
+    partial class july11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,33 @@ namespace TodoApi.Migrations
                     b.ToTable("Challenges");
                 });
 
+            modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("longblob");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ProfilePhotos");
+                });
+
             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
                 {
                     b.Property<string>("UserId")
@@ -105,7 +132,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Impact")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignupDate")
@@ -370,6 +396,17 @@ namespace TodoApi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
+                {
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
+                        .WithOne("ProfilePhoto")
+                        .HasForeignKey("GreenRoutine.Models.ProfilePhoto", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("GreenRoutine.Models.UserFriend", b =>
                 {
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "Friend")
@@ -469,6 +506,8 @@ namespace TodoApi.Migrations
                     b.Navigation("FriendOf");
 
                     b.Navigation("Friends");
+
+                    b.Navigation("ProfilePhoto");
 
                     b.Navigation("UserChallenges");
                 });

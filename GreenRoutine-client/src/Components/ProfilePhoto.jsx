@@ -3,7 +3,7 @@ import UploadProfilePhotoModal from './UploadProfilePhotoModal';
 import profileImg from '../assets/images/ProfilePlaceholder.jpg'
 import { useEffect, useState } from 'react';
 
-const ProfilePhoto = ({ user, photo, onPhotoUpload }) => {
+const ProfilePhoto = ({ user, onPhotoUpload }) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [userPhoto, setUserPhoto] = useState(null);
   const [error, setError] = useState("");
@@ -29,12 +29,6 @@ const ProfilePhoto = ({ user, photo, onPhotoUpload }) => {
       fetchUserPhoto();
     }
   }, [user.id])
-
-  useEffect(() => {
-    if (photo) {
-      setUserPhoto(photo);
-    }
-  }, [photo])
 
   return (
     <>

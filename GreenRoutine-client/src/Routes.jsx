@@ -17,6 +17,7 @@ import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
 import CarProfile from './Components/CarProfile.jsx'
 import Leaderboard from './Components/Leaderboard.jsx'
+import FriendProfile from './Components/FriendProfile.jsx'
 
 
 const router = createBrowserRouter([
@@ -82,8 +83,11 @@ const router = createBrowserRouter([
       {
         path: '/test',
         element: <VehicleMake/>
+      },
+      {
+        path: '/friend-profile/:id',
+        element: <FriendProfile/>
       }
-
     ]
   }
 ])
