@@ -159,6 +159,7 @@ namespace TodoApi.Controllers
             }
         }
 
+        //Profile items
         [HttpPost("UploadProfilePhoto")]
         public async Task<IActionResult> UploadProfilePhoto([FromForm] UploadProfilePhotoModel model)
         {
@@ -225,15 +226,10 @@ namespace TodoApi.Controllers
                 await file.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
-        }    
-
-        public class AddPointsRequest
-        {
-            public string UserId { get; set; }
-            public int Points { get; set;}
         }
 
 
+        //Car items
         [HttpPost("about")]
         public async Task<IActionResult> AddMake([FromBody] AddMakeRequest addMakeRequest)
         {
@@ -348,27 +344,15 @@ namespace TodoApi.Controllers
             }
         }
 
-/*[HttpGet("dates")]
-     public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
-        {
-            var markedDates = await _userManager.DateJoined
-                                            .Select(md => md.Date.ToString("yyyy-MM-dd"))
-                                            .ToListAsync();
+        /*[HttpGet("dates")]
+            public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
+                {
+                    var markedDates = await _userManager.DateJoined
+                                                    .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                                    .ToListAsync();
 
-            return Ok(markedDates);
-        }*/
-    
-
-        public class AddMakeRequest
-        {
-            public Guid makeChoice { get; set; }
-            public string Id { get; set;}
-        }
-        public class AddModelRequest
-        {
-            public Guid modelChoice { get; set; }
-            public string Id { get; set;}
-        }
+                    return Ok(markedDates);
+                }*/   
 
     }
 }

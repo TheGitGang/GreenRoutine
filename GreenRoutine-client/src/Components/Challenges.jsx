@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import CompleteChallengeButton from './CompleteChallengeButton';
+import './Challenges.css'
 
-// import { getLocalStorage} from './LocalStorageFunctions';
+import { useNavigate } from "react-router-dom";
 
 const Challenges = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -160,7 +161,11 @@ const Challenges = () => {
         }
     };
 
-    const renderChallenges = (challengesToRender, isUserChallenge) => {
+    //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
+    //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
+    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page
+
+    const renderChallenges = (challengesToRender, isUserChallenge, user) => {
         return (
             <>
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
@@ -174,6 +179,9 @@ const Challenges = () => {
                                 <li className="list-group-item">Description: {challenge.description}</li>
                                 <li className="list-group-item">Miles: {challenge.miles}</li>
                             </ul>
+                            {!challenge.ChallengeCompleted && isUserChallenge && (
+                                <CompleteChallengeButton challengeId={challenge.id} userId={user.id}/>)}
+
                             {isUserChallenge ? (
                                 <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>{carbonLb} lbs <button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</button></p>
                             ) : (
@@ -188,9 +196,21 @@ const Challenges = () => {
         );
     }
 
+    //no longer used here but leaving it since it can be utilized in search function later.
+        const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
+        // const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
     
-    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-    const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
+    const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
+    const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedUserChallengeIds.includes(challenge.id));
+
+    console.log(noncompletedChallengesToRender);
+    
+    //actually filters challenges user is signed up for into a seperate array
+    
+    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
+    const completedChallengesToRender = challenges.filter(challenge => completedUserChallengeIds.includes(challenge.id));
+
+    //filters challenges to only include ones not in user challenges
     const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
 
     // console.log(userChallengeIds);
@@ -199,11 +219,13 @@ const Challenges = () => {
     return (
         <>
             <h2>Your Challenges</h2>
-            <div>{renderChallenges(userChallengesToRender, true)}</div>
-
-
+            <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
+            <hr className="bar"/>
+            <h2>Completed Challenges</h2>
+            <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
+            <hr className="bar"/>
             <h2>Available Challenges</h2>
-            <div>{renderChallenges(availableChallengesToRender, false)}</div>
+            <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div>
             {message && <p>{message}</p>}
         </>
     );
