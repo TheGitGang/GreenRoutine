@@ -46,7 +46,7 @@ const DeleteChallenge = () => {
             setError('Error with challenge submission.')
         })
 
-        navigate('/challenges')
+        navigate('/thankyou')
     }
 
     useEffect(() => {

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+
 // import { getLocalStorage} from './LocalStorageFunctions';
 
 const Challenges = () => {
@@ -8,6 +10,8 @@ const Challenges = () => {
     const [message, setMessage] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
+    const [carbonLb, setCarbonLb] = useState('');
+    const navigate = useNavigate();
 
     //fetching checking user is signed in
     useEffect(() => {
@@ -100,10 +104,35 @@ const Challenges = () => {
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
             // console.log(user);
+            navigate('/thankyou')
+        }
+    };
+    const CarbonImpactBackend = async (challengeId) => {
+        const response = await fetch('/api/CarbonInterFace/store-estimate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserId: userInfo.id, 
+                ChallengeId: challengeId,
+                Carbon_lb: carbonLb,
+            }),
+        });
+        // console.log(body);
+        // console.log(userInfo)
+        const result = await response.json();
+        if(response.ok) {
+            console.log(result.data.attributes.carbon_lb)
+            setCarbonLb(result.data.attributes.carbon_lb)
+            setMessage(`Carbon data registered for challenge: ${challengeId}`);
+        } else {
+            setMessage(result.message || 'Failed to register carbon data for the challenge');
+            // console.log(user);
         }
     };
 
-    const CarbonImpact = async (challengeId, miles) => {
+    const CarbonImpactScreen = async (challengeId, miles) => {
         const response = await fetch('/api/CarbonInterFace/get-estimate', {
             method: 'POST',
             headers: {
@@ -119,10 +148,11 @@ const Challenges = () => {
             }),
         });
         // console.log(body);
-        console.log(userInfo)
+        // console.log(userInfo)
         const result = await response.json();
         if(response.ok) {
-            console.log(response)
+            console.log(result.data.attributes.carbon_lb)
+            setCarbonLb(result.data.attributes.carbon_lb)
             setMessage(`Carbon data registered for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to register carbon data for the challenge');
@@ -145,7 +175,7 @@ const Challenges = () => {
                                 <li className="list-group-item">Miles: {challenge.miles}</li>
                             </ul>
                             {isUserChallenge ? (
-                                <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpact(challenge.id, challenge.miles)}> Here</button></p>
+                                <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>{carbonLb} lbs <button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</button></p>
                             ) : (
                                 <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
                             )}
