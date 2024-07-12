@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import CompleteChallengeButton from './CompleteChallengeButton';
+import './Challenges.css'
 
 const Challenges = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -189,9 +190,10 @@ const Challenges = () => {
         <>
             <h2>Your Challenges</h2>
             <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
+            <hr className="bar"/>
             <h2>Completed Challenges</h2>
             <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
-
+            <hr className="bar"/>
             <h2>Available Challenges</h2>
             <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div>
             {message && <p>{message}</p>}
