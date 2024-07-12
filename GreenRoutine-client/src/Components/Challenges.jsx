@@ -131,8 +131,8 @@ const Challenges = () => {
     };
 
     //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
-                //When challenges are complete they should no longer appear in your challenges
     //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
+    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page
 
     const renderChallenges = (challengesToRender, isUserChallenge, user) => {
         return (
@@ -165,9 +165,9 @@ const Challenges = () => {
         );
     }
 
-    //gets challengeid for challenges in user challenge
-    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-    const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
+    //no longer used here but leaving it since it can be utilized in search function later.
+        const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
+        // const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
     
     const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
     const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedUserChallengeIds.includes(challenge.id));

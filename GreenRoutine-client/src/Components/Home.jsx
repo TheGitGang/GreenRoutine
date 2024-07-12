@@ -54,6 +54,7 @@ const Home = () => {
         const jsConfetti = new JSConfetti();
         jsConfetti.addConfetti();
     }
+    
     if (isAuthenticated) {
         return (
             <>
