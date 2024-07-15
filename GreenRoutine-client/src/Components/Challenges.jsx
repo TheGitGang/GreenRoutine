@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import CompleteChallengeButton from './CompleteChallengeButton';
 import './Challenges.css'
+import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap';
 
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +20,9 @@ const Challenges = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
     const [carbonLb, setCarbonLb] = useState('');
+    const [activeTab, setActiveTab] = useState('1');
     const navigate = useNavigate();
+
 
     //fetching checking user is signed in
     useEffect(() => {
@@ -86,6 +96,9 @@ const Challenges = () => {
         fetchChallenges();
     }, [userInfo.id])
 
+    const toggleTab = (tab) => {
+        if (activeTab !== tab) setActiveTab(tab);
+    };
 
     //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId) => {
@@ -217,17 +230,54 @@ const Challenges = () => {
     
     
     return (
-        <>
-            <h2>Your Challenges</h2>
-            <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
-            <hr className="bar"/>
-            <h2>Completed Challenges</h2>
-            <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
-            <hr className="bar"/>
-            <h2>Available Challenges</h2>
-            <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div>
-            {message && <p>{message}</p>}
-        </>
+        <div>
+            <Nav tabs>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '1' ? 'active': ''}
+                    onClick={() => { toggleTab('1'); }}
+                    >Your Challenges
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '2' ? 'active': ''}
+                    onClick={() => { toggleTab('2'); }}
+                    >Completed Challenges
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '3' ? 'active': ''}
+                    onClick={() => { toggleTab('3'); }}
+                    >Available Challenges
+                    </NavLink>
+                </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTab}>
+                <TabPane tabId="1">
+                    <h2>Your Challenges</h2>
+                    <hr className="bar"/>
+                    <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
+                </TabPane>
+                <TabPane tabId="2">
+                    <h2>Completed Challenges</h2>
+                    <hr className="bar"/>
+                    <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
+                </TabPane>
+                <TabPane tabId="3">
+                    <AvailableChallenges 
+                        challenges={challenges} 
+                        userChallenges={userChallenges} 
+                        userInfo={userInfo} 
+                        ChallengeSignUp={ChallengeSignUp} 
+                    />
+                </TabPane>
+            </TabContent>
+            {/* <h2>Available Challenges</h2>
+            <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div> */}
+            {/* {message && <p>{message}</p>} */}
+        </div>
     );
 };
 export default Challenges;
