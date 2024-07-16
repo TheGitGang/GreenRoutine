@@ -1,126 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-const ElectricityEstimate = ({ user, userId }) => {
-    const [countries, setCountries] = useState([]);
-    const [states, setStates] = useState([]);
+const CountrySelectForm = () => {
+    const [userInfo, setUserInfo] = useState({});
     const [country, setCountry] = useState('');
-    const [state, setState] = useState('');
-    const [electricityValue, setElectricityValue] = useState('');
-    const [electricityUnit, setElectricityUnit] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
-    const fetchCountryInfo = async () => {
-        const response = await fetch('/api/countries', {
-            method: 'GET'
-        });
-        if (response.ok) {
-            const data = await response.json();
-            setCountries(data);
-            setError('');
-        } else {
-            setError('Could not fetch country options.');
-        }
-    };
+    useEffect(() => {
+        const fetchIsAuthenticated = async () => {
+            try {
+                const response = await fetch('api/Account/IsUserAuthenticated', {
+                    method: "GET"
+                });
 
-    const fetchStateInfo = async (selectedCountry) => {
-        const response = await fetch(`/api/states?country=${selectedCountry}`, {
-            method: 'GET'
-        });
-        if (response.ok) {
-            const data = await response.json();
-            setStates(data);
-            setError('');
-        } else {
-            setError('Could not fetch state options.');
-        }
-    };
+                if (response.ok) {
+                    setIsAuthenticated(true);
+                    fetchUserInfo();
+                }
+            } catch (error) {
+                setError('An error occurred while fetching data.');
+            }
+        };
 
-    const handleCountryChange = (e) => {
-        const selectedCountry = e.target.value;
-        setCountry(selectedCountry);
-        fetchStateInfo(selectedCountry);
-    };
+        const fetchUserInfo = async () => {
+            const response = await fetch('pingauth', {
+                method: "GET"
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setUserInfo(data);
+                setError('User info set.');
+            } else {
+                setError('Could not set user info');
+            }
+        };
 
-    const handleStateChange = (e) => {
-        setState(e.target.value);
-    };
-
-    const handleElectricityValueChange = (e) => {
-        setElectricityValue(e.target.value);
-    };
-
-    const handleElectricityUnitChange = (e) => {
-        setElectricityUnit(e.target.value);
-    };
+        fetchIsAuthenticated();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+
         const payload = {
-            userId,
-            country,
-            state,
-            electricityValue,
-            electricityUnit
+            userId: userInfo.id,
+            country: country,
         };
-        const response = await fetch('/api/electricity/estimate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-        if (response.ok) {
-            const data = await response.json();
-            setSuccessMessage('Electricity estimate added successfully.');
-        } else {
-            setError('Unable to add electricity estimate.');
+
+        try {
+            const response = await fetch('/api/electricity/store-country', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                setError('Country saved successfully.');
+            } else {
+                const errorData = await response.json();
+                setError(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            setError('Unable to save country.');
         }
     };
 
-    useEffect(() => {
-        fetchCountryInfo();
-    }, []);
+    if (!userInfo) {
+        return <p>Loading...</p>;
+    }
 
     return (
-        <>
-            <h4>Please select your country and state for electricity estimates:</h4>
-            <form onSubmit={handleSubmit}>
-                <select onChange={handleCountryChange} name='country' value={country}>
-                    <option value=''>Select Country</option>
-                    {countries.map(country => (
-                        <option key={country.id} value={country.name}>
-                            {country.name}
-                        </option>
-                    ))}
-                </select>
-                <select onChange={handleStateChange} name='state' value={state}>
-                    <option value=''>Select State</option>
-                    {states.map(state => (
-                        <option key={state.id} value={state.name}>
-                            {state.name}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    type='number'
-                    placeholder='Electricity Value'
-                    value={electricityValue}
-                    onChange={handleElectricityValueChange}
-                />
-                <input
-                    type='text'
-                    placeholder='Electricity Unit'
-                    value={electricityUnit}
-                    onChange={handleElectricityUnitChange}
-                />
-                <button type='submit'>Submit</button>
-            </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-        </>
+        <Form onSubmit={handleSubmit}>
+            <FormGroup>
+                <Label for="country">Country</Label>
+                <Input
+                    type="select"
+                    name="country"
+                    id="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                >
+                    <option value="">Select a country</option>
+                    <option value="us">United States</option>
+                    <option value="ca">Canada</option>
+                    {/* Add more countries as needed */}
+                </Input>
+            </FormGroup>
+            <Button type="submit">Save Country</Button>
+            {error && <p className="text-danger">{error}</p>}
+        </Form>
     );
 };
 
-export default ElectricityEstimate;
+export default CountrySelectForm;
