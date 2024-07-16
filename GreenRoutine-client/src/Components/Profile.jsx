@@ -1,16 +1,10 @@
 import AboutCard from './AboutCard';
 import ProfilePhoto from './ProfilePhoto';
-import UploadForm from './UploadForm';
 import './Profile.css'
-import profileImg from '../assets/images/ProfilePlaceholder.jpg'
 import UserStatisticsCard from './UserStatisticsCard';
 import { Col, Row } from 'reactstrap';
 import FriendsList from './FriendsList';
 import { useState, useEffect } from 'react';
-//dummy data
-const dummyUser = {
-    profileImg: profileImg
-}
 
 const Profile = () => {
     const [userInfo, setUserInfo] = useState({});
@@ -27,8 +21,9 @@ const Profile = () => {
                 if (response.ok) {
                     setIsAuthenticated(true)
                 }
-            } catch (error) {
+            } catch (e) {
                 setError('An error occurred while fetching data.');
+                console.log(error)
             }
         };
         fetchIsAuthenticated();
@@ -55,14 +50,20 @@ const Profile = () => {
         }
     }, [isAuthenticated])
 
+    const handlePhotoUpload = (data) => {
+        setUserInfo(prevState => ({...prevState, profilePhoto: data.photo}));
+        return true
+    }
+
     if (!userInfo) {
         return <p>Loading...</p>;
     }
+
     return (
         <>
             <Row>
                 <Col xs={3}>
-                    <ProfilePhoto user={userInfo} userId={userInfo.id} photo={dummyUser.profileImg}/>
+                    <ProfilePhoto user={userInfo} userId={userInfo.id} onPhotoUpload={handlePhotoUpload}/>
                 </Col>
                 <Col>
                     <AboutCard user={userInfo} userId={userInfo.id} setUserInfo={setUserInfo} fetchUserInfo={fetchUserInfo}/>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GreenRoutine;
 using Mono.TextTemplating;
+using TodoApi.Server.Models;
 
 namespace TodoApi;
 
@@ -19,12 +20,12 @@ public class ChallengesController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ChallengesDTO>>> RenderChallengesPage()
-        {
-            return await context
-                .Challenges
-                .Select(c => new ChallengesDTO(c))
-                .ToListAsync();
-        }
+    {
+        return await 
+            context.Challenges
+            .Select(c => new ChallengesDTO(c))
+            .ToListAsync();
+    }
 
 
     [HttpPost("create")]
@@ -35,13 +36,7 @@ public class ChallengesController : ControllerBase
         context.SaveChanges();
         return Ok(new {message="Challenge successfully added"});
     }
-
-
-    // [HttpGet]
-    // public IActionResult RenderChallengesPage()
-    // {
-
-    // }
+    
     [HttpGet("delete")]
     public async Task<ActionResult<IEnumerable<ChallengesDTO>>>RenderDeleteChallengesPage()
     {
@@ -70,4 +65,25 @@ public class ChallengesController : ControllerBase
         return Ok(new {message="Challenge successfully deleted"});
     }
 
+
+    [HttpPost("signup")]
+    public async Task<IActionResult> SignUpForChallenge([FromBody] SignUpRequest request)
+    {
+        if (request == null || string.IsNullOrEmpty(request.UserId))
+        {
+            return BadRequest("Invalid Request");
+        }
+
+        var userChallenge = new UserChallenge
+        {
+            UserId = request.UserId,
+            ChallengeId = request.ChallengeId
+        };
+
+        context.UserChallenges.Add(userChallenge);
+        await context.SaveChangesAsync();
+
+        return Ok(new { message = "User signed up for challenge successfully"});
+    }
+   
 }

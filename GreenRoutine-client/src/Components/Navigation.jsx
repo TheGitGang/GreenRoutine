@@ -13,14 +13,12 @@ import {
   import { useState, useEffect, useContext } from 'react'
 
   import logo from '../assets/images/green_routine_logo.png'
-// import { AuthContext } from '../AuthContext';
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
-    // const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -95,14 +93,17 @@ import {
                 </NavbarBrand>
                 <Nav className="me-auto" navbar>
                     <NavItem>
-                        <Link to='/' className="nav-link">Home</Link>
+                        <Link to='/' className="nav-link white-text">Home</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/about' className="nav-link">About</Link>
+                        <Link to='/about' className="nav-link white-text">About</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to='/carprofile' className="nav-link white-text">Car</Link>
                     </NavItem>
                     <NavItem>
                         <UncontrolledDropdown>
-                            <DropdownToggle nav caret className="dropdown-link">
+                            <DropdownToggle nav caret className="white-text">
                                 Challenges
                             </DropdownToggle>
                             <DropdownMenu>
@@ -119,12 +120,12 @@ import {
                         </UncontrolledDropdown>
                     </NavItem>
                     <NavItem>
-                        <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
+                        <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>
                     </NavItem>
                 </Nav>
                 <Nav>
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret className="dropdown-link">
+                  <DropdownToggle nav caret >
                     Hello, {userInfo.firstName} {userInfo.lastName}!
                   </DropdownToggle>
                   <DropdownMenu end >
@@ -144,26 +145,29 @@ import {
         )
     } else {
         return (
-                <Navbar color="success" light expand="md" className="fixed-top" id="navbar-margin">
+                <Navbar color="success" light expand="md" className="fixed-top white-text" id="navbar-margin">
                     <NavbarBrand href="/">
                       <img src={logo} width="200
                       " height="35"/>
                     </NavbarBrand>
                     <Nav className="me-auto" navbar>
                         <NavItem>
-                            <Link to='/' className="nav-link">Home</Link>
+                            <Link to='/' className="nav-link white-text">Home</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/about' className="nav-link">About</Link>
+                            <Link to='/about' className="nav-link white-text">About</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges' className="nav-link">Challenges</Link>
+                            <Link to='/carprofile' className="nav-link white-text">Car</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges/create' className="nav-link">Create Challenge</Link>
+                            <Link to='/challenges' className="nav-link white-text">Challenges</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
+                            <Link to='/challenges/create' className="nav-link white-text">Create Challenge</Link>
+                        </NavItem>
+                        <NavItem>
+                            <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>
                         </NavItem>
                     </Nav>
                     <Nav>

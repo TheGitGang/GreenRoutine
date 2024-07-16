@@ -3,9 +3,10 @@ import App from './App.jsx'
 
 
 import DataComponent from './Components/ExternalApiTester/Data.jsx'
-
+import VehicleMake from './Components/Carbonfootprint.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
+import About2 from './Components/About2.jsx'
 import Challenges from './Components/Challenges.jsx'
 import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
@@ -14,7 +15,10 @@ import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
-
+import Leaderboard from './Components/Leaderboard.jsx'
+import FriendProfile from './Components/FriendProfile.jsx'
+import CarProfile from './Components/CarProfile.jsx'
+import ThankYou from './Components/ThankYou.jsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +35,10 @@ const router = createBrowserRouter([
         element: <About />
       },
       {
+        path: '/about2/2b1d0cd5-59be-4010-83b3-b60c5e5342da',
+        element: <About2 />
+      },
+      {
         path: '/challenges',
         element: <Challenges />
       },
@@ -41,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: '/challenges/delete',
         element: <DeleteChallenge/>
+      },
+      {
+        path: '/leaderboard',
+        element: <Leaderboard />
       },
       {
         path: '/data',
@@ -61,6 +73,23 @@ const router = createBrowserRouter([
       {
         path: '/leaves',
         element: <Leaves />
+
+      },
+      {
+        path: '/test',
+        element: <VehicleMake/>
+      },
+      {
+        path: '/friend-profile/:id',
+        element: <FriendProfile/>
+      },
+      {
+        path: '/carprofile',
+        element: <CarProfile/>
+      },
+      {
+        path: '/thankyou',
+        element: <ThankYou/>
       }
     ]
   }

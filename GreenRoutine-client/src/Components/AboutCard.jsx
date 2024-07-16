@@ -9,7 +9,7 @@ const AboutCard = ({ user, setUserInfo, userId, fetchUserInfo }) => {
     const toggle = () => {
         setDisplayModal(!displayModal);
     }
-
+        
     return (
         <Card className="lightgrey-card p-3">
             <CardBody>

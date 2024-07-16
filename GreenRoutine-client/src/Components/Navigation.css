@@ -1,10 +1,25 @@
 .dropdown-link {
+    /* color: inherit!important; */
+    text-decoration: none!important;
+}
+
+.dropdown-toggle {
+    color: white!important;
+    text-decoration: none!important;
+}
+
+.dropdown-toggle:hover {
     color: inherit!important;
     text-decoration: none!important;
 }
 
+.dropdown-link.dropdown-item {
+    color: black!important;
+    text-decoration: none!important;
+}
+
 .dropdown-link:hover {
-    color: inherit!important;
+    /* color: inherit!important; */
     text-decoration: none!important;
     background-color: rgb(145, 196, 158)!important;
 }
@@ -29,8 +44,4 @@
 
 #navbar-margin {
     margin-bottom: 2%;
-}
-
-#nav-item {
-
 }

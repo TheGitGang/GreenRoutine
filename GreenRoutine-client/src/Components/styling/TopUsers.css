@@ -1,0 +1,29 @@
+.First{
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(0,-5%);
+}
+
+.Second{
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.8) translate(20%,15%);
+}
+
+.Third{
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.6) translate(-35%, 60%);
+}
+
+.CircularImage{
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}

@@ -27,7 +27,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && !userInfo.id) {
             const fetchUserInfo = async () => {
                 const response = await fetch('pingauth', {
                     method: "GET"
@@ -36,7 +36,9 @@ const Home = () => {
                     const data = await response.json();
                     setUserInfo(data);
                     console.log(data);
-                    //setLocalStorage('userInfo', data);
+                    
+                    setLocalStorage('userInfo', data);
+
                     setError('User info set.')
                 } else {
                     setError('Could not set user info')
@@ -52,6 +54,7 @@ const Home = () => {
         const jsConfetti = new JSConfetti();
         jsConfetti.addConfetti();
     }
+    
     if (isAuthenticated) {
         return (
             <>

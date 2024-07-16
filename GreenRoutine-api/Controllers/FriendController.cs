@@ -4,6 +4,7 @@ using TodoApi.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 using GreenRoutine.Models;
+using System.ComponentModel;
 
 namespace TodoApi.Controllers
 {
@@ -58,7 +59,14 @@ namespace TodoApi.Controllers
                 FriendId = friend.Id
             };
 
+            var otherFriendShip = new UserFriend
+            {
+                UserId = friend.Id,
+                FriendId = model.UserId
+            };
+
             context.UserFriends.Add(userFriend);
+            context.UserFriends.Add(otherFriendShip);
             await context.SaveChangesAsync();
 
             string friendName = friend.FirstName + " " + friend.LastName;
@@ -104,12 +112,21 @@ namespace TodoApi.Controllers
             var friendship = await context.UserFriends
                 .SingleOrDefaultAsync(uf => uf.UserId == model.UserId && uf.FriendId == model.FriendId);
 
+            var otherFriendShip = await context.UserFriends
+                .SingleOrDefaultAsync(uf => uf.UserId == model.FriendId && uf.FriendId == model.UserId);
+
             if (friendship == null)
             {
                 return NotFound("Friendship not found");
             }
 
+            if (otherFriendShip == null)
+            {
+                return NotFound("Friendship not found");
+            }
+
             context.UserFriends.Remove(friendship);
+            context.UserFriends.Remove(otherFriendShip);
             await context.SaveChangesAsync();
 
             return Ok("Friend successfully removed");
@@ -141,5 +158,60 @@ namespace TodoApi.Controllers
             return Ok(friends);
         }
 
+        [HttpGet("{userId}/getFriendPhotos")]
+        public async Task<IActionResult> GetFriendPhotos(string userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var friendPhotos = await context.UserFriends
+                .Where(uf => uf.UserId == userId)
+                .Join(context.ProfilePhotos,
+                      uf => uf.FriendId,
+                      pp => pp.UserId,
+                      (uf, pp) => new
+                      {
+                          pp.UserId,
+                          Photo = Convert.ToBase64String(pp.Photo),
+                          pp.ContentType
+                      })
+                .ToListAsync();
+
+            return Ok(friendPhotos);
+        }
+
+        [HttpGet("{userId}/getFriendInfo")]
+        public async Task<IActionResult> GetFriendInfo(string userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var friendInfo = new 
+            {
+                user.Email,
+                user.Bio,
+                user.FirstName,
+                user.LastName,
+                user.DateJoined,
+                user.Leaves,
+                user.LifetimeLeaves,
+                user.LongestStreak,
+                user.CurrentStreak,
+                user.Pronouns,
+                user.UserName,
+                user.NumChallengesComplete,
+                user.NumChallengesCreated,
+            };
+
+            return Ok(friendInfo);
+        }
     }
 }
