@@ -107,13 +107,13 @@ import {
                                 Challenges
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem tag={Link} to='/challenges' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/challenge' className="dropdown-link">
                                     View Challenges
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to='/challenges/create' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/create' className="dropdown-link">
                                     Create Challenges
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to='/challenges/delete' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/delete' className="dropdown-link">
                                     Delete Challenges
                                 </DropdownItem>
                             </DropdownMenu>
@@ -161,10 +161,10 @@ import {
                             <Link to='/carprofile' className="nav-link white-text">Car Profile</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges' className="nav-link white-text">Challenges</Link>
+                            <Link to='/challenge' className="nav-link white-text">Challenges</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges/create' className="nav-link white-text">Create Challenge</Link>
+                            <Link to='/create' className="nav-link white-text">Create Challenge</Link>
                         </NavItem>
                         <NavItem>
                             <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>
