@@ -96,10 +96,10 @@ import {
                         <Link to='/' className="nav-link white-text">Home</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/about' className="nav-link white-text">About</Link>
+                        <Link to='/about' className="nav-link white-text">Calendar</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/carprofile' className="nav-link white-text">Car</Link>
+                        <Link to='/carprofile' className="nav-link white-text">Car Profile</Link>
                     </NavItem>
                     <NavItem>
                         <UncontrolledDropdown>
@@ -155,10 +155,10 @@ import {
                             <Link to='/' className="nav-link white-text">Home</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/about' className="nav-link white-text">About</Link>
+                            <Link to='/about' className="nav-link white-text">Calendar</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/carprofile' className="nav-link white-text">Car</Link>
+                            <Link to='/carprofile' className="nav-link white-text">Car Profile</Link>
                         </NavItem>
                         <NavItem>
                             <Link to='/challenges' className="nav-link white-text">Challenges</Link>

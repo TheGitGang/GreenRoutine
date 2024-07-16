@@ -63,6 +63,7 @@ public class UserChallengeController : ControllerBase
                                         .Select(md => md.Date.ToString("yyyy-MM-dd"))
                                         .ToListAsync();
 
+        Console.WriteLine(markedDates.ToString());
         return Ok(markedDates);
     }
     

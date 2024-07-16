@@ -82,7 +82,8 @@ public class TestController : ControllerBase
             {
                 string json = await response.Content.ReadAsStringAsync();
                 List<VehicleMakes> data = JsonConvert.DeserializeObject<List<VehicleMakes>>(json);
-                return Ok(data);
+                var sortedData = data.OrderBy(vm => vm.Data.Attributes.Name).ToList();
+                return Ok(sortedData);
             }
             else
             {
