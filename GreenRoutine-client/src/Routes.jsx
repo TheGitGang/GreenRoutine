@@ -39,15 +39,15 @@ const router = createBrowserRouter([
         element: <About2 />
       },
       {
-        path: '/challenges',
+        path: '/challenge',
         element: <Challenges />
       },
       {
-        path: '/challenges/create',
+        path: '/create',
         element: <CreateChallenge/>
       },
       {
-        path: '/challenges/delete',
+        path: '/delete',
         element: <DeleteChallenge/>
       },
       {
