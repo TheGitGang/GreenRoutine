@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240711145415_Impact")]
-    partial class Impact
+    [Migration("20240712153109_initialmigration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,8 +134,11 @@ namespace TodoApi.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Carbon_lb")
-                        .HasColumnType("int");
+                    b.Property<double?>("Carbon_lb")
+                        .HasColumnType("double");
+
+                    b.Property<bool>("ChallengeCompleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");

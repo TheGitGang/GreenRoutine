@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class july11 : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,6 +110,7 @@ namespace TodoApi.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Difficulty = table.Column<int>(type: "int", nullable: false),
+                    Miles = table.Column<int>(type: "int", nullable: false),
                     Length = table.Column<TimeSpan>(type: "time(6)", nullable: true),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -331,8 +332,10 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ChallengeCompleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Impact = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Carbon_lb = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {
