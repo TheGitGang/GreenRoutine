@@ -54,7 +54,7 @@ const ModelSelect = ( user, makeChoice, ready, setReady ) => {
 
     return (
         <>
-            <form style={ready ? { opacity: 1 } : { opacity: 0.4 }}>
+            <form style={ready ? { opacity: 1 } : { opacity: 1 }}>
             <h4>Please select your vehicle model:</h4>
                 <select onChange={handleChange} name='modelChoice'>
                     {models.map(model => (
