@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import './Challenges.css'
 import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
 import YourChallenges from './ChallengeComponents/YourChallenges';
-import CompletedChallenges from './ChallengeComponents/CompletedChallenges'
+import CompletedChallenges from './ChallengeComponents/CompletedChallenges';
+import Search from './ChallengeComponents/Search';
 import {
   Nav,
   NavItem,
@@ -204,6 +205,13 @@ const Challenges = () => {
                     >Available Challenges
                     </NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '4' ? 'active': ''}
+                    onClick={() => { toggleTab('4'); }}
+                    >Search
+                    </NavLink>
+                </NavItem>
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
@@ -232,6 +240,9 @@ const Challenges = () => {
                         userInfo={userInfo} 
                         ChallengeSignUp={ChallengeSignUp} 
                     />
+                </TabPane>
+                <TabPane tabId="4">
+                    <Search />
                 </TabPane>
             </TabContent>
         </div>

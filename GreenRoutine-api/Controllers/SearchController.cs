@@ -15,20 +15,25 @@ namespace TodoAPI.Controllers{
             context = challengeDbContext;
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Challenge>>> Search(string query)
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<Challenge>>> Search([FromBody] SearchRequest request)
         {
-            if (string.IsNullOrEmpty(query))
+            if (string.IsNullOrEmpty(request.Query))
             {
                 return BadRequest("Query string is empty.");
             }
 
-            var results = await context.Challenges.Where(challenge => challenge.Name.Contains(query) || challenge.Description.Contains(query)).ToListAsync();
+            var results = await context.Challenges.Where(challenge => challenge.Name.Contains(request.Query) || challenge.Description.Contains(request.Query)).ToListAsync();
 
             return Ok(results);
         }
 
 
+    }
+
+    public class SearchRequest
+    {
+        public string Query { get; set; }
     }
 
 
