@@ -29,6 +29,8 @@ namespace TodoApi.Server.Data
         public virtual ICollection<UserFriend> Friends { get; set; }
         public virtual ICollection<UserFriend> FriendOf { get; set; }
 
+        public string Country { get; set; }
+
 
         public ApplicationUser()
         {
