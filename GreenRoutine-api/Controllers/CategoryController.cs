@@ -33,11 +33,11 @@ namespace TodoAPI.Controllers{
         }
 
         [HttpGet("categories")]
-        public async Task<ActionResult<IEnumerable<CreateCategoryDto>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<GetCategoryItems>>> GetCategories()
         {
             return await 
                 context.Categories
-                .Select(c => new CreateCategoryDto(c.Name))
+                .Select(c => new GetCategoryItems(c.Name, c.Id))
                 .ToListAsync();
         }
 
@@ -48,6 +48,16 @@ namespace TodoAPI.Controllers{
         public CreateCategoryDto(string? name)
         {
             Name = name;
+        }
+    }
+     public class GetCategoryItems
+    {
+        public string Name { get; set;}
+        public int Id { get; set;}
+        public GetCategoryItems(string? name, int id)
+        {
+            Name = name;
+            Id = id;
         }
     }
 
