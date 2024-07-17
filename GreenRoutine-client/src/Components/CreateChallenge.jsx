@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { DisplayMileageQuery } from './ChallengeTransportationOptions'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, FormGroup, Label, Input, Button} from "reactstrap";
+import { Form, FormGroup, Label, Input, Button, Spinner } from "reactstrap";
 import './CreateChallenge.css';
 
 
@@ -16,6 +16,7 @@ const CreateChallenge = () => {
     const [miles, setMiles] = useState('');
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [error, setError] = useState('');
 
@@ -26,11 +27,13 @@ const CreateChallenge = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('/api/categories');
+                const response = await fetch('/api/Category/categories');
                 const data = await response.json();
                 setCategories(data);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching categories:', error);
+                setLoading(false);
             }
         }
         fetchCategories();
@@ -78,7 +81,10 @@ const CreateChallenge = () => {
             })
             navigate('/thankyou')
         }
-    
+
+    if (loading){
+        return <Spinner style={{ width: '3rem', height: '3rem '}}/>
+    }
 
     return (
         <div className="challengeSubmit lightgrey-card">
@@ -139,10 +145,11 @@ const CreateChallenge = () => {
                         value={category}
                         onChange={handleChange}
                     >
-                        {categories.map((category) => {
-                            <option key={category} value={category.name}></option>
-                        })}
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
                     </Input>
+                    
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor='miles'>Miles:</Label>
