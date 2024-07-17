@@ -9,7 +9,7 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Challenge> Challenges { get; set; }
     public DbSet<UserChallenge> UserChallenges { get; set; }
-    public DbSet<Category> Categories{ get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public DbSet<UserFriend> UserFriends { get; set; }
     public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
@@ -35,6 +35,7 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(uc => uc.Challenge)
             .WithMany(c => c.UserChallenges)
             .HasForeignKey(uc => uc.ChallengeId);
+
 
         builder.Entity<UserFriend>()
             .HasKey(uf => new { uf.UserId, uf.FriendId });

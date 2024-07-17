@@ -1,4 +1,5 @@
 import react from 'react'
+import { Button } from 'reactstrap';
 
 const AvailableChallenges = ({ challenges, userChallenges, userInfo, ChallengeSignUp} ) => {
     const renderChallenges = (challengesToRender, isUserChallenge, user) => {
@@ -7,15 +8,15 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, ChallengeSi
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
                 <div>
                     {challengesToRender.map((challenge, index) => (
-                        <div className="card" key={index}>
-                            <h5 className="card-title">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item">Length: {challenge.length}</li>
-                                <li className="list-group-item">Description: {challenge.description}</li>
-                                <li className="list-group-item">Miles: {challenge.miles}</li>
+                        <div className="card lightgrey-card" key={index}>
+                            <h5 className="card-title lightgrey-card">{challenge.name}</h5>
+                            <ul className="list-group list-group-flush lightgrey-card">
+                                <li className="list-group-item lightgrey-card">Difficulty: {challenge.difficulty}</li>
+                                <li className="list-group-item lightgrey-card">Length: {challenge.length}</li>
+                                <li className="list-group-item lightgrey-card">Description: {challenge.description}</li>
+                                <li className="list-group-item lightgrey-card">Miles: {challenge.miles}</li>
                             </ul>
-                                <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
+                                <Button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</Button>
                         </div>
                     ))}
                 </div>

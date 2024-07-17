@@ -56,13 +56,13 @@ const Search = () => {
                     <h2>Search Results: </h2>
                     {results.map((challenge) => (
                         <div key={challenge.id}>
-                            <div className="card" key={challenge.id}>
-                            <h5 className="card-title">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item">Length: {challenge.length}</li>
-                                <li className="list-group-item">Description: {challenge.description}</li>
-                                <li className="list-group-item">Miles: {challenge.miles}</li>
+                            <div className="card lightgrey-card" key={challenge.id}>
+                            <h5 className="card-title lightgrey-card">{challenge.name}</h5>
+                            <ul className="list-group list-group-flush lightgrey-card">
+                                <li className="list-group-item lightgrey-card">Difficulty: {challenge.difficulty}</li>
+                                <li className="list-group-item lightgrey-card">Length: {challenge.length}</li>
+                                <li className="list-group-item lightgrey-card">Description: {challenge.description}</li>
+                                <li className="list-group-item lightgrey-card">Miles: {challenge.miles}</li>
                             </ul>
                             </div>
                         </div>

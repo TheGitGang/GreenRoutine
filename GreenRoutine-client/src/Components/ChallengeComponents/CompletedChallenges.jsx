@@ -7,14 +7,14 @@ const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpac
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
                 <div>
                     {challengesToRender.map((challenge, index) => (
-                        <div className="card" key={index}>
-                            <h5 className="card-title">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item">Length: {challenge.length}</li>
-                                <li className="list-group-item">Description: {challenge.description}</li>
-                                <li className="list-group-item">Miles: {challenge.miles}</li>
-                                <li className="list-group-item">Assign Carbon Impact 
+                        <div className="card lightgrey-card" key={index}>
+                            <h5 className="card-title lightgrey-card">{challenge.name}</h5>
+                            <ul className="list-group list-group-flush lightgrey-card">
+                                <li className="list-group-item lightgrey-card">Difficulty: {challenge.difficulty}</li>
+                                <li className="list-group-item lightgrey-card">Length: {challenge.length}</li>
+                                <li className="list-group-item lightgrey-card">Description: {challenge.description}</li>
+                                <li className="list-group-item lightgrey-card">Miles: {challenge.miles}</li>
+                                <li className="list-group-item lightgrey-card">Assign Carbon Impact 
                                     <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>
                                 {carbonLb} lbs</li>
                             </ul>
