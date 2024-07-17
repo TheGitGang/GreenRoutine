@@ -1,0 +1,25 @@
+.challengeSubmit{
+    border-radius: 20px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    
+}
+
+.title{
+    padding-top: 30px;
+    padding-left: 80px;
+}
+
+.form{
+    padding-left: 150px;
+    padding-bottom: 50px;
+    width: 800px;
+}
+
+.button{
+    color: black;
+    background-color: white;
+}

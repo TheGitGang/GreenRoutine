@@ -7,4 +7,9 @@ public class Category
 
     public List<Challenge>? Challenges { get; set; }
 
+    public Category () {}
+    public Category (string name): this()
+    {
+        Name = name;
+    }
 }
