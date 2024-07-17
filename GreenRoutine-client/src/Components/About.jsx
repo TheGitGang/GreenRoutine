@@ -10,7 +10,7 @@ const About = () => {
 
     return (
         <div className="About">
-            <h1>My Custom Calendar</h1>
+            <h1>Challenge Calendar</h1>
             <CustomCalendar />
         </div>
     );

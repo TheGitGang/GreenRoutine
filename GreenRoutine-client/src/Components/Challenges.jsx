@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
-import CompleteChallengeButton from './CompleteChallengeButton';
 import './Challenges.css'
+import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
+import YourChallenges from './ChallengeComponents/YourChallenges';
+import CompletedChallenges from './ChallengeComponents/CompletedChallenges';
+import Search from './ChallengeComponents/Search';
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap';
 
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +22,39 @@ const Challenges = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
     const [carbonLb, setCarbonLb] = useState('');
+    const [activeTab, setActiveTab] = useState('1');
     const navigate = useNavigate();
+
+    const fetchChallenges = async () => {
+        try {
+            // Fetching all challenges
+            if(userInfo.id){
+                const allChallengesResponse = await fetch('/api/Challenges');
+                if (allChallengesResponse.ok) {
+                    const allChallengesData = await allChallengesResponse.json();
+                    setChallenges(allChallengesData);
+                    setError('User info set');
+                } else {
+                    setError('Could not set user info');
+                }
+
+                if(userInfo.id){
+                    const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
+                    if (userChallengesResponse.ok){
+                        const userChallengesData = await userChallengesResponse.json();
+                        setUserChallenges(userChallengesData);
+                        setError('userChallenge set');
+                    } else {
+                        setError('Could not set userChallenges');
+                    }
+                }
+            }
+        } catch (error) {
+            // console.error('Error fetching challenges:', error);
+            setMessage(error.message);
+        }
+    }
+
 
     //fetching checking user is signed in
     useEffect(() => {
@@ -42,6 +84,7 @@ const Challenges = () => {
             const data = await response.json();
             setUserInfo(data);
             setError('User info set.')
+            fetchChallenges();
         } else {
             setError('Could not set user info')
         }
@@ -51,41 +94,14 @@ const Challenges = () => {
         }
     }, [isAuthenticated]);
 
-    useEffect(() => {
-        const fetchChallenges = async () => {
-            try {
-                // Fetching all challenges
-                if(userInfo.id){
-                    const allChallengesResponse = await fetch('/api/Challenges');
-                    if (allChallengesResponse.ok) {
-                        const allChallengesData = await allChallengesResponse.json();
-                        setChallenges(allChallengesData);
-                        setError('User info set');
-                    } else {
-                        setError('Could not set user info');
-                    }
+   
 
-                    if(userInfo.id){
-                        const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
-                        if (userChallengesResponse.ok){
-                            const userChallengesData = await userChallengesResponse.json();
-                            // console.log(userChallengesData);
-                            setUserChallenges(userChallengesData);
-                            // console.log(userInfo.id);
-                            setError('userChallenge set');
-                        } else {
-                            setError('Could not set userChallenges');
-                        }
-                    }
-                }
-            } catch (error) {
-                // console.error('Error fetching challenges:', error);
-                setMessage(error.message);
-            }
+    const toggleTab = (tab) => {
+        if (activeTab !== tab) {
+            setActiveTab(tab);
+            fetchChallenges();
         }
-        fetchChallenges();
-    }, [userInfo.id])
-
+    };
 
     //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId) => {
@@ -102,6 +118,7 @@ const Challenges = () => {
         const result = await response.json();
         if(response.ok) {
             setMessage(`Signed up for challenge: ${challengeId}`);
+            fetchChallenges();
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
             // console.log(user);
@@ -163,71 +180,75 @@ const Challenges = () => {
 
     //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
     //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
-    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page
-
-    const renderChallenges = (challengesToRender, isUserChallenge, user) => {
-        return (
-            <>
-                <p>There are {challengesToRender.length} challenges in the DB</p> 
-                <div>
-                    {challengesToRender.map((challenge, index) => (
-                        <div className="card" key={index}>
-                            <h5 className="card-title">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item">Length: {challenge.length}</li>
-                                <li className="list-group-item">Description: {challenge.description}</li>
-                                <li className="list-group-item">Miles: {challenge.miles}</li>
-                            </ul>
-                            {!challenge.ChallengeCompleted && isUserChallenge && (
-                                <CompleteChallengeButton challengeId={challenge.id} userId={user.id}/>)}
-
-                            {isUserChallenge ? (
-                                <p>You are signed up for this challenge. Assign Carbon Impact <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>{carbonLb} lbs <button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</button></p>
-                            ) : (
-                                <button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</button>
-                            )}
-                        </div>
-                    ))}
-                </div>
-                {message && <p>{message}</p>}
-    
-            </>
-        );
-    }
-
-    //no longer used here but leaving it since it can be utilized in search function later.
-        const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-        // const userChallengesToRender = challenges.filter(challenge => userChallengeIds.includes(challenge.id));
-    
-    const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-    const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedUserChallengeIds.includes(challenge.id));
-
-    console.log(noncompletedChallengesToRender);
-    
-    //actually filters challenges user is signed up for into a seperate array
-    
-    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-    const completedChallengesToRender = challenges.filter(challenge => completedUserChallengeIds.includes(challenge.id));
-
-    //filters challenges to only include ones not in user challenges
-    const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
-
-    // console.log(userChallengeIds);
-    
-    
+    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page  
     return (
-        <>
-            <h2>Your Challenges</h2>
-            <div>{renderChallenges(noncompletedChallengesToRender, true, userInfo)}</div>
-            <hr className="bar"/>
-            <h2>Completed Challenges</h2>
-            <div>{renderChallenges(completedChallengesToRender, true, userInfo)}</div>
-            <hr className="bar"/>
-            <h2>Available Challenges</h2>
-            <div>{renderChallenges(availableChallengesToRender, false, userInfo)}</div>
-            {message && <p>{message}</p>}
-        </>
+        <div>
+            <Nav tabs>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '1' ? 'active': ''}
+                    onClick={() => { toggleTab('1'); }}
+                    >Your Challenges
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '2' ? 'active': ''}
+                    onClick={() => { toggleTab('2'); }}
+                    >Completed Challenges
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '3' ? 'active': ''}
+                    onClick={() => { toggleTab('3'); }}
+                    >Available Challenges
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                    className={activeTab === '4' ? 'active': ''}
+                    onClick={() => { toggleTab('4'); }}
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                    </NavLink>
+                </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTab}>
+                <TabPane tabId="1">
+                    <YourChallenges
+                    challenges={challenges}
+                    userChallenges={userChallenges}
+                    userInfo={userInfo} 
+                    CarbonImpactScreen={CarbonImpactScreen} 
+                    CarbonImpactBackend={CarbonImpactBackend} 
+                    carbonLb={carbonLb}
+                    fetchChallenges={fetchChallenges}/>
+                </TabPane>
+                <TabPane tabId="2">
+                    <CompletedChallenges
+                        challenges={challenges} 
+                        userChallenges={userChallenges} 
+                        userInfo={userInfo} 
+                        CarbonImpactScreen={CarbonImpactScreen} 
+                        carbonLb={carbonLb}
+                    />
+                </TabPane>
+                <TabPane tabId="3">
+                    <AvailableChallenges 
+                        challenges={challenges} 
+                        userChallenges={userChallenges} 
+                        userInfo={userInfo} 
+                        ChallengeSignUp={ChallengeSignUp} 
+                    />
+                </TabPane>
+                <TabPane tabId="4">
+                    <Search />
+                </TabPane>
+            </TabContent>
+        </div>
     );
 };
 export default Challenges;

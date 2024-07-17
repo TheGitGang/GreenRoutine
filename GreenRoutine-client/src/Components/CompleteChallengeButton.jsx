@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import JSConfetti from 'js-confetti';
 
-const CompleteChallengeButton = ({challengeId, userId }) => {
+const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
     const completeChallenge= async () => {
         //fetch to complete challenge 
         try {
@@ -50,6 +50,8 @@ const CompleteChallengeButton = ({challengeId, userId }) => {
 
         const jsConfetti = new JSConfetti();
         jsConfetti.addConfetti();
+
+        fetchChallenges();
 
     };
 
