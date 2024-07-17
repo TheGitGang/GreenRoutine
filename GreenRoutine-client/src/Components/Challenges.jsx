@@ -25,6 +25,7 @@ const Challenges = () => {
     const [activeTab, setActiveTab] = useState('1');
     const navigate = useNavigate();
 
+
     const fetchChallenges = async () => {
         try {
             // Fetching all challenges
@@ -93,6 +94,9 @@ const Challenges = () => {
             fetchUserInfo();
         }
     }, [isAuthenticated]);
+    useEffect(() => {
+        fetchChallenges();
+    }, [userInfo.id, isAuthenticated]);
 
    
 
@@ -178,9 +182,7 @@ const Challenges = () => {
         }
     };
 
-    //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
-    //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
-    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page  
+
     return (
         <div>
             <Nav tabs>
@@ -254,73 +256,3 @@ const Challenges = () => {
 export default Challenges;
 
 
-{/* <div>
-    <div>
-        <h1>
-            Delete Options
-        </h1>
-        <div>
-            <div>
-                <div>
-                    <input
-                        type="radio"
-                        id="option1"
-                        value="option1"
-                        checked={
-                            selectedValue ===
-                            "option1"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option1"
-                            )
-                        }
-                    />
-                    <label htmlFor="option1">
-                        ReactJS
-                    </label>
-                </div>
-
-                <div>
-                    <input
-                        type="radio"
-                        id="option2"
-                        value="option2"
-                        checked={
-                            selectedValue ===
-                            "option2"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option2"
-                            )
-                        }
-                    />
-                    <label htmlFor="option2">
-                        NextJs
-                    </label>
-                </div>
-
-                <div>
-                    <input
-                        type="radio"
-                        id="option3"
-                        value="option3"
-                        checked={
-                            selectedValue ===
-                            "option3"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option3"
-                            )
-                        }
-                    />
-                    <label htmlFor="option3">
-                        React Native
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> */}
