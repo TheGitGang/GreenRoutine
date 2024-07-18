@@ -21,6 +21,7 @@ const AdminPage = () => {
     }
 
     const handleRemoveSubmit = async (challengeId) => {
+        console.log(challengeId)
         const payload = {
             challengeId: challengeId
         }
@@ -76,7 +77,7 @@ const AdminPage = () => {
                             challenge.timeSpan;
 
                 return {
-                    id: challenge.id,
+                    challengeId: challenge.id,
                     name: challenge.name,
                     description: challenge.description,
                     category: challenge.category,
@@ -91,6 +92,10 @@ const AdminPage = () => {
     useEffect(() => {
         setRowData(formatChallenges(globalChallenges))
     }, [globalChallenges])
+
+    useEffect(() => {
+        console.log(rowData)
+    }, [rowData])
 
     const columnDefs = [
         { field: "name", filter: true, headerName: "Challenge Name" },

@@ -40,6 +40,9 @@ const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!name || !difficulty || !category ) {
+            console.log(name)
+            console.log(difficulty)
+            console.log(category)
             setError("Name, difficulty, and category are required")
         } else {
             setError("");

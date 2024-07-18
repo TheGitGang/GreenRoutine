@@ -137,13 +137,15 @@ namespace TodoApi.Server.Controllers
             await _context.SaveChangesAsync();
 
             var challengeToSend = new {
+                Id = globalChallenge.Id,
                 CreatedBy = model.UserId,
                 Name = model.Name,
                 Difficulty = model.Difficulty,
                 Miles = model.Miles,
                 TimeSpan = model.TimeSpan,
                 Description = model.Description,
-                Category = category.Name
+                Category = category.Name,
+                CategoryId = model.CategoryId
             };
 
             return Ok(challengeToSend);
