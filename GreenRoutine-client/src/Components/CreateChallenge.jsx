@@ -14,6 +14,7 @@ const CreateChallenge = () => {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [miles, setMiles] = useState('');
+    const [electricValue, setElectricValue] = useState('');
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -47,6 +48,7 @@ const CreateChallenge = () => {
         if (name === 'description') setDescription(value);
         if (name === 'category') setCategory(value);
         if (name === 'miles') setMiles(value);
+        if (name === 'electric') setElectricValue(value);
     }
 
     const handleSubmit = async (event) => {
@@ -158,6 +160,16 @@ const CreateChallenge = () => {
                         id='miles'
                         name='miles'
                         value={miles}
+                        onChange={handleChange}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor='electric'>Electric Value:</Label>
+                    <Input
+                        type='text'
+                        id='electric'
+                        name='electric'
+                        value={electricValue}
                         onChange={handleChange}
                     />
                 </FormGroup>
