@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import JSConfetti from 'js-confetti';
+import { Button } from 'reactstrap'
 
 const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
     const completeChallenge= async () => {
@@ -56,7 +57,7 @@ const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
     };
 
     return (
-        <button onClick={completeChallenge}>Complete Challenge</button>
+        <Button onClick={completeChallenge}>Complete Challenge</Button>
     )
 }
 

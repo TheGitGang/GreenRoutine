@@ -74,11 +74,6 @@ const router = createBrowserRouter([
         element: <LoginForm/>
       },
       {
-        path: '/leaves',
-        element: <Leaves />
-
-      },
-      {
         path: '/test',
         element: <VehicleMake/>
       },

@@ -11,6 +11,7 @@ import {
   import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
   import { useState, useEffect, useContext } from 'react'
+  import Leaves from './Leaves';
 
   import logo from '../assets/images/green_routine_logo.png'
 
@@ -143,6 +144,7 @@ import {
                     </NavItem>
                 </Nav>
                 <Nav>
+                <Leaves/>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret >
                     Hello, {userInfo.firstName} {userInfo.lastName}!
@@ -151,14 +153,12 @@ import {
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
                     </DropdownItem>
-                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
-                        Leaves
-                    </DropdownItem>
                     {isAdmin && 
                         <DropdownItem tag={Link} to='/admin' className="dropdown-link">
                             Admin
                         </DropdownItem>
                     }
+
                     <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
                         Logout
                     </DropdownItem>
