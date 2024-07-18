@@ -19,6 +19,11 @@ import FriendProfile from './Components/FriendProfile.jsx'
 import CarProfile from './Components/CarProfile.jsx'
 import ThankYou from './Components/ThankYou.jsx'
 import ElectricityEstimate from'./Components/Electricity.jsx'
+import Unauthorized from './Components/Unauthorized.jsx'
+import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import AdminPage from './Components/AdminPage.jsx'
+
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -70,11 +75,6 @@ const router = createBrowserRouter([
         element: <LoginForm/>
       },
       {
-        path: '/leaves',
-        element: <Leaves />
-
-      },
-      {
         path: '/test',
         element: <ElectricityEstimate/>
       },
@@ -89,6 +89,14 @@ const router = createBrowserRouter([
       {
         path: '/thankyou',
         element: <ThankYou/>
+      },
+      {
+        path: '/unauthorized',
+        element: <Unauthorized/>
+      },
+      {
+        path: '/admin',
+        element: <ProtectedRoute element={<AdminPage/>}/>
       }
     ]
   }
