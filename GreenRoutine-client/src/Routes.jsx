@@ -19,6 +19,9 @@ import Leaderboard from './Components/Leaderboard.jsx'
 import FriendProfile from './Components/FriendProfile.jsx'
 import CarProfile from './Components/CarProfile.jsx'
 import ThankYou from './Components/ThankYou.jsx'
+import Unauthorized from './Components/Unauthorized.jsx'
+import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import AdminPage from './Components/AdminPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -85,6 +88,14 @@ const router = createBrowserRouter([
       {
         path: '/thankyou',
         element: <ThankYou/>
+      },
+      {
+        path: '/unauthorized',
+        element: <Unauthorized/>
+      },
+      {
+        path: '/admin',
+        element: <ProtectedRoute element={<AdminPage/>}/>
       }
     ]
   }

@@ -17,6 +17,7 @@ import {
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
@@ -58,6 +59,24 @@ import {
             setError('User is not authenticated.')
         }
     }, [isAuthenticated])
+
+    useEffect(() => {
+        if (userInfo.id) {
+            const fetchIsAdmin = async () => {
+                console.log(userInfo.id)
+                const response = await fetch (`/api/RoleManagement/${userInfo.id}/IsUserAdmin`, {
+                    method: "GET"
+                })
+                if (response.ok) {
+                    const data = await response.json();
+                    setIsAdmin(data.isAdmin);
+                } else {
+                    setError('Could not set isAdmin')
+                }
+            }
+            fetchIsAdmin();
+        }
+    }, [userInfo.id])
 
     const handleLogoutClick = async () => {
         setShouldNavigate(false)
@@ -133,7 +152,15 @@ import {
                   <DropdownMenu end >
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
+                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
+                        Leaves
                     </DropdownItem>
+                    {isAdmin && 
+                        <DropdownItem tag={Link} to='/admin' className="dropdown-link">
+                            Admin
+                        </DropdownItem>
+                    }
+
                     <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
                         Logout
                     </DropdownItem>
