@@ -152,8 +152,6 @@ import {
                   <DropdownMenu end >
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
-                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
-                        Leaves
                     </DropdownItem>
                     {isAdmin && 
                         <DropdownItem tag={Link} to='/admin' className="dropdown-link">
