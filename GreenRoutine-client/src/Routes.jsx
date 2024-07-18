@@ -3,7 +3,6 @@ import App from './App.jsx'
 
 
 import DataComponent from './Components/ExternalApiTester/Data.jsx'
-import VehicleMake from './Components/Carbonfootprint.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import About2 from './Components/About2.jsx'
@@ -19,9 +18,11 @@ import Leaderboard from './Components/Leaderboard.jsx'
 import FriendProfile from './Components/FriendProfile.jsx'
 import CarProfile from './Components/CarProfile.jsx'
 import ThankYou from './Components/ThankYou.jsx'
+import ElectricityEstimate from'./Components/Electricity.jsx'
 import Unauthorized from './Components/Unauthorized.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'
 import AdminPage from './Components/AdminPage.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/test',
-        element: <VehicleMake/>
+        element: <ElectricityEstimate/>
       },
       {
         path: '/friend-profile/:id',

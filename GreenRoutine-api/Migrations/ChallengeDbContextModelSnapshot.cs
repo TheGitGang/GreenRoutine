@@ -336,6 +336,9 @@ namespace TodoApi.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("CurrentStreak")
                         .HasColumnType("int");
 
