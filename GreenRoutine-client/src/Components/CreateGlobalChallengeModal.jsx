@@ -1,5 +1,5 @@
 import { Button, Row, Col, Modal, ModalHeader, Form, Input, Label, ModalBody, ModalFooter, Alert } from "reactstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit }) => {
     const [name, setName] = useState("");
@@ -7,8 +7,25 @@ const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit
     const [miles, setMiles] = useState(0);
     const [timeSpan, setTimeSpan] = useState("1.00:00:00");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(1);
+    const [categories, setCategories] = useState([]);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const response = await fetch('/api/Category/categories', {
+                method: "GET"
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setCategories(data);
+                setError("");
+            } else {
+                setError('Unable to load categories');
+            }
+        };
+        fetchCategories();
+    },[])
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +50,7 @@ const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit
                 miles: Number(miles),
                 timeSpan: timeSpan,
                 description: description,
-                category: category
+                categoryId: category
             }
             const response = await fetch('api/RoleManagement/CreateGlobalChallenge', {
                 method: "POST",
@@ -50,13 +67,19 @@ const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit
                 setMiles(0);
                 setTimeSpan("1.00:00:00");
                 setDescription("");
-                setCategory("");
+                setCategory(1);
                 toggle();
             } else {
                 setError('Unable to create global challenge')
             }
         }
     }
+
+    const categoryOptions = categories.map((category) => {
+        return (
+            <option key={category.id} value={category.id}>{category.name}</option>
+        )
+    })
 
     return (
        <div>
@@ -122,12 +145,14 @@ const CreateGlobalChallengeModal = ({ userId, isOpen, toggle, handleCreateSubmit
                             <Col>
                                 <Label htmlFor="category">Category:</Label>
                                     <Input
-                                        type='text'
+                                        type='select'
                                         id='category'
                                         name='category'
                                         value={category}
                                         onChange={handleChange}
-                                    />
+                                    >
+                                        {categoryOptions}
+                                    </Input>
                             </Col>
                             <Col>
                                 <Label htmlFor="miles">Miles</Label>

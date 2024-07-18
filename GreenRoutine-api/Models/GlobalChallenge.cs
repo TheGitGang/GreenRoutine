@@ -13,7 +13,9 @@ public class GlobalChallenge
     public int? Miles { get; set; }
     public TimeSpan? TimeSpan { get; set; }
     public string? Description { get; set; } 
-    public string Category { get; set; }
+    [ForeignKey("Category")]
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
 
     [ForeignKey("CreateByUser")]
     public string CreatedBy { get; set; }
@@ -21,13 +23,12 @@ public class GlobalChallenge
 
     public GlobalChallenge(){}
     
-    public GlobalChallenge(string name, int difficulty, TimeSpan length, string description, string category) : this()
+    public GlobalChallenge(string name, int difficulty, TimeSpan length, string description) : this()
     {
         Name = name;
         Difficulty = difficulty;
         TimeSpan = length;
         Description = description;
-        Category = category;
     }
 
 }

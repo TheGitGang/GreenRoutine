@@ -13,7 +13,7 @@ namespace TodoApi.Server.Models
         public int? Miles { get; set; }
         public TimeSpan? TimeSpan { get; set; }
         public string? Description { get; set; }
-        [Required(ErrorMessage = "Category is required")]
-        public required string Category { get; set; }
+        [Required(ErrorMessage = "CategoryId is required")]
+        public required int CategoryId { get; set; }
     }
 }

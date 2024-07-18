@@ -89,9 +89,8 @@ namespace TodoApi.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -113,6 +112,8 @@ namespace TodoApi.Migrations
                         .HasColumnType("time(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatedBy");
 
@@ -445,11 +446,19 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("GreenRoutine.Models.GlobalChallenge", b =>
                 {
+                    b.HasOne("GreenRoutine.Models.Category", "Category")
+                        .WithMany("GlobalChallenges")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("CreatedByUser");
                 });
@@ -552,6 +561,11 @@ namespace TodoApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GreenRoutine.Models.Category", b =>
+                {
+                    b.Navigation("GlobalChallenges");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.Challenge", b =>

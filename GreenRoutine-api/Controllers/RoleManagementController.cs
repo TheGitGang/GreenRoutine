@@ -87,7 +87,21 @@ namespace TodoApi.Server.Controllers
         [HttpGet("GetGlobalChallenges")]
         public async Task<IActionResult> GetGlobalChallenges()
         {
-            var globalChallenges = await _context.GlobalChallenges.ToListAsync();
+            var globalChallenges = await _context.GlobalChallenges
+                .Include(gc => gc.Category)
+                .Select(gc => new GlobalChallengeDTO
+                {
+                    Id = gc.Id,
+                    Name = gc.Name,
+                    Difficulty = gc.Difficulty,
+                    Miles = gc.Miles,
+                    TimeSpan = gc.TimeSpan,
+                    Description = gc.Description,
+                    CategoryId = gc.CategoryId,
+                    Category = gc.Category.Name,
+                    CreatedBy = gc.CreatedBy
+                })
+                .ToListAsync();
 
             return Ok(globalChallenges);
         }
@@ -102,6 +116,12 @@ namespace TodoApi.Server.Controllers
                 return NotFound("User not found");
             }
 
+            var category = await _context.Categories.FindAsync(model.CategoryId);
+            if (category == null)
+            {
+                return NotFound("Category not found");
+            }
+
             var globalChallenge = new GlobalChallenge
             {
                 CreatedBy = model.UserId,
@@ -110,13 +130,23 @@ namespace TodoApi.Server.Controllers
                 Miles = model.Miles,
                 TimeSpan = model.TimeSpan,
                 Description = model.Description,
-                Category = model.Category
+                CategoryId = model.CategoryId
             };
 
             _context.GlobalChallenges.Add(globalChallenge);
             await _context.SaveChangesAsync();
 
-            return Ok(globalChallenge);
+            var challengeToSend = new {
+                CreatedBy = model.UserId,
+                Name = model.Name,
+                Difficulty = model.Difficulty,
+                Miles = model.Miles,
+                TimeSpan = model.TimeSpan,
+                Description = model.Description,
+                Category = category.Name
+            };
+
+            return Ok(challengeToSend);
         }
 
         [Authorize(Roles = "Admin")]
