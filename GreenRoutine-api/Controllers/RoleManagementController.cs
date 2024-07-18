@@ -1,5 +1,9 @@
+using GreenRoutine;
+using GreenRoutine.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
@@ -12,11 +16,13 @@ namespace TodoApi.Server.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ChallengeDbContext _context;
 
-        public RoleManagementController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public RoleManagementController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, ChallengeDbContext context)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _context = context;
         }
 
         [HttpPost("CreateRole")]
@@ -76,6 +82,56 @@ namespace TodoApi.Server.Controllers
             {
                 return Ok(new { isAdmin = false });
             }
+        }
+
+        [HttpGet("GetGlobalChallenges")]
+        public async Task<IActionResult> GetGlobalChallenges()
+        {
+            var globalChallenges = await _context.GlobalChallenges.ToListAsync();
+
+            return Ok(globalChallenges);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("CreateGlobalChallenge")]
+        public async Task<IActionResult> CreateGlobalChallenge([FromBody] CreateGlobalChallengeModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var globalChallenge = new GlobalChallenge
+            {
+                CreatedBy = model.UserId,
+                Name = model.Name,
+                Difficulty = model.Difficulty,
+                Miles = model.Miles,
+                TimeSpan = model.TimeSpan,
+                Description = model.Description,
+                Category = model.Category
+            };
+
+            _context.GlobalChallenges.Add(globalChallenge);
+            await _context.SaveChangesAsync();
+
+            return Ok(globalChallenge);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("DeleteGlobalChallenge")]
+        public async Task<IActionResult> DeleteGlobalChallenge(DeleteGlobalChallengeModel model)
+        {
+            var challenge = await _context.GlobalChallenges.FindAsync(model.ChallengeId);
+            if (challenge == null)
+            {
+                return NotFound("Challenge not found");
+            }
+            _context.GlobalChallenges.Remove(challenge);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
