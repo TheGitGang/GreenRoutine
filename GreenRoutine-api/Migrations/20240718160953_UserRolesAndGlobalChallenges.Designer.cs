@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240718154503_GlobalChallengeChanges")]
-    partial class GlobalChallengeChanges
+    [Migration("20240718160953_UserRolesAndGlobalChallenges")]
+    partial class UserRolesAndGlobalChallenges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,6 +338,9 @@ namespace TodoApi.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Country")
                         .HasColumnType("longtext");
 
                     b.Property<int>("CurrentStreak")
