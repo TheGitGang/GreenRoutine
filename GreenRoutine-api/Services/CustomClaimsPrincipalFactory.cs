@@ -48,7 +48,7 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             
             identity.AddClaim(new Claim("MakeChoice", user.makeChoice.ToString()));
             identity.AddClaim(new Claim("ModelChoice", user.modelChoice.ToString()));
-
+            identity.AddClaim(new Claim("Country",user.Country.ToString()));
 
             return identity;
         }

@@ -99,6 +99,7 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
     var profilePhoto = user.FindFirstValue("ProfilePhoto");
     var makeChoice = user.FindFirstValue("MakeChoice");
     var modelChoice = user.FindFirstValue("ModelChoice");
+    var country = user.FindFirstValue("Country");
     return Results.Json(new { 
         Id = id,
         Email = email,
@@ -115,7 +116,8 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
         NumChallengesComplete = numChallengesComplete,
         NumChallengesCreated = numChallengesCreated,
         MakeChoice = makeChoice,
-        ModelChoice = modelChoice
+        ModelChoice = modelChoice,
+        Country=country,
     }); // return the email as a plain text response
 }).RequireAuthorization();
 

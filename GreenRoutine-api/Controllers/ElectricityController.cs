@@ -102,6 +102,31 @@ namespace TodoApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        [HttpPost("store-country")]
+        public async Task<ActionResult> StoreCountry([FromBody] CountryRequest countryRequest)
+        {
+            if (countryRequest == null)
+            {
+                return BadRequest("Invalid request payload");
+            }
+
+            try
+            {
+                var user = await context.Users.FirstOrDefaultAsync(u => u.Id == countryRequest.UserId);
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+
+                user.Country = countryRequest.Country;
+                await context.SaveChangesAsync();
+                return Ok(new { message = "Country saved successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         public class ElectricityEstimateRequest
         {
@@ -192,7 +217,11 @@ namespace TodoApi.Controllers
                 CarbonMt = carbonMt;
             }
         }
-
+     public class CountryRequest
+        {
+            public string UserId { get; set; }
+            public string Country { get; set; }
+        }
 
         public class ElectricityRequest
         {

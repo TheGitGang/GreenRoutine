@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-const CountrySelectForm = () => {
+const ElectricityEstimate = () => {
     const [userInfo, setUserInfo] = useState({});
     const [country, setCountry] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,7 +67,7 @@ const CountrySelectForm = () => {
         }
     };
 
-    if (!userInfo) {
+    if (!userInfo.id) {
         return <p>Loading...</p>;
     }
 
@@ -94,4 +94,4 @@ const CountrySelectForm = () => {
     );
 };
 
-export default CountrySelectForm;
+export default ElectricityEstimate;
