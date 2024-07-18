@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class GlobalChallengeChanges : Migration
+    public partial class AddChallengeRequests : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,8 @@ namespace TodoApi.Migrations
                     Bio = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Pronouns = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Country = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -390,6 +392,53 @@ namespace TodoApi.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "ChallengeRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Accepted = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    GlobalChallengeId = table.Column<int>(type: "int", nullable: true),
+                    PersonalChallengeId = table.Column<int>(type: "int", nullable: true),
+                    Sender = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Receiver = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Message = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    WageredLeaves = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChallengeRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChallengeRequests_AspNetUsers_Receiver",
+                        column: x => x.Receiver,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChallengeRequests_AspNetUsers_Sender",
+                        column: x => x.Sender,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChallengeRequests_Challenges_PersonalChallengeId",
+                        column: x => x.PersonalChallengeId,
+                        principalTable: "Challenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_ChallengeRequests_GlobalChallenges_GlobalChallengeId",
+                        column: x => x.GlobalChallengeId,
+                        principalTable: "GlobalChallenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -431,6 +480,26 @@ namespace TodoApi.Migrations
                 name: "IX_CategoryChallenge_ChallengesId",
                 table: "CategoryChallenge",
                 column: "ChallengesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeRequests_GlobalChallengeId",
+                table: "ChallengeRequests",
+                column: "GlobalChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeRequests_PersonalChallengeId",
+                table: "ChallengeRequests",
+                column: "PersonalChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeRequests_Receiver",
+                table: "ChallengeRequests",
+                column: "Receiver");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeRequests_Sender",
+                table: "ChallengeRequests",
+                column: "Sender");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GlobalChallenges_CategoryId",
@@ -481,7 +550,7 @@ namespace TodoApi.Migrations
                 name: "CategoryChallenge");
 
             migrationBuilder.DropTable(
-                name: "GlobalChallenges");
+                name: "ChallengeRequests");
 
             migrationBuilder.DropTable(
                 name: "ProfilePhotos");
@@ -496,13 +565,16 @@ namespace TodoApi.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "GlobalChallenges");
 
             migrationBuilder.DropTable(
                 name: "Challenges");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

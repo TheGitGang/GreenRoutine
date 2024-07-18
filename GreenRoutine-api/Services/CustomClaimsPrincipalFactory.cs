@@ -37,6 +37,10 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             {
                 identity.AddClaim(new Claim("Pronouns", user.Pronouns));
             }
+            if (!string.IsNullOrEmpty(user.Country))
+            {
+                identity.AddClaim(new Claim("Country", user.Country));
+            }
             identity.AddClaim(new Claim("Leaves", user.Leaves.ToString()));
             identity.AddClaim(new Claim("DateJoined", user.DateJoined.ToString()));
             identity.AddClaim(new Claim("LifetimeLeaves", user.LifetimeLeaves.ToString()));
@@ -44,11 +48,8 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             identity.AddClaim(new Claim("LongestStreak", user.LongestStreak.ToString()));
             identity.AddClaim(new Claim("NumChallengesComplete", user.NumChallengesComplete.ToString()));
             identity.AddClaim(new Claim("NumChallengesCreated", user.NumChallengesCreated.ToString()));
-           
-            
             identity.AddClaim(new Claim("MakeChoice", user.makeChoice.ToString()));
             identity.AddClaim(new Claim("ModelChoice", user.modelChoice.ToString()));
-            identity.AddClaim(new Claim("Country",user.Country.ToString()));
 
             return identity;
         }

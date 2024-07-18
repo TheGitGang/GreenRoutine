@@ -14,6 +14,7 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<UserFriend> UserFriends { get; set; }
     public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
     public DbSet<GlobalChallenge> GlobalChallenges { get; set; }
+    public DbSet<ChallengeRequest> ChallengeRequests { get; set; }
 
     public ChallengeDbContext(DbContextOptions<ChallengeDbContext> options) : base(options)
     {
@@ -68,5 +69,29 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(gc => gc.Category)
             .WithMany(c => c.GlobalChallenges)
             .HasForeignKey(gc => gc.CategoryId);
+
+        builder.Entity<ChallengeRequest>()
+            .HasOne(cr => cr.SenderUser)
+            .WithMany()
+            .HasForeignKey(cr => cr.Sender)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ChallengeRequest>()
+            .HasOne(cr => cr.ReceiverUser)
+            .WithMany()
+            .HasForeignKey(cr => cr.Receiver)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ChallengeRequest>()
+            .HasOne(cr => cr.GlobalChallenge)
+            .WithMany()
+            .HasForeignKey(cr => cr.GlobalChallengeId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<ChallengeRequest>()
+            .HasOne(cr => cr.PersonalChallenge)
+            .WithMany()
+            .HasForeignKey(cr => cr.PersonalChallengeId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

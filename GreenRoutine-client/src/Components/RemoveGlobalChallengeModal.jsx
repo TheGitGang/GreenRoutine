@@ -14,7 +14,7 @@ const RemoveGlobalChallengeModal = ({ toggle, data, isOpen, handleRemoveSubmit }
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary"onClick={() => {
-                        handleRemoveSubmit(data.id);
+                        handleRemoveSubmit(data.challengeId);
                         toggle();
                     }}>Confirm</Button>
                     <Button onClick={toggle}>Cancel</Button>
