@@ -13,6 +13,7 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<UserFriend> UserFriends { get; set; }
     public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
+    public DbSet<GlobalChallenge> GlobalChallenges { get; set; }
 
     public ChallengeDbContext(DbContextOptions<ChallengeDbContext> options) : base(options)
     {
@@ -56,5 +57,11 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(a => a.ProfilePhoto)
             .WithOne(p => p.User)
             .HasForeignKey<ProfilePhoto>(p => p.UserId);
+
+        builder.Entity<GlobalChallenge>()
+            .HasOne(gc => gc.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(gc => gc.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
