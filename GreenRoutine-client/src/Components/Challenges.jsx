@@ -186,28 +186,28 @@ const Challenges = () => {
             <Nav tabs>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '1' ? 'active': ''}
+                    className={activeTab === '1' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('1'); }}
                     >Your Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '2' ? 'active': ''}
+                    className={activeTab === '2' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('2'); }}
                     >Completed Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '3' ? 'active': ''}
+                    className={activeTab === '3' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('3'); }}
                     >Available Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '4' ? 'active': ''}
+                    className={activeTab === '4' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('4'); }}
                     >
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">

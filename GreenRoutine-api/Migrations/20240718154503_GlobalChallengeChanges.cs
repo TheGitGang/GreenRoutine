@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class IntToDouble : Migration
+    public partial class GlobalChallengeChanges : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -300,6 +300,41 @@ namespace TodoApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "GlobalChallenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Difficulty = table.Column<int>(type: "int", nullable: false),
+                    Miles = table.Column<int>(type: "int", nullable: true),
+                    TimeSpan = table.Column<TimeSpan>(type: "time(6)", nullable: true),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GlobalChallenges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GlobalChallenges_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GlobalChallenges_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "CategoryChallenge",
                 columns: table => new
                 {
@@ -398,6 +433,16 @@ namespace TodoApi.Migrations
                 column: "ChallengesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GlobalChallenges_CategoryId",
+                table: "GlobalChallenges",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GlobalChallenges_CreatedBy",
+                table: "GlobalChallenges",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProfilePhotos_UserId",
                 table: "ProfilePhotos",
                 column: "UserId",
@@ -434,6 +479,9 @@ namespace TodoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryChallenge");
+
+            migrationBuilder.DropTable(
+                name: "GlobalChallenges");
 
             migrationBuilder.DropTable(
                 name: "ProfilePhotos");

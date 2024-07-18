@@ -7,6 +7,8 @@ public class Category
 
     public List<Challenge>? Challenges { get; set; }
 
+    public virtual ICollection<GlobalChallenge> GlobalChallenges { get; set; }
+
     public Category () {}
     public Category (string name): this()
     {

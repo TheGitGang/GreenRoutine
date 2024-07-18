@@ -63,5 +63,10 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(gc => gc.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<GlobalChallenge>()
+            .HasOne(gc => gc.Category)
+            .WithMany(c => c.GlobalChallenges)
+            .HasForeignKey(gc => gc.CategoryId);
     }
 }

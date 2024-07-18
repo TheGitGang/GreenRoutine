@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240712145739_IntToDouble")]
-    partial class IntToDouble
+    [Migration("20240718154503_GlobalChallengeChanges")]
+    partial class GlobalChallengeChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,45 @@ namespace TodoApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Challenges");
+                });
+
+            modelBuilder.Entity("GreenRoutine.Models.GlobalChallenge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Miles")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeSpan?>("TimeSpan")
+                        .HasColumnType("time(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.ToTable("GlobalChallenges");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
@@ -405,6 +444,25 @@ namespace TodoApi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GreenRoutine.Models.GlobalChallenge", b =>
+                {
+                    b.HasOne("GreenRoutine.Models.Category", "Category")
+                        .WithMany("GlobalChallenges")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("CreatedByUser");
+                });
+
             modelBuilder.Entity("GreenRoutine.Models.ProfilePhoto", b =>
                 {
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
@@ -503,6 +561,11 @@ namespace TodoApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GreenRoutine.Models.Category", b =>
+                {
+                    b.Navigation("GlobalChallenges");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.Challenge", b =>
