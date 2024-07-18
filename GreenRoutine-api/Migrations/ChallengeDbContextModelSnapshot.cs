@@ -81,6 +81,50 @@ namespace TodoApi.Migrations
                     b.ToTable("Challenges");
                 });
 
+            modelBuilder.Entity("GreenRoutine.Models.ChallengeRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool?>("Accepted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("GlobalChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("PersonalChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Receiver")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("WageredLeaves")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GlobalChallengeId");
+
+                    b.HasIndex("PersonalChallengeId");
+
+                    b.HasIndex("Receiver");
+
+                    b.HasIndex("Sender");
+
+                    b.ToTable("ChallengeRequests");
+                });
+
             modelBuilder.Entity("GreenRoutine.Models.GlobalChallenge", b =>
                 {
                     b.Property<int>("Id")
@@ -442,6 +486,39 @@ namespace TodoApi.Migrations
                         .HasForeignKey("ChallengesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GreenRoutine.Models.ChallengeRequest", b =>
+                {
+                    b.HasOne("GreenRoutine.Models.GlobalChallenge", "GlobalChallenge")
+                        .WithMany()
+                        .HasForeignKey("GlobalChallengeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("GreenRoutine.Models.Challenge", "PersonalChallenge")
+                        .WithMany()
+                        .HasForeignKey("PersonalChallengeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "ReceiverUser")
+                        .WithMany()
+                        .HasForeignKey("Receiver")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TodoApi.Server.Data.ApplicationUser", "SenderUser")
+                        .WithMany()
+                        .HasForeignKey("Sender")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("GlobalChallenge");
+
+                    b.Navigation("PersonalChallenge");
+
+                    b.Navigation("ReceiverUser");
+
+                    b.Navigation("SenderUser");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.GlobalChallenge", b =>

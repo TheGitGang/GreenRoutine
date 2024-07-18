@@ -9,15 +9,23 @@ import LeavesCount from './LeavesCount';
 import AddFriendModal from './AddFriendModal';
 import RemoveFriendButton from './RemoveFriendButton';
 import profileImg from '../assets/images/ProfilePlaceholder.jpg'
-import { useNavigate } from 'react-router-dom';
 import ViewProfileButton from './ViewProfileButton';
+import SendChallengeModal from './SendChallengeModal';
 
 const ChallengeButton = () => {
-    const handleChallengeClick = (event) => {
-        console.log('challenge sent!')
-    }; 
+    const [displayModal, setDisplayModal] = useState(false);
+
+    const toggle = () => {
+        setDisplayModal(!displayModal);
+    }
+     
     return (
-        <Button size='sm' color="success"onClick={handleChallengeClick}>Challenge!</Button>
+        <>
+            <Button size='sm' color="success"onClick={toggle}>Challenge!</Button>
+            <SendChallengeModal isOpen={displayModal} toggle={toggle}/>
+        </>
+        
+
     );
 };
 
@@ -138,7 +146,8 @@ const FriendsList = ({ userId }) => {
             cellRenderer: ChallengeButton, 
             headerName: "Challenge",
             cellRendererParams: (params) => ({
-                data: params.data
+                data: params.data,
+                userId: userId
             })
         },
         { field: "button", 
