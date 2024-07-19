@@ -12,6 +12,7 @@ import {
   import './Navigation.css'
   import { useState, useEffect } from 'react'
   import Leaves from './Leaves';
+  import { useLeaves } from './LeavesContext';
 
   import logo from '../assets/images/green_routine_logo.png'
 

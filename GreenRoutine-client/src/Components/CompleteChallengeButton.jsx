@@ -2,8 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import JSConfetti from 'js-confetti';
 import { Button } from 'reactstrap'
+import { useLeaves } from './LeavesContext';
 
 const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
+    const { leaves, setLeaves } = useLeaves();
     const completeChallenge= async () => {
         //fetch to complete challenge 
         try {
@@ -38,7 +40,9 @@ const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
         });
 
         if (response.ok) {
+            const data = await response.json();
             console.log('Points added successfully:', data);
+            setLeaves(data.leaves);
         } else {
             const errorData = await response.json();
             setError(errorData.Message);
