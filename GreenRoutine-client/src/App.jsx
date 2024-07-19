@@ -1,15 +1,19 @@
 import Navigation from './Components/Navigation';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import "./App.css"
 // import { AuthProvider } from './AuthContext';
 
 function App() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/'
   return (
       // <AuthProvider>
-        <div className='app-layout'>
-          <Navigation/>
+      <>
+        <div className={isHomePage? 'home-layout': 'app-layout'}>
+          <Navigation />
           <Outlet />
         </div>
+      </>
       // </AuthProvider>
   )
 }

@@ -67,6 +67,9 @@ namespace TodoApi.Migrations
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
 
+                    b.Property<double>("ElectricValue")
+                        .HasColumnType("double");
+
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time(6)");
 

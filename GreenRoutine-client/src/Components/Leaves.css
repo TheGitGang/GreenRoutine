@@ -6,7 +6,7 @@
 #square{
   width: 150px;
   height: 40px;
-  background-color: #B0EC92;
+  background-color: rgb(156, 216, 154);
   margin: 10px;
   border-radius: 20px;
   display: flex;

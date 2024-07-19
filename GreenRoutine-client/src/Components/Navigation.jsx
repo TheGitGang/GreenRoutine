@@ -10,7 +10,7 @@ import {
   } from 'reactstrap';
   import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
-  import { useState, useEffect, useContext } from 'react'
+  import { useState, useEffect } from 'react'
   import Leaves from './Leaves';
 
   import logo from '../assets/images/green_routine_logo.png'
