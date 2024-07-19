@@ -47,7 +47,7 @@ namespace TodoApi.Controllers
             var existingFriendship = await context.UserFriends
                 .AnyAsync(uf => (uf.UserId == model.UserId && uf.FriendId == friend.Id) ||
                                 (uf.UserId == friend.Id && uf.FriendId == model.UserId));
-                 
+
             if (existingFriendship)
             {
                 return Conflict("The users are already friends.");
@@ -71,7 +71,8 @@ namespace TodoApi.Controllers
 
             string friendName = friend.FirstName + " " + friend.LastName;
 
-            var newFriend = new {
+            var newFriend = new
+            {
                 friendId = friend.Id,
                 friendFirstName = friend.FirstName,
                 friendLastName = friend.LastName,
@@ -144,7 +145,7 @@ namespace TodoApi.Controllers
 
             var friends = await context.UserFriends
                 .Where(uf => uf.UserId == userId)
-                .Select(uf => new 
+                .Select(uf => new
                 {
                     FriendId = uf.FriendId,
                     FriendUsername = uf.Friend.UserName,
@@ -154,7 +155,7 @@ namespace TodoApi.Controllers
                     FriendLifetimeLeaves = uf.Friend.LifetimeLeaves
                 })
                 .ToListAsync();
-            
+
             return Ok(friends);
         }
 
@@ -194,7 +195,7 @@ namespace TodoApi.Controllers
                 return NotFound("User not found");
             }
 
-            var friendInfo = new 
+            var friendInfo = new
             {
                 user.Email,
                 user.Bio,
@@ -212,6 +213,44 @@ namespace TodoApi.Controllers
             };
 
             return Ok(friendInfo);
+        }
+
+        [HttpPost("CreateChallengeRequest")]
+        public async Task<IActionResult> CreateChallengeRequest(CreateChallengeRequestModel model)
+        {
+            var sender = await context.Users.FindAsync(model.Sender);
+
+            if (sender == null)
+            {
+                return NotFound("Sender not found");
+            }
+
+            var receiver = await context.Users.FindAsync(model.Receiver);
+
+            if (receiver == null)
+            {
+                return NotFound("Receiver not found");
+            }
+
+            var challengeRequest = new ChallengeRequest
+            {
+                Sender = model.Sender,
+                Receiver = model.Receiver,
+                GlobalChallengeId = model.GlobalChallengeId,
+                Message = model.Message,
+                WageredLeaves = model.WageredLeaves
+            };
+
+            context.ChallengeRequests.Add(challengeRequest);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("{userId}/GetChallengeRequests")]
+        public async Task<IActionResult> GetChallengeRequests([FromRoute] string userId)
+        {
+            
         }
     }
 }
