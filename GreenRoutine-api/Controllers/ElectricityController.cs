@@ -136,8 +136,6 @@ namespace TodoApi.Controllers
             [JsonProperty("country")]
             public string Country { get; set; }
 
-            [JsonProperty("state")]
-            public string State { get; set; }
 
             [JsonProperty("electricity_value")]
             public double ElectricityValue { get; set; }
@@ -222,6 +220,7 @@ namespace TodoApi.Controllers
             public string UserId { get; set; }
             public string Country { get; set; }
         }
+        
 
         public class ElectricityRequest
         {
