@@ -53,6 +53,7 @@ const Search = () => {
         <div>
             {results.length > 0 && (
                 <div>
+                    <br/>
                     <h2>Search Results: </h2>
                     {results.map((challenge) => (
                         <div key={challenge.id}>

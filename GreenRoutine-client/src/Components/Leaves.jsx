@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import './Leaves.css'
 import leafIcon from '../assets/images/leaf.png'
+import { useLeaves } from './LeavesContext';
 
 const Leaves = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
+    const { leaves, setLeaves } = useLeaves();
 
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
@@ -32,6 +34,7 @@ const Leaves = () => {
         if (response.ok) {
             const data = await response.json();
             setUserInfo(data);
+            setLeaves(data.leaves);
             setError('User info set.')
         } else {
             setError('Could not set user info')
@@ -44,7 +47,7 @@ const Leaves = () => {
         } else {
             setError('User is not authenticated.')
         }
-    }, [isAuthenticated])
+    }, [isAuthenticated, setLeaves])
 
 //   const handleClick = async () => {
 //       try {
@@ -78,10 +81,10 @@ const Leaves = () => {
   return ( 
     <div id="square-tiles">
       <div id="square">
-      {userInfo || userInfo.leaves!== undefined ? (
+      {userInfo || leaves!== undefined ? (
         <div> 
             <img src={leafIcon} height='15'/> 
-            : {userInfo.leaves} </div>): 
+            : {leaves} </div>): 
         <div> Leave: 0 </div>}
       </div>
     </div>

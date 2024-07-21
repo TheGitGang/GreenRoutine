@@ -35,8 +35,11 @@ const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpac
 
     return (
         <>
+            
+            <div>
+            <br />
             <h2>Completed Challenges</h2>
-            <div>{renderChallenges(completedChallengesToRender, userInfo, CarbonImpactScreen, carbonLb)}</div>
+            {renderChallenges(completedChallengesToRender, userInfo, CarbonImpactScreen, carbonLb)}</div>
         </>
     )
 };

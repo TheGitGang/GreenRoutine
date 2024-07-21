@@ -1,6 +1,7 @@
 import Navigation from './Components/Navigation';
 import { Outlet, useLocation } from 'react-router-dom';
 import "./App.css"
+import { LeavesProvider } from './Components/LeavesContext';
 // import { AuthProvider } from './AuthContext';
 
 function App() {
@@ -8,12 +9,14 @@ function App() {
   const isHomePage = location.pathname === '/'
   return (
       // <AuthProvider>
+      <LeavesProvider>
       <>
         <div className={isHomePage? 'home-layout': 'app-layout'}>
           <Navigation />
           <Outlet />
         </div>
       </>
+      </LeavesProvider>
       // </AuthProvider>
   )
 }
