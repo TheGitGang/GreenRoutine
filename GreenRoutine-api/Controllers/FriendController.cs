@@ -218,6 +218,11 @@ namespace TodoApi.Controllers
         [HttpPost("CreateChallengeRequest")]
         public async Task<IActionResult> CreateChallengeRequest(CreateChallengeRequestModel model)
         {
+            if (model.GlobalChallengeId != null && model.PersonalChallengeId != null)
+            {
+                return BadRequest("Only 1 challenge id can be provided");
+            }
+
             var sender = await context.Users.FindAsync(model.Sender);
 
             if (sender == null)
@@ -237,6 +242,7 @@ namespace TodoApi.Controllers
                 Sender = model.Sender,
                 Receiver = model.Receiver,
                 GlobalChallengeId = model.GlobalChallengeId,
+                PersonalChallengeId = model.PersonalChallengeId,
                 Message = model.Message,
                 WageredLeaves = model.WageredLeaves
             };
@@ -250,7 +256,38 @@ namespace TodoApi.Controllers
         [HttpGet("{userId}/GetChallengeRequests")]
         public async Task<IActionResult> GetChallengeRequests([FromRoute] string userId)
         {
-            
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var challengeRequests = await context.ChallengeRequests
+                .Where(cr => cr.Receiver == userId && cr.Accepted == null)
+                .Select(cr => new
+                {
+                    cr.Id,
+                    cr.Sender,
+                    cr.Message,
+                    cr.WageredLeaves,
+                    cr.PersonalChallengeId,
+                    PersonalChallengeName = cr.PersonalChallenge.Name,
+                    PersonalChallengeDescription = cr.PersonalChallenge.Description,
+                    PersonalChallengeTimeSpan = cr.PersonalChallenge.Length,
+                    PersonalChallengeCategory = cr.PersonalChallenge.Categories,
+                    PersonalChallengeDifficulty = cr.PersonalChallenge.Difficulty,
+                    cr.GlobalChallengeId,
+                    GlobalChallengeDescription = cr.GlobalChallenge.Description,
+                    GlobalChallengeName = cr.GlobalChallenge.Name,
+                    GlobalChallengeTimeSpan = cr.GlobalChallenge.TimeSpan,
+                    GlobalChallengeCategory = cr.GlobalChallenge.Category.Name,
+                    GlobalChallengeDifficulty = cr.GlobalChallenge.Difficulty,
+                    SenderName = cr.SenderUser.FirstName + " " + cr.SenderUser.LastName
+                })
+                .ToListAsync();
+
+            return Ok(challengeRequests);
         }
     }
 }

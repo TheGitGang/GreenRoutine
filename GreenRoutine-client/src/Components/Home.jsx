@@ -2,6 +2,7 @@ import JSConfetti from 'js-confetti';
 import './Home.css'
 import { useEffect, useState} from 'react';
 import { setLocalStorage } from './LocalStorageFunctions';
+import ChallengeRequests from './ChallengeRequests';
 
 const Home = () => {
 
@@ -62,7 +63,7 @@ const Home = () => {
                     <h1>Hello, {userInfo.firstName} {userInfo.lastName}!</h1>
                 </div>
                 <div>
-                    <button onClick={handleClick}>Confetti!</button>
+                    <ChallengeRequests userId={userInfo.id}/>
                 </div>
             </>
         )
