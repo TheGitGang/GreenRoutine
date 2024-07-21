@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240718193128_AddChallengeRequests")]
-    partial class AddChallengeRequests
+    [Migration("20240718203116_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,9 @@ namespace TodoApi.Migrations
 
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
+
+                    b.Property<double>("ElectricValue")
+                        .HasColumnType("double");
 
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time(6)");

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddChallengeRequests : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,6 +113,7 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Difficulty = table.Column<int>(type: "int", nullable: false),
                     Miles = table.Column<int>(type: "int", nullable: false),
+                    ElectricValue = table.Column<double>(type: "double", nullable: false),
                     Length = table.Column<TimeSpan>(type: "time(6)", nullable: true),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")

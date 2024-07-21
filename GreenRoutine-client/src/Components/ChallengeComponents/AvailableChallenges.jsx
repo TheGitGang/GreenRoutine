@@ -32,8 +32,11 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, ChallengeSi
 
     return (
         <>
+           
+            <div>
+            <br/>
             <h2>Available Challenges</h2>
-            <div>{renderChallenges(availableChallengesToRender, false)}</div>
+                {renderChallenges(availableChallengesToRender, false)}</div>
         </>
     )
 };

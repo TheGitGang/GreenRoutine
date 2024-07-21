@@ -141,6 +141,39 @@ namespace TodoApi.Controllers
 
 
             user.Leaves += request.Points;
+            user.LifetimeLeaves += request.Points;
+            var result = await _userManager.UpdateAsync(user);
+            await _signInManager.RefreshSignInAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("lose-leaves")]
+        public async Task<IActionResult> LosePoints([FromBody] AddPointsRequest request)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to lose points to user: {request.UserId}");
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
+
+            user.Leaves -= request.Points;
             var result = await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
 
