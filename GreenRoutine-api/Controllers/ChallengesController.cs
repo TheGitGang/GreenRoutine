@@ -29,9 +29,21 @@ public class ChallengesController : ControllerBase
 
 
     [HttpPost("create")]
-    public IActionResult CreateChallenge(/*[FromBody]*/ Challenge challenge)
+    public IActionResult CreateChallenge(Challenge challenge)
     {
-        Console.WriteLine("you added a challenge");
+        if (challenge == null)
+        {
+            return BadRequest("Challenge data is null");
+    
+        }
+
+        var category = context.Categories.Find(challenge.CategoryId);
+        if (category == null)
+        {
+            return BadRequest("Invalid category ID");
+        }
+        
+
         context.Challenges.Add(challenge);
         context.SaveChanges();
         return Ok(new {message="Challenge successfully added"});
