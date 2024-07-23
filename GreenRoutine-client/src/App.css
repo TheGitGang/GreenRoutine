@@ -127,3 +127,8 @@
   border-radius: 20px;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.request-detail {
+  font-size: 1rem;
+  margin: 0;
+}

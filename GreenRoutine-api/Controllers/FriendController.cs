@@ -47,7 +47,7 @@ namespace TodoApi.Controllers
             var existingFriendship = await context.UserFriends
                 .AnyAsync(uf => (uf.UserId == model.UserId && uf.FriendId == friend.Id) ||
                                 (uf.UserId == friend.Id && uf.FriendId == model.UserId));
-                 
+
             if (existingFriendship)
             {
                 return Conflict("The users are already friends.");
@@ -71,7 +71,8 @@ namespace TodoApi.Controllers
 
             string friendName = friend.FirstName + " " + friend.LastName;
 
-            var newFriend = new {
+            var newFriend = new
+            {
                 friendId = friend.Id,
                 friendFirstName = friend.FirstName,
                 friendLastName = friend.LastName,
@@ -144,7 +145,7 @@ namespace TodoApi.Controllers
 
             var friends = await context.UserFriends
                 .Where(uf => uf.UserId == userId)
-                .Select(uf => new 
+                .Select(uf => new
                 {
                     FriendId = uf.FriendId,
                     FriendUsername = uf.Friend.UserName,
@@ -154,7 +155,7 @@ namespace TodoApi.Controllers
                     FriendLifetimeLeaves = uf.Friend.LifetimeLeaves
                 })
                 .ToListAsync();
-            
+
             return Ok(friends);
         }
 
@@ -194,7 +195,7 @@ namespace TodoApi.Controllers
                 return NotFound("User not found");
             }
 
-            var friendInfo = new 
+            var friendInfo = new
             {
                 user.Email,
                 user.Bio,
@@ -212,6 +213,124 @@ namespace TodoApi.Controllers
             };
 
             return Ok(friendInfo);
+        }
+
+        [HttpPost("CreateChallengeRequest")]
+        public async Task<IActionResult> CreateChallengeRequest(CreateChallengeRequestModel model)
+        {
+            if (model.GlobalChallengeId != null && model.PersonalChallengeId != null)
+            {
+                return BadRequest("Only 1 challenge id can be provided");
+            }
+
+            var sender = await context.Users.FindAsync(model.Sender);
+
+            if (sender == null)
+            {
+                return NotFound("Sender not found");
+            }
+
+            var receiver = await context.Users.FindAsync(model.Receiver);
+
+            if (receiver == null)
+            {
+                return NotFound("Receiver not found");
+            }
+
+            var challengeRequest = new ChallengeRequest
+            {
+                Sender = model.Sender,
+                Receiver = model.Receiver,
+                GlobalChallengeId = model.GlobalChallengeId,
+                PersonalChallengeId = model.PersonalChallengeId,
+                Message = model.Message,
+                WageredLeaves = model.WageredLeaves
+            };
+
+            context.ChallengeRequests.Add(challengeRequest);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("{userId}/GetChallengeRequests")]
+        public async Task<IActionResult> GetChallengeRequests([FromRoute] string userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var challengeRequests = await context.ChallengeRequests
+                .Where(cr => cr.Receiver == userId && cr.Accepted == null)
+                .Select(cr => new
+                {
+                    cr.Id,
+                    cr.Sender,
+                    cr.Message,
+                    cr.WageredLeaves,
+                    cr.PersonalChallengeId,
+                    PersonalChallengeName = cr.PersonalChallenge != null ? cr.PersonalChallenge.Name : null,
+                    PersonalChallengeDescription = cr.PersonalChallenge != null ? cr.PersonalChallenge.Description : null,
+                    PersonalChallengeTimeSpan = cr.PersonalChallenge != null ? cr.PersonalChallenge.Length : null,
+                    PersonalChallengeCategory = cr.PersonalChallenge != null ? cr.PersonalChallenge.Categories : null,
+                    PersonalChallengeDifficulty = cr.PersonalChallenge != null ? cr.PersonalChallenge.Difficulty : (int?)null,
+                    cr.GlobalChallengeId,
+                    GlobalChallengeDescription = cr.GlobalChallenge != null ? cr.GlobalChallenge.Description : null,
+                    GlobalChallengeName = cr.GlobalChallenge != null ? cr.GlobalChallenge.Name : null,
+                    GlobalChallengeTimeSpan = cr.GlobalChallenge != null ? cr.GlobalChallenge.TimeSpan : null,
+                    GlobalChallengeCategory = cr.GlobalChallenge != null ? cr.GlobalChallenge.Category.Name : null,
+                    GlobalChallengeDifficulty = cr.GlobalChallenge != null ? cr.GlobalChallenge.Difficulty : (int?)null,
+                    SenderName = cr.SenderUser.FirstName + " " + cr.SenderUser.LastName
+                })
+                .ToListAsync();
+
+            return Ok(challengeRequests);
+        }
+
+        [HttpPost("AcceptOrDecline")]
+        public async Task<IActionResult> AcceptOrDeclineChallenge(AcceptOrDeclineChallengeModel model)
+        {
+            if (model.UserId == null || model.ChallengeRequestId == 0)
+            {
+                return BadRequest();
+            }
+
+            var challengeRequest = await context.ChallengeRequests.FindAsync(model.ChallengeRequestId);
+
+            if (challengeRequest == null)
+            {
+                return NotFound();
+            }
+
+            if (challengeRequest.Receiver != model.UserId)
+            {
+                return Unauthorized("Only the receiver of this request has the permission to do this.");
+            }
+
+            if (model.Accepted == true)
+            {
+                challengeRequest.Accepted = true;
+
+                // var userChallenge = new UserChallenge
+                // {
+                //     UserId = model.UserId,
+                //     ChallengeId = challengeRequest.GlobalChallengeId == null ? challengeRequest.PersonalChallengeId : challengeRequest.GlobalChallengeId,
+                //     SignupDate = 
+                // };
+
+                await context.SaveChangesAsync();
+            }
+
+            if (model.Accepted == false)
+            {
+                context.ChallengeRequests.Remove(challengeRequest);
+                await context.SaveChangesAsync();
+            }
+
+            return Ok();
         }
     }
 }

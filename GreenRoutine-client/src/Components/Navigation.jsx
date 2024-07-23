@@ -154,6 +154,9 @@ import {
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
                     </DropdownItem>
+                    <DropdownItem tag={Link} to='/challengerequests' className='dropdown-link'>
+                        Challenge Requests
+                    </DropdownItem>
                     {isAdmin && 
                         <DropdownItem tag={Link} to='/admin' className="dropdown-link">
                             Admin

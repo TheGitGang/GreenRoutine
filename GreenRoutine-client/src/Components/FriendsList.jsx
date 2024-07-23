@@ -10,24 +10,7 @@ import AddFriendModal from './AddFriendModal';
 import RemoveFriendButton from './RemoveFriendButton';
 import profileImg from '../assets/images/ProfilePlaceholder.jpg'
 import ViewProfileButton from './ViewProfileButton';
-import SendChallengeModal from './SendChallengeModal';
-
-const ChallengeButton = () => {
-    const [displayModal, setDisplayModal] = useState(false);
-
-    const toggle = () => {
-        setDisplayModal(!displayModal);
-    }
-     
-    return (
-        <>
-            <Button size='sm' color="success"onClick={toggle}>Challenge!</Button>
-            <SendChallengeModal isOpen={displayModal} toggle={toggle}/>
-        </>
-        
-
-    );
-};
+import ChallengeButton from './ChallengeButton';
 
 const FriendsList = ({ userId }) => {
     const [displayAddModal, setDisplayAddModal] = useState(false);
