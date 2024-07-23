@@ -2,22 +2,21 @@ import ReactDOM from 'react-dom/client';
 import { DisplayMileageQuery } from './ChallengeTransportationOptions'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, FormGroup, Label, Input, Button, Spinner } from "reactstrap";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import './CreateChallenge.css';
 
 
 const CreateChallenge = () => {
 
     const [name, setName] = useState('');
-    const [difficulty, setDifficulty] = useState('');
+    const [difficulty, setDifficulty] = useState(0);
     const [length, setLength] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(0);
     const [miles, setMiles] = useState('');
     const [electricValue, setElectricValue] = useState('');
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     const [error, setError] = useState('');
 
@@ -31,10 +30,8 @@ const CreateChallenge = () => {
                 const response = await fetch('/api/Category/categories');
                 const data = await response.json();
                 setCategories(data);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching categories:', error);
-                setLoading(false);
             }
         }
         fetchCategories();
@@ -43,10 +40,10 @@ const CreateChallenge = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'name') setName(value);
-        if (name === 'difficulty') setDifficulty(value);
+        if (name === 'difficulty') setDifficulty(Number(value));
         if (name === 'length') setLength(value);
         if (name === 'description') setDescription(value);
-        if (name === 'category') setCategory(value);
+        if (name === 'category') setCategory(Number(value));
         if (name === 'miles') setMiles(value);
         if (name === 'electric') setElectricValue(value);
     }
@@ -60,8 +57,9 @@ const CreateChallenge = () => {
                 name: name,
                 length: length,
                 description: description,
-                category: category,
-                miles: miles
+                miles: miles,
+                electricValue: electricValue,
+                categoryId: category
             }
             console.log(payload);
             fetch('/api/Challenges/create', {
@@ -84,10 +82,6 @@ const CreateChallenge = () => {
             navigate('/thankyou')
         }
 
-    if (loading){
-        return <Spinner style={{ width: '3rem', height: '3rem '}}/>
-    }
-
     return (
         <div className="challengeSubmit lightgrey-card">
             <h3 className='title'>Submit a Challenge</h3>
@@ -109,13 +103,14 @@ const CreateChallenge = () => {
                         type='select'
                         id='difficulty'
                         name='difficulty'
+                        value={difficulty}
                         onChange={handleChange}
                     >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
                     </Input>
                 </FormGroup>
                 <FormGroup>
@@ -147,6 +142,7 @@ const CreateChallenge = () => {
                         value={category}
                         onChange={handleChange}
                     >
+                        <option value='0'>Select a category</option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.id}>{category.name}</option>
                         ))}

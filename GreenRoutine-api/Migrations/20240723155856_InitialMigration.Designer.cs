@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240718203116_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20240723155856_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace TodoApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryChallenge", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChallengesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "ChallengesId");
-
-                    b.HasIndex("ChallengesId");
-
-                    b.ToTable("CategoryChallenge");
-                });
 
             modelBuilder.Entity("GreenRoutine.Models.Category", b =>
                 {
@@ -64,6 +49,9 @@ namespace TodoApi.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
@@ -83,6 +71,8 @@ namespace TodoApi.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Challenges");
                 });
@@ -479,19 +469,15 @@ namespace TodoApi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryChallenge", b =>
+            modelBuilder.Entity("GreenRoutine.Models.Challenge", b =>
                 {
-                    b.HasOne("GreenRoutine.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
+                    b.HasOne("GreenRoutine.Models.Category", "Category")
+                        .WithMany("Challenges")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenRoutine.Models.Challenge", null)
-                        .WithMany()
-                        .HasForeignKey("ChallengesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("GreenRoutine.Models.ChallengeRequest", b =>
@@ -648,6 +634,8 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("GreenRoutine.Models.Category", b =>
                 {
+                    b.Navigation("Challenges");
+
                     b.Navigation("GlobalChallenges");
                 });
 

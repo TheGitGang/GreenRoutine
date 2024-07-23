@@ -38,8 +38,6 @@ const Home = () => {
                     const data = await response.json();
                     setUserInfo(data);
                     console.log(data);
-                    
-                    setLocalStorage('userInfo', data);
 
                     setError('User info set.')
                 } else {
