@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240723155856_InitialMigration")]
+    [Migration("20240723193330_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -207,7 +207,10 @@ namespace TodoApi.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("ChallengeId")
+                    b.Property<int?>("GlobalChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PersonalChallengeId")
                         .HasColumnType("int");
 
                     b.Property<double?>("Carbon_lb")
@@ -216,15 +219,22 @@ namespace TodoApi.Migrations
                     b.Property<bool>("ChallengeCompleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int?>("ChallengeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("UserId", "ChallengeId");
+                    b.HasKey("UserId", "GlobalChallengeId", "PersonalChallengeId");
 
                     b.HasIndex("ChallengeId");
+
+                    b.HasIndex("GlobalChallengeId");
+
+                    b.HasIndex("PersonalChallengeId");
 
                     b.ToTable("UserChallenges");
                 });
@@ -564,10 +574,20 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
                 {
-                    b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
+                    b.HasOne("GreenRoutine.Models.Challenge", null)
                         .WithMany("UserChallenges")
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ChallengeId");
+
+                    b.HasOne("GreenRoutine.Models.GlobalChallenge", "GlobalChallenge")
+                        .WithMany()
+                        .HasForeignKey("GlobalChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
+                        .WithMany()
+                        .HasForeignKey("PersonalChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
@@ -577,6 +597,8 @@ namespace TodoApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Challenge");
+
+                    b.Navigation("GlobalChallenge");
 
                     b.Navigation("User");
                 });

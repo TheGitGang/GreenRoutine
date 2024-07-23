@@ -8,8 +8,10 @@ public class UserChallenge
     public string UserId { get; set; }
     public ApplicationUser User { get; set; }
 
-    public int ChallengeId { get; set; }
+    public int? GlobalChallengeId { get; set; }
     public Challenge Challenge { get; set; }
+    public int? PersonalChallengeId { get; set; }
+    public GlobalChallenge GlobalChallenge { get; set; }
 
     public DateTime SignupDate { get; set; } = DateTime.Now;
 
