@@ -93,5 +93,10 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(cr => cr.PersonalChallengeId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Category>()
+            .HasMany(c => c.Challenges)
+            .WithOne(c => c.Category)
+            .HasForeignKey(c => c.CategoryId);
     }
 }

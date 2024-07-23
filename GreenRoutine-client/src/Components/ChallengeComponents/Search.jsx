@@ -1,9 +1,33 @@
 import { Label, Input, Form, Button, FormGroup } from 'reactstrap'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Search = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [difficulty, setDifficulty] = useState('');
+    const [category, setCategory] = useState('');
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('/api/Category/categories');
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+        fetchCategories();
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'search') setQuery(value);
+        if (name === 'difficulty') setDifficulty(value);
+        if (name === 'category') setCategory(value);
+    }
+
     const handleClick = async (event) => {
         event.preventDefault();
     try {
@@ -41,9 +65,33 @@ const Search = () => {
                 id="search"
                 name="search"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleChange}
                 placeholder='Enter search query'
                 />
+            </FormGroup>
+            <FormGroup>
+                <Label for="category">
+                Category
+                </Label>
+               <Input id="category" name="category" type="select">
+               <option>Select a Category</option>
+               {categories.map((category) => (
+                            <option key={category.id} value={category.name}>{category.name}</option>
+                        ))}
+                </Input>
+            </FormGroup>
+            <FormGroup>
+                <Label for="difficulty">
+                Difficulty
+                </Label>
+               <Input id="difficulty" name="difficulty" type="select" onChange={handleChange}>
+                    <option value=''>Select a Difficulty</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                </Input>
             </FormGroup>
             <Button onClick={handleClick} type='submit'>
             Search
