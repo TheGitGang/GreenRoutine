@@ -5,8 +5,8 @@ const Search = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [difficulty, setDifficulty] = useState('');
-    const [category, setCategory] = useState('');
+    const [difficulty, setDifficulty] = useState(null);
+    const [category, setCategory] = useState(null);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -24,8 +24,8 @@ const Search = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'search') setQuery(value);
-        if (name === 'difficulty') setDifficulty(value);
-        if (name === 'category') setCategory(value);
+        if (name === 'difficulty') setDifficulty(Number(value));
+        if (name === 'category') setCategory(Number(value));
     }
 
     const handleClick = async (event) => {
@@ -37,7 +37,9 @@ const Search = () => {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify({
-                query: query
+                query: query,
+                categoryId: category,
+                difficulty: difficulty
             })
         });
         
@@ -73,10 +75,10 @@ const Search = () => {
                 <Label for="category">
                 Category
                 </Label>
-               <Input id="category" name="category" type="select">
-               <option>Select a Category</option>
+               <Input id="category" name="category" type="select" value={category} onChange={handleChange}>
+               <option value=''>Select a Category</option>
                {categories.map((category) => (
-                            <option key={category.id} value={category.name}>{category.name}</option>
+                            <option key={category.id} value={category.id}>{category.name}</option>
                         ))}
                 </Input>
             </FormGroup>
@@ -84,7 +86,7 @@ const Search = () => {
                 <Label for="difficulty">
                 Difficulty
                 </Label>
-               <Input id="difficulty" name="difficulty" type="select" onChange={handleChange}>
+               <Input id="difficulty" name="difficulty" type="select" value={difficulty} onChange={handleChange}>
                     <option value=''>Select a Difficulty</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>

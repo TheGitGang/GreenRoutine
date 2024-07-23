@@ -18,25 +18,29 @@ namespace TodoAPI.Controllers{
         [HttpPost]
         public async Task<ActionResult<IEnumerable<Challenge>>> Search([FromBody] SearchRequest request)
         {
+            var query = context.Challenges.AsQueryable();
+
             if (!string.IsNullOrEmpty(request.Query))
             {
-
-                var query = context.Challenges.AsQueryable();
-
                 //filter by query
                 query = query.Where(x => x.Name.Contains(request.Query) || x.Description.Contains(request.Query));
 
-                if(!string.IsNullOrEmpty(request.Difficulty))
-                {
-                    query = query.Where(x => x.Difficulty == int.Parse(request.Difficulty));
-                }
-
-                var results = await query.ToListAsync();
-                return Ok(results);   
             }
 
-            
-            return BadRequest("Query string is empty.");
+            if(request.CategoryId.HasValue)
+            {
+                //filter by category id
+                query = query.Where(x => x.CategoryId == request.CategoryId.Value);
+            }
+
+            if(request.Difficulty.HasValue)
+            {
+                //filter by difficulty
+                query = query.Where(x => x.Difficulty == request.Difficulty.Value);
+            }
+
+            var results = await query.ToListAsync();
+            return Ok(results);
         }
 
 
@@ -44,9 +48,9 @@ namespace TodoAPI.Controllers{
 
     public class SearchRequest
     {
-        public string Query { get; set; }
-        public string? Category { get; set; }
-        public string? Difficulty { get; set; }
+        public string? Query { get; set; }
+        public int? CategoryId { get; set; }
+        public int? Difficulty { get; set; }
     }
 
 
