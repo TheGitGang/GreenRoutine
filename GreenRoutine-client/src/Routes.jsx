@@ -21,6 +21,7 @@ import ElectricityEstimate from'./Components/Electricity.jsx'
 import Unauthorized from './Components/Unauthorized.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'
 import AdminPage from './Components/AdminPage.jsx'
+import ChallengeRequests from './Components/ChallengeRequests.jsx'
 
 
 const router = createBrowserRouter([
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: '/admin',
         element: <ProtectedRoute element={<AdminPage/>}/>
+      },
+      {
+        path: '/challengerequests',
+        element: <ChallengeRequests/>
       }
     ]
   }

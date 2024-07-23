@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Alert, Input, Label } from "reactstrap";
 
-const SendChallengeModal = ({ isOpen, toggle, data }) => {
+const SendChallengeModal = ({ isOpen, toggle, data, userId }) => {
 
     const [globalChallenges, setGlobalChallenges] = useState([]);
     const [message, setMessage] = useState("");
     //const [challenge, setChallenge] = useState(0);
-    const [globalChallenge, setGlobalChallenge] = useState(0);
+    const [globalChallenge, setGlobalChallenge] = useState(1);
     const [wageredLeaves, setWageredLeaves] = useState(0);
     const [error, setError] = useState("");
 
@@ -35,15 +35,37 @@ const SendChallengeModal = ({ isOpen, toggle, data }) => {
         fetchGlobalChallenges();
     }, [])
 
+    const handleSubmit = async () => {
+        const payload = {
+            sender: userId,
+            receiver: data.id,
+            globalChallengeId: globalChallenge,
+            wageredLeaves: wageredLeaves,
+            message: message 
+        }
+        const response = await fetch('/api/Friend/CreateChallengeRequest', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            setError("Challenge successfully sent!")
+            setTimeout(() => {
+                toggle();
+                setError("");
+            }, 2000)
+        } else {
+            setError("Unable to send challenge.")
+        }
+    };
+
     const globalChallengeOptions = globalChallenges.map((challenge) => {
         return (
             <option key={challenge.id} value={challenge.id}>{challenge.name}</option>
         )
-    })
-
-    const handleSubmit = async () => {
-
-    }; 
+    }) 
 
     return (
         <div>
@@ -100,7 +122,7 @@ const SendChallengeModal = ({ isOpen, toggle, data }) => {
                         setWageredLeaves(0);
                     }}>Cancel</Button>
                 </ModalFooter>
-                {error && <Alert color='danger' className="mr-2 ml-2">{error}</Alert>}
+                {error && <Alert color={error === "Challenge successfully sent!" ? 'success' : 'danger'} className="mr-2 ml-2">{error}</Alert>}
             </Modal>
         </div>
     )

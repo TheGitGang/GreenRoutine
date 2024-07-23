@@ -272,22 +272,65 @@ namespace TodoApi.Controllers
                     cr.Message,
                     cr.WageredLeaves,
                     cr.PersonalChallengeId,
-                    PersonalChallengeName = cr.PersonalChallenge.Name,
-                    PersonalChallengeDescription = cr.PersonalChallenge.Description,
-                    PersonalChallengeTimeSpan = cr.PersonalChallenge.Length,
-                    PersonalChallengeCategory = cr.PersonalChallenge.Categories,
-                    PersonalChallengeDifficulty = cr.PersonalChallenge.Difficulty,
+                    PersonalChallengeName = cr.PersonalChallenge != null ? cr.PersonalChallenge.Name : null,
+                    PersonalChallengeDescription = cr.PersonalChallenge != null ? cr.PersonalChallenge.Description : null,
+                    PersonalChallengeTimeSpan = cr.PersonalChallenge != null ? cr.PersonalChallenge.Length : null,
+                    PersonalChallengeCategory = cr.PersonalChallenge != null ? cr.PersonalChallenge.Categories : null,
+                    PersonalChallengeDifficulty = cr.PersonalChallenge != null ? cr.PersonalChallenge.Difficulty : (int?)null,
                     cr.GlobalChallengeId,
-                    GlobalChallengeDescription = cr.GlobalChallenge.Description,
-                    GlobalChallengeName = cr.GlobalChallenge.Name,
-                    GlobalChallengeTimeSpan = cr.GlobalChallenge.TimeSpan,
-                    GlobalChallengeCategory = cr.GlobalChallenge.Category.Name,
-                    GlobalChallengeDifficulty = cr.GlobalChallenge.Difficulty,
+                    GlobalChallengeDescription = cr.GlobalChallenge != null ? cr.GlobalChallenge.Description : null,
+                    GlobalChallengeName = cr.GlobalChallenge != null ? cr.GlobalChallenge.Name : null,
+                    GlobalChallengeTimeSpan = cr.GlobalChallenge != null ? cr.GlobalChallenge.TimeSpan : null,
+                    GlobalChallengeCategory = cr.GlobalChallenge != null ? cr.GlobalChallenge.Category.Name : null,
+                    GlobalChallengeDifficulty = cr.GlobalChallenge != null ? cr.GlobalChallenge.Difficulty : (int?)null,
                     SenderName = cr.SenderUser.FirstName + " " + cr.SenderUser.LastName
                 })
                 .ToListAsync();
 
             return Ok(challengeRequests);
+        }
+
+        [HttpPost("AcceptOrDecline")]
+        public async Task<IActionResult> AcceptOrDeclineChallenge(AcceptOrDeclineChallengeModel model)
+        {
+            if (model.UserId == null || model.ChallengeRequestId == 0)
+            {
+                return BadRequest();
+            }
+
+            var challengeRequest = await context.ChallengeRequests.FindAsync(model.ChallengeRequestId);
+
+            if (challengeRequest == null)
+            {
+                return NotFound();
+            }
+
+            if (challengeRequest.Receiver != model.UserId)
+            {
+                return Unauthorized("Only the receiver of this request has the permission to do this.");
+            }
+
+            if (model.Accepted == true)
+            {
+                challengeRequest.Accepted = true;
+
+                // var userChallenge = new UserChallenge
+                // {
+                //     UserId = model.UserId,
+                //     ChallengeId = challengeRequest.GlobalChallengeId == null ? challengeRequest.PersonalChallengeId : challengeRequest.GlobalChallengeId,
+                //     SignupDate = 
+                // };
+
+                await context.SaveChangesAsync();
+            }
+
+            if (model.Accepted == false)
+            {
+                context.ChallengeRequests.Remove(challengeRequest);
+                await context.SaveChangesAsync();
+            }
+
+            return Ok();
         }
     }
 }

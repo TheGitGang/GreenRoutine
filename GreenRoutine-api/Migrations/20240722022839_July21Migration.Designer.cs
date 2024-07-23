@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240718203116_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20240722022839_July21Migration")]
+    partial class July21Migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
