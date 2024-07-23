@@ -89,7 +89,7 @@ public class ChallengesController : ControllerBase
         var userChallenge = new UserChallenge
         {
             UserId = request.UserId,
-            ChallengeId = request.ChallengeId
+            PersonalChallengeId = request.ChallengeId
         };
 
         context.UserChallenges.Add(userChallenge);
