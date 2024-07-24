@@ -395,10 +395,12 @@ namespace TodoApi.Migrations
                 name: "UserChallenges",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GlobalChallengeId = table.Column<int>(type: "int", nullable: false),
-                    PersonalChallengeId = table.Column<int>(type: "int", nullable: false),
+                    GlobalChallengeId = table.Column<int>(type: "int", nullable: true),
+                    PersonalChallengeId = table.Column<int>(type: "int", nullable: true),
                     SignupDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ChallengeCompleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Impact = table.Column<string>(type: "longtext", nullable: true)
@@ -408,13 +410,13 @@ namespace TodoApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChallenges", x => new { x.UserId, x.GlobalChallengeId, x.PersonalChallengeId });
+                    table.PrimaryKey("PK_UserChallenges", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserChallenges_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserChallenges_Challenges_ChallengeId",
                         column: x => x.ChallengeId,
@@ -527,6 +529,20 @@ namespace TodoApi.Migrations
                 name: "IX_UserChallenges_PersonalChallengeId",
                 table: "UserChallenges",
                 column: "PersonalChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenges_UserId_GlobalChallengeId",
+                table: "UserChallenges",
+                columns: new[] { "UserId", "GlobalChallengeId" },
+                unique: true,
+                filter: "[GlobalChallengeId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenges_UserId_PersonalChallengeId",
+                table: "UserChallenges",
+                columns: new[] { "UserId", "PersonalChallengeId" },
+                unique: true,
+                filter: "[PersonalChallengeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserFriends_FriendId",

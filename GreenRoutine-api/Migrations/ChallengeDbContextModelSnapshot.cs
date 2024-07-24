@@ -201,14 +201,11 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("GreenRoutine.UserChallenge", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int?>("GlobalChallengeId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("PersonalChallengeId")
-                        .HasColumnType("int");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double?>("Carbon_lb")
                         .HasColumnType("double");
@@ -219,19 +216,37 @@ namespace TodoApi.Migrations
                     b.Property<int?>("ChallengeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("GlobalChallengeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("PersonalChallengeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("SignupDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("UserId", "GlobalChallengeId", "PersonalChallengeId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ChallengeId");
 
                     b.HasIndex("GlobalChallengeId");
 
                     b.HasIndex("PersonalChallengeId");
+
+                    b.HasIndex("UserId", "GlobalChallengeId")
+                        .IsUnique()
+                        .HasFilter("[GlobalChallengeId] IS NOT NULL");
+
+                    b.HasIndex("UserId", "PersonalChallengeId")
+                        .IsUnique()
+                        .HasFilter("[PersonalChallengeId] IS NOT NULL");
 
                     b.ToTable("UserChallenges");
                 });
@@ -578,19 +593,17 @@ namespace TodoApi.Migrations
                     b.HasOne("GreenRoutine.Models.GlobalChallenge", "GlobalChallenge")
                         .WithMany()
                         .HasForeignKey("GlobalChallengeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("GreenRoutine.Models.Challenge", "Challenge")
                         .WithMany()
                         .HasForeignKey("PersonalChallengeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TodoApi.Server.Data.ApplicationUser", "User")
                         .WithMany("UserChallenges")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Challenge");

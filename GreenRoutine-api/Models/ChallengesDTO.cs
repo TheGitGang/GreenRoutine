@@ -6,6 +6,7 @@ namespace GreenRoutine.Models;
 
 public class ChallengesDTO
 {
+    public int ChallengeId { get; set; }
     public string? Name { get; set; }
     public int Miles { get; set; }
     public double ElectricValue { get; set; }
@@ -17,6 +18,7 @@ public class ChallengesDTO
     public ChallengesDTO(){}
     public ChallengesDTO(Challenge challenges) 
     {
+        ChallengeId = challenges.Id;
         Name = challenges.Name;
         Difficulty = challenges.Difficulty;
         Length = challenges.Length;

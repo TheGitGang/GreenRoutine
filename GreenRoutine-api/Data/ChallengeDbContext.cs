@@ -24,13 +24,16 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
+    //User Challenge join table
+        //Uses id as primary key for userchallenge join table
         builder.Entity<UserChallenge>()
-            .HasKey(uc => new { uc.UserId, uc.GlobalChallengeId, uc.PersonalChallengeId });
+            .HasKey(uc => new { uc.Id });
 
         builder.Entity<UserChallenge>()
             .HasOne(uc => uc.User)
             .WithMany(uc => uc.UserChallenges)
-            .HasForeignKey(uc => uc.UserId);
+            .HasForeignKey(uc => uc.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<UserChallenge>()
             .HasOne(uc => uc.Challenge)
@@ -44,7 +47,19 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(uc => uc.GlobalChallengeId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        
+        //Makes sure that either PersonalChallengeId or GlobalChallengeId is required
+        builder.Entity<UserChallenge>()
+            .HasIndex(uc => new { uc.UserId, uc.PersonalChallengeId })
+            .IsUnique()
+            .HasFilter("[PersonalChallengeId] IS NOT NULL");
 
+        builder.Entity<UserChallenge>()
+        .HasIndex(uc => new { uc.UserId, uc.GlobalChallengeId })
+        .IsUnique()
+        .HasFilter("[GlobalChallengeId] IS NOT NULL");
+
+        //UserFriendJoinTable
         builder.Entity<UserFriend>()
             .HasKey(uf => new { uf.UserId, uf.FriendId });
 
