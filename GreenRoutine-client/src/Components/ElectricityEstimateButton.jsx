@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from 'reactstrap';
 
-const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, electricValue }) => {
+const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, electricValue, userChallenges, challengeElectricValue }) => {
   const [carbonLb, setCarbonLb] = useState('');
   const [message, setMessage] = useState('');
 
@@ -15,8 +15,8 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, ele
         body: JSON.stringify({
           type: "electricity",
           country: userInfo.country,
-          electricityValue: 40,
-          electricityUnit: /*userInfo.electricityUnit*/"MWh",
+          electricityValue: challengeElectricValue,
+          electricityUnit: userInfo.electricityUnit/*"MWh"*/,
         }),
       });
 
@@ -30,6 +30,7 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, ele
         // Store the carbon estimate in the backend
         await storeCarbonEstimate(result.carbonLb, challengeId);
       } else {
+        console.log(userInfo)
         setMessage(result.message || 'Failed to register carbon data for the challenge');
       }
     } catch (error) {
@@ -40,6 +41,7 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, ele
   const storeCarbonEstimate = async (carbonLb, challengeId) => {
     try {
       console.log("storing")
+      console.log(userChallenges)
       const response = await fetch('/api/Electricity/store-estimate', {
         method: 'POST',
         headers: {

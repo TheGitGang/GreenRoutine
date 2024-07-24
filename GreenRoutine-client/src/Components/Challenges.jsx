@@ -213,17 +213,6 @@ const Challenges = () => {
                     CarbonImpactBackend={CarbonImpactBackend} 
                     carbonLb={carbonLb}
                     fetchChallenges={fetchChallenges}/>
-                    {userChallenges.map((challenge) => (
-                        <div key={challenge.id}>
-                            {/* Render other challenge details here */}
-                            <ElectricityEstimateButton 
-                                electricValue={challenge.electricValue}
-                                challengeId={challenge.Id} 
-                                userInfo={userInfo} 
-                                fetchChallenges={fetchChallenges} 
-                            />
-                        </div>
-                    ))}
                 </TabPane>
                 <TabPane tabId="2">
                     <CompletedChallenges
