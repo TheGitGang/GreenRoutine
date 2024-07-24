@@ -1,19 +1,22 @@
 import ReactDOM from 'react-dom/client';
 import { DisplayMileageQuery } from './ChallengeTransportationOptions'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button } from "reactstrap";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import './CreateChallenge.css';
 
 
 const CreateChallenge = () => {
 
     const [name, setName] = useState('');
-    const [difficulty, setDifficulty] = useState('');
+    const [difficulty, setDifficulty] = useState(0);
     const [length, setLength] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(0);
     const [miles, setMiles] = useState('');
+    const [electricValue, setElectricValue] = useState('');
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
 
     const [error, setError] = useState('');
 
@@ -21,14 +24,28 @@ const CreateChallenge = () => {
         navigate('/challenges')
     }
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('/api/Category/categories');
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+        fetchCategories();
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'name') setName(value);
-        if (name === 'difficulty') setDifficulty(value);
+        if (name === 'difficulty') setDifficulty(Number(value));
         if (name === 'length') setLength(value);
         if (name === 'description') setDescription(value);
-        if (name === 'category') setCategory(value);
+        if (name === 'category') setCategory(Number(value));
         if (name === 'miles') setMiles(value);
+        if (name === 'electric') setElectricValue(value);
     }
 
     const handleSubmit = async (event) => {
@@ -40,8 +57,9 @@ const CreateChallenge = () => {
                 name: name,
                 length: length,
                 description: description,
-                category: category,
-                miles: miles
+                miles: miles,
+                electricValue: electricValue,
+                categoryId: category
             }
             console.log(payload);
             fetch('/api/Challenges/create', {
@@ -63,86 +81,97 @@ const CreateChallenge = () => {
             })
             navigate('/thankyou')
         }
-    
 
     return (
-        <div>
-            <h3>Submit a Challenge</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='name'>Name:</label>
-                </div>
-                <div>
-                    <input
+        <div className="challengeSubmit lightgrey-card">
+            <h3 className='title'>Submit a Challenge</h3>
+            <div className='form'>
+            <Form onSubmit={handleSubmit}>
+                <FormGroup>
+                    <Label htmlFor='name'>Name:</Label>
+                    <Input
                         type='text'
                         id='name'
                         name='name'
                         value={name}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
-                    <label htmlFor='difficulty'>Difficulty:</label>
-                </div>
-                <div>
-                    <input
-                        type='text'
+                </FormGroup>
+                <FormGroup>
+                    <Label for='difficulty'>Difficulty:</Label>
+                    <Input
+                        type='select'
                         id='difficulty'
                         name='difficulty'
                         value={difficulty}
                         onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='length'>Length:</label>
-                </div>
-                <div>
-                    <input
+                    >
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor='length'>Length:</Label>
+                    <Input
                         type='text'
                         id='length'
                         name='length'
                         value={length}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
-                    <label htmlFor='description'>Description:</label>
-                </div>
-                <div>
-                    <input
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor='description'>Description:</Label>
+                    <Input
                         type='text'
                         id='description'
                         name='description'
                         value={description}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
-                    <label htmlFor='category'>Category:</label>
-                </div>
-                <div>
-                    <input
-                        type='text'
+                </FormGroup>
+                <FormGroup>
+                    <Label for='category'>Category:</Label>
+                    <Input
+                        type='select'
                         id='category'
                         name='category'
                         value={category}
                         onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='miles'>Miles:</label>
-                </div>
-                <div>
-                    <input
+                    >
+                        <option value='0'>Select a category</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </Input>
+                    
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor='miles'>Miles:</Label>
+                    <Input
                         type='text'
                         id='miles'
                         name='miles'
                         value={miles}
                         onChange={handleChange}
                     />
-                </div>
-                <button type='submit'>Submit</button>
-            </form>
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor='electric'>Electric Value:</Label>
+                    <Input
+                        type='text'
+                        id='electric'
+                        name='electric'
+                        value={electricValue}
+                        onChange={handleChange}
+                    />
+                </FormGroup>
+                <Button className='button'type='submit'>Submit</Button>
+            </Form>
+            </div>
 
             {error && <p className='error'>{error}</p>}
         </div>
@@ -150,47 +179,3 @@ const CreateChallenge = () => {
 };
 
 export default CreateChallenge;
-
-
-
-
-/*
-const CreateChallenge = () => {
-    return (
-        <form>
-            To create a challenge, please fill out the form below:
-            <br/><br/>
-            <label>Difficulty:
-                <select /*onChange={handleChange}*//*>
-    {
-        [...Array(5)].map((_, i) => i + 1)
-            .map(i => <option key={i} value={i}>{i}</option>)
-    }
-</select>
-</label>
-<br/><br/>
-<label>Name
-<br/>
-<input type="text" />  
-</label>
-<br/><br/>
-<label>Description
-<br/>
-<input type="text"  /> 
-</label>
-<br/><br/>
-<label>
-<select> Category
-    <option >Transportation</option>
-    <option />Electricity</option>
-</select>
-</label>
-<br/><br/>
-<DisplayMileageQuery />
-</form>
-)
-};
-*/
-
-
-

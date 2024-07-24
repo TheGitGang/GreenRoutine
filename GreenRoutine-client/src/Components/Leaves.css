@@ -4,9 +4,9 @@
 }
 
 #square{
-  width: 200px;
-  height: 50px;
-  background-color: #B0EC92;
+  width: 150px;
+  height: 40px;
+  background-color: rgb(156, 216, 154);
   margin: 10px;
   border-radius: 20px;
   display: flex;

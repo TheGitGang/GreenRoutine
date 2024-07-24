@@ -26,6 +26,7 @@ const AboutCard = ({ user, setUserInfo, userId, fetchUserInfo }) => {
                     <li>Pronouns: {user.pronouns ? user.pronouns : "No pronouns available"}</li>
                     <li>Email: {user.email}</li>
                     <li>Bio: {user.bio ? user.bio : "No bio available"}</li>
+                    <li>Country: {user.country ? user.country : "No country available"} </li>
                     <li>Date Joined: {user.dateJoined}</li>
                 </ul>
             </CardBody>

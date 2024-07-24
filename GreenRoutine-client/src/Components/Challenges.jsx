@@ -25,6 +25,7 @@ const Challenges = () => {
     const [activeTab, setActiveTab] = useState('1');
     const navigate = useNavigate();
 
+
     const fetchChallenges = async () => {
         try {
             // Fetching all challenges
@@ -93,6 +94,9 @@ const Challenges = () => {
             fetchUserInfo();
         }
     }, [isAuthenticated]);
+    useEffect(() => {
+        fetchChallenges();
+    }, [userInfo.id, isAuthenticated]);
 
    
 
@@ -104,7 +108,7 @@ const Challenges = () => {
     };
 
     //Allows user to sign up for challenge
-    const ChallengeSignUp = async (challengeId) => {
+    const ChallengeSignUp = async (challengeId, challengeType) => {
         const response = await fetch('/api/challenges/signup', {
             method: 'POST',
             headers: {
@@ -112,7 +116,8 @@ const Challenges = () => {
             },
             body: JSON.stringify({
                 UserId: userInfo.id, 
-                ChallengeId: challengeId,
+                GlobalChallengeId: challengeType === 'global'? challengeId : null,
+                PersonalChallengeId: challengeType === 'personal'? challengeId : null
             }),
         });
         const result = await response.json();
@@ -125,6 +130,7 @@ const Challenges = () => {
             navigate('/thankyou')
         }
     };
+
     const CarbonImpactBackend = async (challengeId) => {
         const response = await fetch('/api/CarbonInterFace/store-estimate', {
             method: 'POST',
@@ -178,36 +184,34 @@ const Challenges = () => {
         }
     };
 
-    //TODO SONNIE 1: Rework how challenges are displayed. Possibly changing system in which they are rendered because it's ugly atm
-    //TODO SONNIE 2: Make it so that page re-renders when a user signs up for a challenge or completes it.
-    //TODO SONNIE 3: Possibly adding items to state so that they re-render on page  
+
     return (
         <div>
             <Nav tabs>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '1' ? 'active': ''}
+                    className={activeTab === '1' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('1'); }}
                     >Your Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '2' ? 'active': ''}
+                    className={activeTab === '2' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('2'); }}
                     >Completed Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '3' ? 'active': ''}
+                    className={activeTab === '3' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('3'); }}
                     >Available Challenges
                     </NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
-                    className={activeTab === '4' ? 'active': ''}
+                    className={activeTab === '4' ? 'active': 'cursor-pointer'}
                     onClick={() => { toggleTab('4'); }}
                     >
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -241,7 +245,6 @@ const Challenges = () => {
                         challenges={challenges} 
                         userChallenges={userChallenges} 
                         userInfo={userInfo} 
-                        ChallengeSignUp={ChallengeSignUp} 
                     />
                 </TabPane>
                 <TabPane tabId="4">
@@ -254,73 +257,3 @@ const Challenges = () => {
 export default Challenges;
 
 
-{/* <div>
-    <div>
-        <h1>
-            Delete Options
-        </h1>
-        <div>
-            <div>
-                <div>
-                    <input
-                        type="radio"
-                        id="option1"
-                        value="option1"
-                        checked={
-                            selectedValue ===
-                            "option1"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option1"
-                            )
-                        }
-                    />
-                    <label htmlFor="option1">
-                        ReactJS
-                    </label>
-                </div>
-
-                <div>
-                    <input
-                        type="radio"
-                        id="option2"
-                        value="option2"
-                        checked={
-                            selectedValue ===
-                            "option2"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option2"
-                            )
-                        }
-                    />
-                    <label htmlFor="option2">
-                        NextJs
-                    </label>
-                </div>
-
-                <div>
-                    <input
-                        type="radio"
-                        id="option3"
-                        value="option3"
-                        checked={
-                            selectedValue ===
-                            "option3"
-                        }
-                        onChange={() =>
-                            handleRadioChange(
-                                "option3"
-                            )
-                        }
-                    />
-                    <label htmlFor="option3">
-                        React Native
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> */}

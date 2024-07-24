@@ -29,9 +29,21 @@ public class ChallengesController : ControllerBase
 
 
     [HttpPost("create")]
-    public IActionResult CreateChallenge(/*[FromBody]*/ Challenge challenge)
+    public IActionResult CreateChallenge(Challenge challenge)
     {
-        Console.WriteLine("you added a challenge");
+        if (challenge == null)
+        {
+            return BadRequest("Challenge data is null");
+    
+        }
+
+        var category = context.Categories.Find(challenge.CategoryId);
+        if (category == null)
+        {
+            return BadRequest("Invalid category ID");
+        }
+        
+
         context.Challenges.Add(challenge);
         context.SaveChanges();
         return Ok(new {message="Challenge successfully added"});
@@ -69,7 +81,7 @@ public class ChallengesController : ControllerBase
     [HttpPost("signup")]
     public async Task<IActionResult> SignUpForChallenge([FromBody] SignUpRequest request)
     {
-        if (request == null || string.IsNullOrEmpty(request.UserId))
+        if (request == null || string.IsNullOrEmpty(request.UserId) || request.PersonalChallengeId == null)
         {
             return BadRequest("Invalid Request");
         }
@@ -77,7 +89,7 @@ public class ChallengesController : ControllerBase
         var userChallenge = new UserChallenge
         {
             UserId = request.UserId,
-            ChallengeId = request.ChallengeId
+            PersonalChallengeId = request.PersonalChallengeId
         };
 
         context.UserChallenges.Add(userChallenge);

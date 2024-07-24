@@ -1,5 +1,6 @@
 import react from 'react'
 import CompleteChallengeButton from '../CompleteChallengeButton';
+import { Card, CardBody, CardTitle, ListGroup, ListGroupItem, Button  } from 'reactstrap';
 
 const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScreen, CarbonImpactBackend, carbonLb, fetchChallenges } ) => {
     const renderChallenges = (challengesToRender, user, CarbonImpactScreen, CarbonImpactBackend, carbonLb) => {
@@ -8,19 +9,21 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
                 <div>
                     {challengesToRender.map((challenge, index) => (
-                        <div className="card" key={index}>
-                            <h5 className="card-title">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item">Length: {challenge.length}</li>
-                                <li className="list-group-item">Description: {challenge.description}</li>
-                                <li className="list-group-item">Miles: {challenge.miles}</li>
-                                <li className="list-group-item">You are signed up for this challenge. Assign Carbon Impact 
-                                    <button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</button>
-                                {carbonLb} lbs <button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</button></li>
-                            </ul>
+                        <Card className="card lightgrey-card" key={index}>
+                            <CardBody>
+                            <CardTitle className="card-title lightgrey-card">{challenge.name}</CardTitle>
+                            </CardBody>
+                            <ListGroup className="list-group list-group-flush lightgrey-card">
+                                <ListGroupItem className="list-group-item lightgrey-card">Difficulty: {challenge.difficulty}</ListGroupItem>
+                                <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
+                                <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
+                                <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
+                                <ListGroupItem className="list-group-item lightgrey-card">You are signed up for this challenge. Assign Carbon Impact 
+                                    <Button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</Button>
+                                {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</Button></ListGroupItem>
+                            </ListGroup>
                             <CompleteChallengeButton challengeId={challenge.id} userId={user.id} fetchChallenges={fetchChallenges}/>
-                        </div>
+                        </Card>
                     ))}
                 </div>
     
@@ -32,8 +35,11 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
 
     return (
         <>
+            <div>
+            <br />
             <h2>Your Challenges</h2>
-            <div>{renderChallenges(noncompletedChallengesToRender, userInfo, CarbonImpactScreen, CarbonImpactBackend, carbonLb)}</div>
+            {renderChallenges(noncompletedChallengesToRender, userInfo, CarbonImpactScreen, CarbonImpactBackend, carbonLb)}
+            </div>
         </>
     )
 };

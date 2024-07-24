@@ -22,6 +22,19 @@
     box-sizing: border-box; /* Include padding in height calculation */
     width: 100%;
   }
+
+  .home-layout {
+    font-family: "Cabin", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: x-large;
+    /* Only apply padding to the sides, not the top and bottom */
+    padding-right: 0;
+    padding-left: 0;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
   
   /* .gutter-container {
     width: 100%;
@@ -49,7 +62,7 @@
   }
   
   .lightgrey-card {
-    background-color: rgb(214, 244, 213);
+    background-color: rgb(168, 232, 166);
   }
 
   .deep-green-card {
@@ -75,4 +88,47 @@
 
 .white-text {
   color: white;
+}
+
+
+.bannerContainer{
+  padding: 0 !important;
+  height: 100vh;
+  overflow: hidden;
+  
+}
+
+
+.bannerImage{
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  object-fit: cover;
+  bottom: 0;
+  filter: blur(2px);
+}
+
+
+.home-text{
+  width: 80%;
+  height: auto;
+  margin: 100px;
+  padding: 50px;
+  position: absolute;
+  bottom: 1;
+}
+
+.home-card {
+  background-color: rgb(156, 216, 154);
+  width: 90%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-detail {
+  font-size: 1rem;
+  margin: 0;
 }

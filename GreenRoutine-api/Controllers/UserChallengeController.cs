@@ -28,7 +28,8 @@ public class UserChallengeController : ControllerBase
     {
             var userChallenges = await context.UserChallenges.Where(uc => uc.UserId == userId).Select(uc => new UserChallengeDTO
             {
-                ChallengeId = uc.ChallengeId,
+                ChallengeId = uc.PersonalChallengeId ?? uc.GlobalChallengeId.Value,
+                ChallengeType = uc.PersonalChallengeId.HasValue ? "Personal" : "Global",
                 UserId = uc.UserId,
                 ChallengeCompleted = uc.ChallengeCompleted
             }).ToListAsync();
@@ -42,7 +43,7 @@ public class UserChallengeController : ControllerBase
         try
         {
             Console.WriteLine($"Received request to add points to user: {request.UserId}");
-            var userChallenge = await context.UserChallenges.FirstOrDefaultAsync(uc => uc.ChallengeId == request.ChallengeId && uc.UserId == request.UserId) ?? throw new Exception("User challenge not found");
+            var userChallenge = await context.UserChallenges.FirstOrDefaultAsync(uc => uc.PersonalChallengeId == request.ChallengeId && uc.UserId == request.UserId) ?? throw new Exception("User challenge not found");
                 userChallenge.ChallengeCompleted = true;
             await context.SaveChangesAsync();
 
@@ -63,6 +64,7 @@ public class UserChallengeController : ControllerBase
                                         .Select(md => md.Date.ToString("yyyy-MM-dd"))
                                         .ToListAsync();
 
+        Console.WriteLine(markedDates.ToString());
         return Ok(markedDates);
     }
     
@@ -71,6 +73,7 @@ public class UserChallengeController : ControllerBase
     public class UserChallengeDTO
     {
         public int ChallengeId { get; set; }
+        public string ChallengeType { get; set; }
         public string UserId { get; set; }
         public bool? ChallengeCompleted { get; set; }
     }

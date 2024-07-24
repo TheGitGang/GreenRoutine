@@ -10,12 +10,15 @@ import {
   } from 'reactstrap';
   import { Link, useNavigate } from 'react-router-dom'
   import './Navigation.css'
-  import { useState, useEffect, useContext } from 'react'
+  import { useState, useEffect } from 'react'
+  import Leaves from './Leaves';
+  import { useLeaves } from './LeavesContext';
 
   import logo from '../assets/images/green_routine_logo.png'
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [error, setError] = useState('');
@@ -58,6 +61,24 @@ import {
         }
     }, [isAuthenticated])
 
+    useEffect(() => {
+        if (userInfo.id) {
+            const fetchIsAdmin = async () => {
+                console.log(userInfo.id)
+                const response = await fetch (`/api/RoleManagement/${userInfo.id}/IsUserAdmin`, {
+                    method: "GET"
+                })
+                if (response.ok) {
+                    const data = await response.json();
+                    setIsAdmin(data.isAdmin);
+                } else {
+                    setError('Could not set isAdmin')
+                }
+            }
+            fetchIsAdmin();
+        }
+    }, [userInfo.id])
+
     const handleLogoutClick = async () => {
         setShouldNavigate(false)
         try {
@@ -96,10 +117,10 @@ import {
                         <Link to='/' className="nav-link white-text">Home</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/about' className="nav-link white-text">About</Link>
+                        <Link to='/about' className="nav-link white-text">Calendar</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to='/carprofile' className="nav-link white-text">Car</Link>
+                        <Link to='/carprofile' className="nav-link white-text">Car Profile</Link>
                     </NavItem>
                     <NavItem>
                         <UncontrolledDropdown>
@@ -107,13 +128,13 @@ import {
                                 Challenges
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem tag={Link} to='/challenges' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/challenge' className="dropdown-link">
                                     View Challenges
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to='/challenges/create' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/create' className="dropdown-link">
                                     Create Challenges
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to='/challenges/delete' className="dropdown-link">
+                                <DropdownItem tag={Link} to='/delete' className="dropdown-link">
                                     Delete Challenges
                                 </DropdownItem>
                             </DropdownMenu>
@@ -124,6 +145,7 @@ import {
                     </NavItem>
                 </Nav>
                 <Nav>
+                <Leaves/>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret >
                     Hello, {userInfo.firstName} {userInfo.lastName}!
@@ -132,9 +154,15 @@ import {
                     <DropdownItem tag={Link} to='/profile' className="dropdown-link">
                         Profile
                     </DropdownItem>
-                    <DropdownItem tag={Link} to='/leaves'className="dropdown-link">
-                        Leaves
+                    <DropdownItem tag={Link} to='/challengerequests' className='dropdown-link'>
+                        Challenge Requests
                     </DropdownItem>
+                    {isAdmin && 
+                        <DropdownItem tag={Link} to='/admin' className="dropdown-link">
+                            Admin
+                        </DropdownItem>
+                    }
+
                     <DropdownItem onClick={handleLogoutClick} className="dropdown-link">
                         Logout
                     </DropdownItem>
@@ -155,16 +183,16 @@ import {
                             <Link to='/' className="nav-link white-text">Home</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/about' className="nav-link white-text">About</Link>
+                            <Link to='/about' className="nav-link white-text">Calendar</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/carprofile' className="nav-link white-text">Car</Link>
+                            <Link to='/carprofile' className="nav-link white-text">Car Profile</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges' className="nav-link white-text">Challenges</Link>
+                            <Link to='/challenge' className="nav-link white-text">Challenges</Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/challenges/create' className="nav-link white-text">Create Challenge</Link>
+                            <Link to='/create' className="nav-link white-text">Create Challenge</Link>
                         </NavItem>
                         <NavItem>
                             <Link to='/leaderboard' className="nav-link white-text">Leaderboard</Link>

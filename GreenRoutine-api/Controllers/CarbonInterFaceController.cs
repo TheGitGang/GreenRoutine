@@ -125,7 +125,7 @@ namespace TodoApi.Controllers
                 .UserChallenges.Where(uc => uc.UserId == userChallenge.UserId)
                 .Where(uc => uc.ChallengeId == userChallenge.ChallengeId);*/
             var challengeCarbon = await context
-                .UserChallenges.FirstOrDefaultAsync(uc => uc.UserId == carbonRequest.UserId && uc.ChallengeId == carbonRequest.ChallengeId);
+                .UserChallenges.FirstOrDefaultAsync(uc => uc.UserId == carbonRequest.UserId && uc.PersonalChallengeId == carbonRequest.ChallengeId);
                 Console.WriteLine(challengeCarbon);
             challengeCarbon.Carbon_lb = carbonRequest.Carbon_lb;
             if (challengeCarbon == null)

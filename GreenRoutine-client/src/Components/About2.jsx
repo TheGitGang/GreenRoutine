@@ -28,9 +28,23 @@ const CustomCalendar = () => {
 
     const tileClassName = ({ date, view }) => {
         if (view === 'month') {
-            const dateString = date.toISOString().split('T')[0]; 
+            const dateString = date.toISOString().split('T')[0];
             if (markedDates.includes(dateString)) {
                 return 'highlight';
+            }
+        }
+        return null;
+    };
+
+    const tileContent = ({ date, view }) => {
+        if (view === 'month') {
+            const dateString = date.toISOString().split('T')[0];
+            if (markedDates.includes(dateString)) {
+                return (
+                    <a href={`/challenge`} className="tile-link">
+                        <span>{date.getDate()}</span>
+                    </a>
+                );
             }
         }
         return null;
@@ -40,12 +54,20 @@ const CustomCalendar = () => {
         <div>
             <Calendar
                 tileClassName={tileClassName}
+                tileContent={tileContent}
             />
             <style>
                 {`
                     .highlight {
                         background-color: yellow !important;
                     }
+                    .tile-link {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        text-decoration: none;
+                        color: inherit;
                 `}
             </style>
         </div>
@@ -161,73 +183,73 @@ useEffect(() => {
     }, []);*//*
 
 const fetchCarModelInfo = async () => {
-    const response = await fetch(`/api/account/about2/${userInfo.makeChoice}`, {
-        method: "GET"
-    });
-    if (response.ok) {
-        const data = await response.json();
-        // setUserInfo(data);
-        setModels(data);
-        // console.log(data)
-        setError('User info set.')
-    } else {
-        setError('Could not set user info')
-    }
+const response = await fetch(`/api/account/about2/${userInfo.makeChoice}`, {
+method: "GET"
+});
+if (response.ok) {
+const data = await response.json();
+// setUserInfo(data);
+setModels(data);
+// console.log(data)
+setError('User info set.')
+} else {
+setError('Could not set user info')
+}
 }
 
 const handleSubmit = async (event) => {
-    event.preventDefault();
-    //do error handling
-    setError('');
-    console.log("hi1")
-    const payload = { modelChoice: modelChoice, Id: userInfo.id, }
-    console.log(payload);
-    console.log("ty")
-    fetch('/api/account/about2', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    }).then((data) => {
-        console.log(data);
-        if (data.ok) {
-            // setUser(data.User);
-            // setLocalStorage('userInfo1', data);
+event.preventDefault();
+//do error handling
+setError('');
+console.log("hi1")
+const payload = { modelChoice: modelChoice, Id: userInfo.id, }
+console.log(payload);
+console.log("ty")
+fetch('/api/account/about2', {
+method: "POST",
+headers: {
+    "Content-Type": "application/json"
+},
+body: JSON.stringify(payload)
+}).then((data) => {
+console.log(data);
+if (data.ok) {
+    // setUser(data.User);
+    // setLocalStorage('userInfo1', data);
 
-            setError("Successful make submission.")
-        } else {
-            setError("Error with make submission.")
-        }
-    }).catch((error) => {
-        console.error(error);
-        setError('Error with make submission.')
-    })
-    // console.log("hi34")
-    console.log(makeChoice)
-    console.log()
-    navigate('/test' /*+ makeChoice.toString()*//*)
+    setError("Successful make submission.")
+} else {
+    setError("Error with make submission.")
+}
+}).catch((error) => {
+console.error(error);
+setError('Error with make submission.')
+})
+// console.log("hi34")
+console.log(makeChoice)
+console.log()
+navigate('/test' /*+ makeChoice.toString()*//*)
 }
  
 return (
 <>
-     {/* {models.map((model) => (
-        <div>{model.data.attributes.name}</div>
-    ))}  *//*}
+ {/* {models.map((model) => (
+    <div>{model.data.attributes.name}</div>
+))}  *//*}
 {userInfo.makeChoice} 123
 <form onSubmit={handleSubmit}>
 
 {models.map((model, index) => (
-        <div key={index}>
-            <br />
-            <label>
-                <input type="checkbox" name="modelChoice" value={model.data.id} onChange={handleChange} />
-                Name: {model.data.attributes.name}
-                Year: {model.data.attributes.year}
-            </label>
-        </div>))}
-        {<button type='submit'>Submit</button>}
-  </form>
+    <div key={index}>
+        <br />
+        <label>
+            <input type="checkbox" name="modelChoice" value={model.data.id} onChange={handleChange} />
+            Name: {model.data.attributes.name}
+            Year: {model.data.attributes.year}
+        </label>
+    </div>))}
+    {<button type='submit'>Submit</button>}
+</form>
  
 
 

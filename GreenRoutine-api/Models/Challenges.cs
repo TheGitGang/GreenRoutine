@@ -9,9 +9,12 @@ public class Challenge
     public string? Name { get; set; }
     public int Difficulty { get; set; }
     public int Miles { get; set; }
+    public double ElectricValue { get; set; }
+    
     public TimeSpan? Length { get; set; }
     public string? Description { get; set; } 
-    public List<Category>? Categories { get; set; } = [];
+    public int CategoryId { get; set; }
+    public Category? Category { get; set; }
 
     public ICollection<UserChallenge> UserChallenges { get; set; } = new List<UserChallenge>();
 

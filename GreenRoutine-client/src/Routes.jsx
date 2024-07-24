@@ -3,7 +3,6 @@ import App from './App.jsx'
 
 
 import DataComponent from './Components/ExternalApiTester/Data.jsx'
-import VehicleMake from './Components/Carbonfootprint.jsx'
 import Home from './Components/Home.jsx'
 import About from './Components/About.jsx'
 import About2 from './Components/About2.jsx'
@@ -11,7 +10,6 @@ import Challenges from './Components/Challenges.jsx'
 import CreateChallenge from './Components/CreateChallenge.jsx'
 import Profile from './Components/Profile.jsx'
 import ErrorPage from './ErrorPage.jsx'
-import Leaves from './Components/Leaves.jsx'
 import DeleteChallenge from './Components/DeleteChallenge.jsx'
 import RegisterForm from './Components/RegisterForm.jsx'
 import LoginForm from './Components/LoginForm.jsx'
@@ -19,6 +17,12 @@ import Leaderboard from './Components/Leaderboard.jsx'
 import FriendProfile from './Components/FriendProfile.jsx'
 import CarProfile from './Components/CarProfile.jsx'
 import ThankYou from './Components/ThankYou.jsx'
+import ElectricityEstimate from'./Components/Electricity.jsx'
+import Unauthorized from './Components/Unauthorized.jsx'
+import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import AdminPage from './Components/AdminPage.jsx'
+import ChallengeRequests from './Components/ChallengeRequests.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -39,15 +43,15 @@ const router = createBrowserRouter([
         element: <About2 />
       },
       {
-        path: '/challenges',
+        path: '/challenge',
         element: <Challenges />
       },
       {
-        path: '/challenges/create',
+        path: '/create',
         element: <CreateChallenge/>
       },
       {
-        path: '/challenges/delete',
+        path: '/delete',
         element: <DeleteChallenge/>
       },
       {
@@ -71,13 +75,8 @@ const router = createBrowserRouter([
         element: <LoginForm/>
       },
       {
-        path: '/leaves',
-        element: <Leaves />
-
-      },
-      {
         path: '/test',
-        element: <VehicleMake/>
+        element: <ElectricityEstimate/>
       },
       {
         path: '/friend-profile/:id',
@@ -90,6 +89,18 @@ const router = createBrowserRouter([
       {
         path: '/thankyou',
         element: <ThankYou/>
+      },
+      {
+        path: '/unauthorized',
+        element: <Unauthorized/>
+      },
+      {
+        path: '/admin',
+        element: <ProtectedRoute element={<AdminPage/>}/>
+      },
+      {
+        path: '/challengerequests',
+        element: <ChallengeRequests/>
       }
     ]
   }

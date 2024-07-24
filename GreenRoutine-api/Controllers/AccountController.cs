@@ -141,6 +141,39 @@ namespace TodoApi.Controllers
 
 
             user.Leaves += request.Points;
+            user.LifetimeLeaves += request.Points;
+            var result = await _userManager.UpdateAsync(user);
+            await _signInManager.RefreshSignInAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("lose-leaves")]
+        public async Task<IActionResult> LosePoints([FromBody] AddPointsRequest request)
+        {
+            try
+            {
+                Console.WriteLine($"Received request to lose points to user: {request.UserId}");
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
+
+            user.Leaves -= request.Points;
             var result = await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
 
@@ -235,7 +268,7 @@ namespace TodoApi.Controllers
         {
             try
             {
-                Console.WriteLine($"Received request to add points to user: {addMakeRequest.Id}");
+                Console.WriteLine($"Received request to add car make to user: {addMakeRequest.Id}");
                 var user = await _userManager.FindByIdAsync(addMakeRequest.Id);
                 if (user == null)
                 {
@@ -248,10 +281,12 @@ namespace TodoApi.Controllers
                 // _makeChoice = addMakeRequest.makeChoice;
                 if (result.Succeeded)
                 {
+                    Console.WriteLine("good");
                     return Ok(user);
                 }
                 else
                 {
+                    Console.WriteLine("bad");
                     return BadRequest(result.Errors);
                 }
             }
@@ -294,7 +329,8 @@ namespace TodoApi.Controllers
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     List<VehicleModels> data = JsonConvert.DeserializeObject<List<VehicleModels>>(json);
-                    return Ok(data);
+                    var sortedData = data.OrderBy(vm => vm.Data.Attributes.Name).ToList();
+                    return Ok(sortedData);
                 }
                 else
                 {
@@ -316,7 +352,7 @@ namespace TodoApi.Controllers
         {
             try
             {
-                Console.WriteLine($"Received request to add points to user: {addModelRequest.Id}");
+                Console.WriteLine($"Received request to add car model to user: {addModelRequest.Id}");
                 Console.WriteLine("here");
                 var user = await _userManager.FindByIdAsync(addModelRequest.Id);
                 if (user == null)
@@ -336,7 +372,7 @@ namespace TodoApi.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
-        Console.WriteLine("hi");
+        // Console.WriteLine("hi");
             }
             catch (Exception ex)
             {
