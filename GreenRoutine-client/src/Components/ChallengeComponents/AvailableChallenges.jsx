@@ -2,7 +2,30 @@ import react from 'react'
 import { Button, Card, CardBody, CardTitle, ListGroup, ListGroupItem } from 'reactstrap';
 import './ChallengeStyling.css'
 
-const AvailableChallenges = ({ challenges, userChallenges, userInfo, ChallengeSignUp} ) => {
+const AvailableChallenges = ({ challenges, userChallenges, userInfo} ) => {
+    //Allows user to sign up for challenge
+    const ChallengeSignUp = async (challengeId) => {
+        const response = await fetch('/api/challenges/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserId: userInfo.id, 
+                PersonalChallengeId: challengeId
+            }),
+        });
+        const result = await response.json();
+        if(response.ok) {
+            setMessage(`Signed up for challenge: ${challengeId}`);
+            fetchChallenges();
+        } else {
+            setMessage(result.message || 'Failed to sign up for the challenge');
+            // console.log(user);
+            navigate('/thankyou')
+        }
+    };
+
     const renderChallenges = (challengesToRender, isUserChallenge, user) => {
         return (
             <>
@@ -18,8 +41,9 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, ChallengeSi
                                 <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
+                                <p>{challenge.challengeId}Apples</p>
                             </ListGroup>
-                                <Button onClick={() => ChallengeSignUp(challenge.id)}>Sign Up</Button>
+                                <Button onClick={() => ChallengeSignUp(challenge.challengeId, 'personal')}>Sign Up</Button>
                         </Card>
                     ))}
                 </div>

@@ -81,7 +81,7 @@ public class ChallengesController : ControllerBase
     [HttpPost("signup")]
     public async Task<IActionResult> SignUpForChallenge([FromBody] SignUpRequest request)
     {
-        if (request == null || string.IsNullOrEmpty(request.UserId))
+        if (request == null || string.IsNullOrEmpty(request.UserId) || request.PersonalChallengeId == null)
         {
             return BadRequest("Invalid Request");
         }
@@ -89,7 +89,7 @@ public class ChallengesController : ControllerBase
         var userChallenge = new UserChallenge
         {
             UserId = request.UserId,
-            PersonalChallengeId = request.ChallengeId
+            PersonalChallengeId = request.PersonalChallengeId
         };
 
         context.UserChallenges.Add(userChallenge);
