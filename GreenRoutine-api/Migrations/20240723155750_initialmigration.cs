@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,6 +58,8 @@ namespace TodoApi.Migrations
                     Pronouns = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Country = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ElectricityUnit = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -373,7 +375,8 @@ namespace TodoApi.Migrations
                     ChallengeCompleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Impact = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Carbon_lb = table.Column<double>(type: "double", nullable: true)
+                    Carbon_lb = table.Column<double>(type: "double", nullable: true),
+                    ElectricCarbon_lb = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {

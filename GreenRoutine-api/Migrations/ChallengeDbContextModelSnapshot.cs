@@ -223,6 +223,9 @@ namespace TodoApi.Migrations
                     b.Property<bool>("ChallengeCompleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<double?>("ElectricCarbon_lb")
+                        .HasColumnType("double");
+
                     b.Property<string>("Impact")
                         .HasColumnType("longtext");
 
@@ -392,6 +395,9 @@ namespace TodoApi.Migrations
 
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ElectricityUnit")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

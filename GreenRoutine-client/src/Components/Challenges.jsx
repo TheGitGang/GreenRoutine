@@ -4,6 +4,7 @@ import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
 import YourChallenges from './ChallengeComponents/YourChallenges';
 import CompletedChallenges from './ChallengeComponents/CompletedChallenges';
 import Search from './ChallengeComponents/Search';
+import ElectricityEstimateButton from './ElectricityEstimateButton';
 import {
   Nav,
   NavItem,
@@ -51,13 +52,10 @@ const Challenges = () => {
                 }
             }
         } catch (error) {
-            // console.error('Error fetching challenges:', error);
             setMessage(error.message);
         }
     }
 
-
-    //fetching checking user is signed in
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
             try {
@@ -75,7 +73,6 @@ const Challenges = () => {
         fetchIsAuthenticated();
     }, []);
 
-    //fetching user information and setting it
     useEffect(() => {
         const fetchUserInfo = async () => {
         const response = await fetch('pingauth', {
@@ -98,8 +95,6 @@ const Challenges = () => {
         fetchChallenges();
     }, [userInfo.id, isAuthenticated]);
 
-   
-
     const toggleTab = (tab) => {
         if (activeTab !== tab) {
             setActiveTab(tab);
@@ -107,7 +102,6 @@ const Challenges = () => {
         }
     };
 
-    //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId) => {
         const response = await fetch('/api/challenges/signup', {
             method: 'POST',
@@ -125,10 +119,10 @@ const Challenges = () => {
             fetchChallenges();
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
-            // console.log(user);
             navigate('/thankyou')
         }
     };
+
     const CarbonImpactBackend = async (challengeId) => {
         const response = await fetch('/api/CarbonInterFace/store-estimate', {
             method: 'POST',
@@ -141,8 +135,6 @@ const Challenges = () => {
                 Carbon_lb: carbonLb,
             }),
         });
-        // console.log(body);
-        // console.log(userInfo)
         const result = await response.json();
         if(response.ok) {
             console.log(result.data.attributes.carbon_lb)
@@ -150,7 +142,6 @@ const Challenges = () => {
             setMessage(`Carbon data registered for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to register carbon data for the challenge');
-            // console.log(user);
         }
     };
 
@@ -161,16 +152,12 @@ const Challenges = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                /*UserId: userInfo.id, 
-                ChallengeId: challengeId,*/
                 Type: "vehicle",
                 DistanceValue: miles,
                 DistanceUnit: "mi",
                 VehicleModelId: userInfo.modelChoice,
             }),
         });
-        // console.log(body);
-        // console.log(userInfo)
         const result = await response.json();
         if(response.ok) {
             console.log(result.data.attributes.carbon_lb)
@@ -178,10 +165,8 @@ const Challenges = () => {
             setMessage(`Carbon data registered for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to register carbon data for the challenge');
-            // console.log(user);
         }
     };
-
 
     return (
         <div>
@@ -228,6 +213,16 @@ const Challenges = () => {
                     CarbonImpactBackend={CarbonImpactBackend} 
                     carbonLb={carbonLb}
                     fetchChallenges={fetchChallenges}/>
+                    {userChallenges.map((challenge) => (
+                        <div key={challenge.id}>
+                            {/* Render other challenge details here */}
+                            <ElectricityEstimateButton 
+                                challengeId={challenge.id} 
+                                userInfo={userInfo} 
+                                fetchChallenges={fetchChallenges} 
+                            />
+                        </div>
+                    ))}
                 </TabPane>
                 <TabPane tabId="2">
                     <CompletedChallenges
@@ -253,6 +248,5 @@ const Challenges = () => {
         </div>
     );
 };
+
 export default Challenges;
-
-
