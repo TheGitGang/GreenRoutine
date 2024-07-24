@@ -75,7 +75,7 @@ const router = createBrowserRouter([
         element: <LoginForm/>
       },
       {
-        path: '/test',
+        path: '/test2',
         element: <ElectricityEstimate/>
       },
       {

@@ -50,6 +50,7 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             identity.AddClaim(new Claim("NumChallengesCreated", user.NumChallengesCreated.ToString()));
             identity.AddClaim(new Claim("MakeChoice", user.makeChoice.ToString()));
             identity.AddClaim(new Claim("ModelChoice", user.modelChoice.ToString()));
+            identity.AddClaim(new Claim("ElectricityUnit", user.ElectricityUnit.ToString()));
 
             return identity;
         }
