@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from 'reactstrap';
 
-const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges }) => {
+const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges, electricValue }) => {
   const [carbonLb, setCarbonLb] = useState('');
   const [message, setMessage] = useState('');
 
@@ -15,17 +15,20 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges }) =
         body: JSON.stringify({
           type: "electricity",
           country: userInfo.country,
-          electricity_value: userInfo.electricValue,
-          electricity_unit: userInfo.electricityUnit,
+          electricityValue: 40,
+          electricityUnit: /*userInfo.electricityUnit*/"MWh",
         }),
       });
 
       const result = await response.json();
       if (response.ok) {
-        setCarbonLb(result.carbon_lb);
+        setCarbonLb(result.carbonLb);
+        console.log("here")
+        console.log(result.carbonLb)
+        console.log(challengeId)
         setMessage(`Carbon data registered for challenge: ${challengeId}`);
         // Store the carbon estimate in the backend
-        await storeCarbonEstimate(result.carbon_lb);
+        await storeCarbonEstimate(result.carbonLb, challengeId);
       } else {
         setMessage(result.message || 'Failed to register carbon data for the challenge');
       }
@@ -34,8 +37,9 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges }) =
     }
   };
 
-  const storeCarbonEstimate = async (carbonLb) => {
+  const storeCarbonEstimate = async (carbonLb, challengeId) => {
     try {
+      console.log("storing")
       const response = await fetch('/api/Electricity/store-estimate', {
         method: 'POST',
         headers: {
@@ -47,7 +51,8 @@ const ElectricityEstimateButton = ({ challengeId, userInfo, fetchChallenges }) =
           Carbon_lb: carbonLb,
         }),
       });
-
+      console.log(response)
+      console.log("new")
       if (response.ok) {
         setMessage('Electricity impact successfully stored.');
         fetchChallenges();

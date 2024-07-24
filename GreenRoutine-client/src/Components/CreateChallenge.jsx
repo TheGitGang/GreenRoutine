@@ -61,6 +61,7 @@ const CreateChallenge = () => {
                 length: length,
                 description: description,
                 category: category,
+                electricValue: electricValue,
                 miles: miles
             }
             console.log(payload);

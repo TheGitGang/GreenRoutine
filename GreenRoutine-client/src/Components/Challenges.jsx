@@ -217,7 +217,8 @@ const Challenges = () => {
                         <div key={challenge.id}>
                             {/* Render other challenge details here */}
                             <ElectricityEstimateButton 
-                                challengeId={challenge.id} 
+                                electricValue={challenge.electricValue}
+                                challengeId={challenge.Id} 
                                 userInfo={userInfo} 
                                 fetchChallenges={fetchChallenges} 
                             />
