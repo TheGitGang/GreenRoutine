@@ -59,6 +59,8 @@ namespace TodoApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Country = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    ElectricityUnit = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -406,6 +408,7 @@ namespace TodoApi.Migrations
                     Impact = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Carbon_lb = table.Column<double>(type: "double", nullable: true),
+                    ElectricCarbon_lb = table.Column<double>(type: "double", nullable: true),
                     ChallengeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
