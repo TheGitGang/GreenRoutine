@@ -102,7 +102,9 @@ const Challenges = () => {
         }
     };
 
-    const ChallengeSignUp = async (challengeId) => {
+
+    //Allows user to sign up for challenge
+    const ChallengeSignUp = async (challengeId, challengeType) => {
         const response = await fetch('/api/challenges/signup', {
             method: 'POST',
             headers: {
@@ -110,7 +112,8 @@ const Challenges = () => {
             },
             body: JSON.stringify({
                 UserId: userInfo.id, 
-                ChallengeId: challengeId,
+                GlobalChallengeId: challengeType === 'global'? challengeId : null,
+                PersonalChallengeId: challengeType === 'personal'? challengeId : null
             }),
         });
         const result = await response.json();
@@ -228,7 +231,6 @@ const Challenges = () => {
                         challenges={challenges} 
                         userChallenges={userChallenges} 
                         userInfo={userInfo} 
-                        ChallengeSignUp={ChallengeSignUp} 
                     />
                 </TabPane>
                 <TabPane tabId="4">

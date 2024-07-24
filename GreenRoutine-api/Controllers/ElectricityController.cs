@@ -81,7 +81,7 @@ namespace TodoApi.Controllers
 
             try
             {
-                var challengeCarbon = await context.UserChallenges.FirstOrDefaultAsync(uc => uc.UserId == carbonRequest.UserId && uc.ChallengeId == carbonRequest.ChallengeId);
+                var challengeCarbon = await context.UserChallenges.FirstOrDefaultAsync(uc => uc.UserId == carbonRequest.UserId && uc.PersonalChallengeId == carbonRequest.ChallengeId);
                 if (challengeCarbon == null)
                 {
                     return NotFound("Electricity value not found");

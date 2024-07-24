@@ -13,7 +13,8 @@ public class Challenge
     
     public TimeSpan? Length { get; set; }
     public string? Description { get; set; } 
-    public List<Category>? Categories { get; set; } = [];
+    public int CategoryId { get; set; }
+    public Category? Category { get; set; }
 
     public ICollection<UserChallenge> UserChallenges { get; set; } = new List<UserChallenge>();
 

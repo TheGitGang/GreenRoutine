@@ -7,14 +7,14 @@ namespace GreenRoutine;
 
 public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
 {
-    public DbSet<Challenge> Challenges { get; set; }
-    public DbSet<UserChallenge> UserChallenges { get; set; }
     public DbSet<Category> Categories { get; set; }
-
     public DbSet<UserFriend> UserFriends { get; set; }
     public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
-    public DbSet<GlobalChallenge> GlobalChallenges { get; set; }
     public DbSet<ChallengeRequest> ChallengeRequests { get; set; }
+
+    public DbSet<Challenge> Challenges { get; set; }
+    public DbSet<UserChallenge> UserChallenges { get; set; }
+    public DbSet<GlobalChallenge> GlobalChallenges { get; set; }
 
     public ChallengeDbContext(DbContextOptions<ChallengeDbContext> options) : base(options)
     {
@@ -24,21 +24,42 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
-
+    //User Challenge join table
+        //Uses id as primary key for userchallenge join table
         builder.Entity<UserChallenge>()
-            .HasKey (uc => new { uc.UserId, uc.ChallengeId});
+            .HasKey(uc => new { uc.Id });
 
         builder.Entity<UserChallenge>()
             .HasOne(uc => uc.User)
             .WithMany(uc => uc.UserChallenges)
-            .HasForeignKey(uc => uc.UserId);
+            .HasForeignKey(uc => uc.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<UserChallenge>()
             .HasOne(uc => uc.Challenge)
-            .WithMany(c => c.UserChallenges)
-            .HasForeignKey(uc => uc.ChallengeId);
+            .WithMany()
+            .HasForeignKey(uc => uc.PersonalChallengeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<UserChallenge>()
+            .HasOne(uc => uc.GlobalChallenge)
+            .WithMany()
+            .HasForeignKey(uc => uc.GlobalChallengeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        
+        //Makes sure that either PersonalChallengeId or GlobalChallengeId is required
+        builder.Entity<UserChallenge>()
+            .HasIndex(uc => new { uc.UserId, uc.PersonalChallengeId })
+            .IsUnique()
+            .HasFilter("[PersonalChallengeId] IS NOT NULL");
+
+        builder.Entity<UserChallenge>()
+        .HasIndex(uc => new { uc.UserId, uc.GlobalChallengeId })
+        .IsUnique()
+        .HasFilter("[GlobalChallengeId] IS NOT NULL");
+
+        //UserFriendJoinTable
         builder.Entity<UserFriend>()
             .HasKey(uf => new { uf.UserId, uf.FriendId });
 
@@ -93,5 +114,10 @@ public class ChallengeDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(cr => cr.PersonalChallengeId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Category>()
+            .HasMany(c => c.Challenges)
+            .WithOne(c => c.Category)
+            .HasForeignKey(c => c.CategoryId);
     }
 }

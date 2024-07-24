@@ -49,35 +49,6 @@ const Leaves = () => {
         }
     }, [isAuthenticated, setLeaves])
 
-//   const handleClick = async () => {
-//       try {
-//           const response = await fetch('/api/account/add-leaves', {
-//               mode: 'cors',
-//               method: 'POST',
-//               headers: {
-//                 'Content-Type': 'application/json'
-//               },
-//               body: JSON.stringify({
-//                 UserId: userInfo.id,
-//                 Points: 10
-//               })
-//           });
-
-//           if (response.ok) {
-//               const data = await response.json();
-//               setUserInfo(data);
-//               console.log('Points added successfully:', data);
-//           } else {
-//               const errorData = await response.json();
-//               setError(errorData.Message);
-//               console.error('Error updating points:', errorData.Message);
-//           }
-//       } catch (error) {
-//           setError('An error occurred while updating points.');
-//           console.error('Error:', error);
-//       }
-//   };
-
   return ( 
     <div id="square-tiles">
       <div id="square">

@@ -15,10 +15,10 @@ public class ChallengeRequest
     public Challenge? PersonalChallenge { get; set; }
     [ForeignKey("SenderUser")]
     public required string Sender { get; set; }
-    public required ApplicationUser SenderUser { get; set; }
+    public ApplicationUser SenderUser { get; set; }
     [ForeignKey("ReceiverUser")]
     public required string Receiver { get; set; }
-    public required ApplicationUser ReceiverUser { get; set; }
+    public ApplicationUser ReceiverUser { get; set; }
     public string? Message { get; set; }
     public int? WageredLeaves { get; set; }
 
