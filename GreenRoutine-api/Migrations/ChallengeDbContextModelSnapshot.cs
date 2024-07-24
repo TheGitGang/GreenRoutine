@@ -213,11 +213,11 @@ namespace TodoApi.Migrations
                     b.Property<bool>("ChallengeCompleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<double?>("ElectricCarbon_lb")
-                        .HasColumnType("double");
-
                     b.Property<int?>("ChallengeId")
                         .HasColumnType("int");
+
+                    b.Property<double?>("ElectricCarbon_lb")
+                        .HasColumnType("double");
 
                     b.Property<int?>("GlobalChallengeId")
                         .HasColumnType("int");
