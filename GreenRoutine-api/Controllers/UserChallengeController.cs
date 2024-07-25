@@ -2,6 +2,7 @@ using Azure.Identity;
 using GreenRoutine;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Server.Data;
 
@@ -59,15 +60,20 @@ public class UserChallengeController : ControllerBase
     [HttpGet("dates")]
      public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
     {
-        Console.WriteLine("hi");
-        var markedDates = await context.UserChallenges.Select(c => c.SignupDate)
+        var greenDates = await context.UserChallenges.Where(c => c.ChallengeCompleted).Select(c => c.SignupDate)
                                         .Select(md => md.Date.ToString("yyyy-MM-dd"))
                                         .ToListAsync();
-
-        Console.WriteLine(markedDates.ToString());
-        return Ok(markedDates);
+        var yellowDates = await context.UserChallenges.Where(c => c.ChallengeCompleted == false).Select(c => c.SignupDate)
+                                        .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                        .ToListAsync();
+        var result = new
+        {
+            GreenDates = greenDates,
+            YellowDates = yellowDates
+        };
+        Console.WriteLine(result);
+        return Ok(result);
     }
-    
 
 }
     public class UserChallengeDTO
@@ -84,4 +90,10 @@ public class UserChallengeController : ControllerBase
         public string UserId { get; set; }
 
     }
+    public class markedDates
+    {
+        public List<string> green { get; set; }
+
+    }
 }
+
