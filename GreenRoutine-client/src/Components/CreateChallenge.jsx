@@ -57,9 +57,11 @@ const CreateChallenge = () => {
                 name: name,
                 length: length,
                 description: description,
+
                 miles: miles,
                 electricValue: electricValue,
                 categoryId: category
+
             }
             console.log(payload);
             fetch('/api/Challenges/create', {

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using TodoApi.Models;
 using TodoApi.Server.Data;
 using TodoApi.Server.Models;
 
@@ -50,16 +49,12 @@ namespace TodoApi.Controllers
             try
             {
                 var jsonRequest = JsonConvert.SerializeObject(estimateRequest);
-                Console.WriteLine("POST Request JSON: " + jsonRequest); // Logging request
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync($"{baseUrl}estimates", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("POST Response Body: " + responseBody); // Logging response
-
-                    // Deserialize the response to match the new structure
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
                     var data = apiResponse.Data.Attributes;
                     return Ok(data);
@@ -67,7 +62,6 @@ namespace TodoApi.Controllers
                 else
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("POST Error Response Body: " + responseBody); // Logging error response
                     return StatusCode((int)response.StatusCode, $"Request failed with status code: {response.StatusCode}, Response: {responseBody}");
                 }
             }
@@ -93,7 +87,7 @@ namespace TodoApi.Controllers
                     return NotFound("Electricity value not found");
                 }
 
-                challengeCarbon.Carbon_lb = carbonRequest.Carbon_lb;
+                challengeCarbon.ElectricCarbon_lb = carbonRequest.Carbon_lb; // Save to ElectricCarbon_lb column
                 await context.SaveChangesAsync();
                 return Ok(new { message = "Electricity impact successfully added" });
             }
@@ -102,31 +96,37 @@ namespace TodoApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpPost("store-country")]
-        public async Task<ActionResult> StoreCountry([FromBody] CountryRequest countryRequest)
+
+       [HttpPost("store-country")]
+public async Task<ActionResult> StoreCountry([FromBody] CountryRequest countryRequest)
+{
+    if (countryRequest == null)
+    {
+        return BadRequest("Invalid request payload");
+    }
+
+    try
+    {
+        // Log the received payload for debugging
+        Console.WriteLine(JsonConvert.SerializeObject(countryRequest));
+
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == countryRequest.UserId);
+        if (user == null)
         {
-            if (countryRequest == null)
-            {
-                return BadRequest("Invalid request payload");
-            }
-
-            try
-            {
-                var user = await context.Users.FirstOrDefaultAsync(u => u.Id == countryRequest.UserId);
-                if (user == null)
-                {
-                    return NotFound("User not found");
-                }
-
-                user.Country = countryRequest.Country;
-                await context.SaveChangesAsync();
-                return Ok(new { message = "Country saved successfully" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return NotFound("User not found");
         }
+
+        user.Country = countryRequest.Country;
+        user.ElectricityUnit = countryRequest.ElectricityUnit; // Save the electricity unit
+        await context.SaveChangesAsync();
+        return Ok(new { message = "Country and electricity unit saved successfully" });
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
 
         public class ElectricityEstimateRequest
         {
@@ -135,9 +135,6 @@ namespace TodoApi.Controllers
 
             [JsonProperty("country")]
             public string Country { get; set; }
-
-            [JsonProperty("state")]
-            public string State { get; set; }
 
             [JsonProperty("electricity_value")]
             public double ElectricityValue { get; set; }
@@ -166,7 +163,6 @@ namespace TodoApi.Controllers
 
         public class ElectricityDTO
         {
-
             [JsonProperty("id")]
             public string Id { get; set; }
 
@@ -199,9 +195,9 @@ namespace TodoApi.Controllers
 
             [JsonProperty("carbon_mt")]
             public double CarbonMt { get; set; }
-          public ElectricityDTO() { }
-        
-        
+
+            public ElectricityDTO() { }
+
             public ElectricityDTO(string id, string type, string country, string state, string electricity_Unit, decimal electricity_Value, DateTime estimatedAt, double carbonG, double carbonLb, double carbonKg, double carbonMt)
             {
                 Id = id;
@@ -217,10 +213,12 @@ namespace TodoApi.Controllers
                 CarbonMt = carbonMt;
             }
         }
-     public class CountryRequest
+
+        public class CountryRequest
         {
             public string UserId { get; set; }
             public string Country { get; set; }
+            public string ElectricityUnit { get; set; } // Include ElectricityUnit
         }
 
         public class ElectricityRequest

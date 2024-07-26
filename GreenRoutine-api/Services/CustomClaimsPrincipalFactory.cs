@@ -41,6 +41,10 @@ namespace TodoApi.Server.Services // Ensure this namespace is correct
             {
                 identity.AddClaim(new Claim("Country", user.Country));
             }
+            if (!string.IsNullOrEmpty(user.ElectricityUnit))
+            {
+                identity.AddClaim(new Claim("ElectricityUnit", user.ElectricityUnit));
+            }
             identity.AddClaim(new Claim("Leaves", user.Leaves.ToString()));
             identity.AddClaim(new Claim("DateJoined", user.DateJoined.ToString()));
             identity.AddClaim(new Claim("LifetimeLeaves", user.LifetimeLeaves.ToString()));

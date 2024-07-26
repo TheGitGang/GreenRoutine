@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240724170947_InitialMigration")]
+    [Migration("20240724202025_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -219,6 +219,9 @@ namespace TodoApi.Migrations
                     b.Property<int?>("ChallengeId")
                         .HasColumnType("int");
 
+                    b.Property<double?>("ElectricCarbon_lb")
+                        .HasColumnType("double");
+
                     b.Property<int?>("GlobalChallengeId")
                         .HasColumnType("int");
 
@@ -410,6 +413,9 @@ namespace TodoApi.Migrations
 
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ElectricityUnit")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
