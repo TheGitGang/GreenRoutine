@@ -22,7 +22,7 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                                     <Button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</Button>
                                 {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</Button></ListGroupItem>
                             </ListGroup>
-                            <CompleteChallengeButton challengeId={challenge.id} userId={user.id} fetchChallenges={fetchChallenges}/>
+                            <CompleteChallengeButton challengeId={challenge.personalChallengeId} userId={user.id} fetchChallenges={fetchChallenges}/>
                         </Card>
                     ))}
                 </div>
@@ -30,8 +30,8 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
             </>
         );
     }
-    const noncompletedUserChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-    const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedUserChallengeIds.includes(challenge.id));
+    const noncompletedPersonalChallengeIds = userChallenges.filter(userChallenge => !userChallenge.challengeCompleted).map(userChallenge => userChallenge.personalChallengeId);
+    const noncompletedChallengesToRender = challenges.filter(challenge => noncompletedPersonalChallengeIds.includes(challenge.challengeId));
 
     return (
         <>

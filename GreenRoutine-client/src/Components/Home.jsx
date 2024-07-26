@@ -65,9 +65,9 @@ const Home = () => {
                     <img src={forestImage} alt='Image of forest' className="bannerImage" />
 
                     <div className='centerContent'>
-                        <div class="jumbotron home-text home-card">
-                            <h1 class="display-4">Hello, {userInfo.firstName} {userInfo.lastName}!</h1>
-                            <hr class="my-4" />
+                        <div className="jumbotron home-text home-card">
+                            <h1 className="display-4">Hello, {userInfo.firstName} {userInfo.lastName}!</h1>
+                            <hr className="my-4" />
                             <p>Click here for some more challenges!</p>
                             <Button color="success" onClick={handleChallengeClick}>Challenges!</Button>
                         </div>
@@ -84,9 +84,9 @@ const Home = () => {
                     <img src={forestImage} alt='Image of forest' className="bannerImage" />
 
                     <div className='centerContent'>
-                        <div class="jumbotron home-text home-card">
-                            <h1 class="display-4">Welcome to Green Routine!</h1>
-                            <hr class="my-4" />
+                        <div className="jumbotron home-text home-card">
+                            <h1 className="display-4">Welcome to Green Routine!</h1>
+                            <hr className="my-4" />
                             <p>Where we're reducing environmental impact through changes in daily habits through challenges</p>
                             <p>Join us!</p>
                             <Button color="success" onClick={handleSignupClick}>Sign Up!</Button>

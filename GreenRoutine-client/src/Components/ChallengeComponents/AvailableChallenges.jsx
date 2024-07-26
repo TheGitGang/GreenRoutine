@@ -52,9 +52,7 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo} ) => {
         );
     }
     const personalChallengeIds = userChallenges.map(userChallenge => userChallenge.personalChallengeId);
-    console.log(personalChallengeIds);
     const availableChallengesToRender = challenges.filter(challenge => !personalChallengeIds.includes(challenge.challengeId));
-    console.log(availableChallengesToRender);
 
     return (
         <>

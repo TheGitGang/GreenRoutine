@@ -14,7 +14,9 @@ const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
                 headers: {
                     'Content-Type': 'application/json',
                   },
-                body: JSON.stringify({ challengeId, userId }),
+                body: JSON.stringify({ 
+                    challengeId: challengeId,
+                    userId: userId }),
             });
 
             if (response.ok) {
