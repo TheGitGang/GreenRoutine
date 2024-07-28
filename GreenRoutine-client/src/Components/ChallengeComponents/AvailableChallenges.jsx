@@ -51,8 +51,8 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo} ) => {
             </>
         );
     }
-    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-    const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
+    const personalChallengeIds = userChallenges.map(userChallenge => userChallenge.personalChallengeId);
+    const availableChallengesToRender = challenges.filter(challenge => !personalChallengeIds.includes(challenge.challengeId));
 
     return (
         <>

@@ -8,7 +8,7 @@ const Leaves = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
-    const { leaves, setLeaves } = useLeaves();
+    const { leaves = 0, setLeaves } = useLeaves() || {};
 
     useEffect(() => {
         const fetchIsAuthenticated = async () => {

@@ -30,8 +30,8 @@ const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpac
         );
     }
 
-    const completedUserChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.challengeId);
-    const completedChallengesToRender = challenges.filter(challenge => completedUserChallengeIds.includes(challenge.id));
+    const completedPersonalChallengeIds = userChallenges.filter(userChallenge => userChallenge.challengeCompleted).map(userChallenge => userChallenge.personalChallengeId);
+    const completedChallengesToRender = challenges.filter(challenge => completedPersonalChallengeIds.includes(challenge.challengeId));
 
     return (
         <>
