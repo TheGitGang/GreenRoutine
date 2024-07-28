@@ -1,6 +1,6 @@
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import UploadProfilePhotoModal from './UploadProfilePhotoModal';
-import profileImg from '../assets/images/ProfilePlaceholder.jpg'
+import profileImg from '../../assets/images/ProfilePlaceholder.jpg'
 import { useEffect, useState } from 'react';
 
 const ProfilePhoto = ({ user, onPhotoUpload }) => {

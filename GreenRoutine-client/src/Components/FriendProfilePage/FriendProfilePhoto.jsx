@@ -1,6 +1,6 @@
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import { useState, useEffect } from "react";
-import profileImg from '../assets/images/ProfilePlaceholder.jpg'
+import profileImg from '../../assets/images/ProfilePlaceholder.jpg';
 
 const FriendProfilePhoto = ({ user, id }) => {
     const [userPhoto, setUserPhoto] = useState(null);

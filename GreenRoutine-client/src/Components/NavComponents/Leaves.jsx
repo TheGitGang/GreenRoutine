@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './Leaves.css'
-import leafIcon from '../assets/images/leaf.png'
+import leafIcon from '../../assets/images/leaf.png'
 import { useLeaves } from './LeavesContext';
 
 const Leaves = () => {

@@ -1,5 +1,5 @@
 import react from 'react'
-import CompleteChallengeButton from '../CompleteChallengeButton';
+import CompleteChallengeButton from './CompleteChallengeButton';
 import { Card, CardBody, CardTitle, ListGroup, ListGroupItem, Button  } from 'reactstrap';
 
 const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScreen, CarbonImpactBackend, carbonLb, fetchChallenges } ) => {

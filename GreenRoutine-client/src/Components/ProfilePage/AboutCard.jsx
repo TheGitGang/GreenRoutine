@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Card, CardBody, CardTitle } from "reactstrap";
-import editIcon from '../assets/images/edit_icon.png'
+import editIcon from '../../assets/images/edit_icon.png'
 import EditAboutModal from "./EditAboutModal";
 
 const AboutCard = ({ user, setUserInfo, userId, fetchUserInfo }) => {
