@@ -18,7 +18,7 @@ namespace TodoApi.Controllers
     public class ElectricityController : ControllerBase
     {
         private static readonly HttpClient client = new HttpClient();
-        private const string apiKey = "11oVkRMXcMSHMlUmyTKrg";
+        private const string apiKey = "z0UbMhCEGZ0XtyG5S4pLA";
         private const string baseUrl = "https://www.carboninterface.com/api/v1/";
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;

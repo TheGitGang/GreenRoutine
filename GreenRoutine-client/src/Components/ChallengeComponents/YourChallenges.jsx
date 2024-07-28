@@ -21,10 +21,10 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">You are signed up for this challenge. Assign Carbon Impact
                                     <Button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</Button>
-                                    {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.id)}>Send to DB</Button></ListGroupItem>
+                                    {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.challengeId)}>Send to DB</Button></ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Electricity Impact <ElectricityEstimateButton             electricValue={challenge.electricValue}
                                     userChallenges={userChallenges}
-                                    challengeId={challenge.id}
+                                    challengeId={challenge.challengeId}
                                     challengeElectricValue={challenge.electricValue}
                                     userInfo={userInfo}
                                     fetchChallenges={fetchChallenges} ></ElectricityEstimateButton ></ListGroupItem>

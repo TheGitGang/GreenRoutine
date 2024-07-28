@@ -20,7 +20,7 @@ namespace TodoApi.Controllers
     public class CarbonInterfaceController : ControllerBase
     {
         private static readonly HttpClient client = new HttpClient();
-        private const string apiKey = "11oVkRMXcMSHMlUmyTKrg";
+        private const string apiKey = "z0UbMhCEGZ0XtyG5S4pLA";
         private const string baseUrl = "https://www.carboninterface.com/api/v1/";
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -53,7 +53,7 @@ namespace TodoApi.Controllers
         public async Task<IActionResult> GetVehicleMakes()
         {
             // Replace 'your_api_key_here' with your actual API key
-            string apiKey = "11oVkRMXcMSHMlUmyTKrg";
+            string apiKey = "z0UbMhCEGZ0XtyG5S4pLA";
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                 "Bearer",
                 apiKey
