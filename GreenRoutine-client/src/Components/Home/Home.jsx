@@ -1,9 +1,9 @@
-import '../App.css'
+import '../../App.css'
 import { useEffect, useState } from 'react';
-import forestImage from '../assets/images/BlackForest-Germany-GettyImages-147180370.webp'
+import forestImage from '../../assets/images/BlackForest-Germany-GettyImages-147180370.webp'
 import { Button, Card } from 'reactstrap'
 import { useNavigate } from "react-router-dom";
-import ChallengeRequests from './ChallengeRequests';
+import ChallengeRequests from '../ChallengeRequests/ChallengeRequests';
 
 const Home = () => {
 

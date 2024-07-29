@@ -1,6 +1,6 @@
 import FriendAboutCard from "./FriendAboutCard";
 import { Row, Col, Alert } from "reactstrap";
-import UserStatisticsCard from "./UserStatisticsCard";
+import UserStatisticsCard from "../ProfilePage/UserStatisticsCard";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FriendProfilePhoto from "./FriendProfilePhoto";

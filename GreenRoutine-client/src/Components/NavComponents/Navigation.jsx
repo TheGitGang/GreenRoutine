@@ -14,7 +14,7 @@ import {
   import Leaves from './Leaves';
   import { useLeaves } from './LeavesContext';
 
-  import logo from '../assets/images/green_routine_logo.png'
+  import logo from '../../assets/images/green_routine_logo.png'
 
   const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);

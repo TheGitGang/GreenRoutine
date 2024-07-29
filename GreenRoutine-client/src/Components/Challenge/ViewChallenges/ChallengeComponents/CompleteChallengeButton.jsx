@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import JSConfetti from 'js-confetti';
 import { Button } from 'reactstrap'
-import { useLeaves } from './LeavesContext';
+import { useLeaves } from '../../../NavComponents/LeavesContext';
 
 const CompleteChallengeButton = ({challengeId, userId, fetchChallenges }) => {
     const { leaves, setLeaves } = useLeaves();

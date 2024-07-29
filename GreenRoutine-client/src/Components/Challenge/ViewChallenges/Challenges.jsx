@@ -4,7 +4,7 @@ import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
 import YourChallenges from './ChallengeComponents/YourChallenges';
 import CompletedChallenges from './ChallengeComponents/CompletedChallenges';
 import Search from './ChallengeComponents/Search';
-import ElectricityEstimateButton from './ElectricityEstimateButton';
+import ElectricityEstimateButton from '../../ElectricityEstimateButton';
 import {
   Nav,
   NavItem,
@@ -230,7 +230,8 @@ const Challenges = () => {
                     <AvailableChallenges 
                         challenges={challenges} 
                         userChallenges={userChallenges} 
-                        userInfo={userInfo} 
+                        userInfo={userInfo}
+                        fetchChallenges={fetchChallenges} 
                     />
                 </TabPane>
                 <TabPane tabId="4">

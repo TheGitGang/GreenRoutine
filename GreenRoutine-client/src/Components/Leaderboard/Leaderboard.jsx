@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './Leaderboard.css';
-import profileImg from '../assets/images/ProfilePlaceholder.jpg'
-import TopUsers from './styling/TopUsers';
+import profileImg from '../../assets/images/ProfilePlaceholder.jpg'
+import TopUsers from '../styling/TopUsers';
 import { Col, Row , Container } from 'reactstrap';
 
 

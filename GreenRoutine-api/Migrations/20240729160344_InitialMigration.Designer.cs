@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ChallengeDbContext))]
-    [Migration("20240724202025_InitialMigration")]
+    [Migration("20240729160344_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

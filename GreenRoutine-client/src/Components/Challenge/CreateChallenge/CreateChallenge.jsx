@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { DisplayMileageQuery } from './ChallengeTransportationOptions'
+import { DisplayMileageQuery } from '../../CarComponents/ChallengeTransportationOptions'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";

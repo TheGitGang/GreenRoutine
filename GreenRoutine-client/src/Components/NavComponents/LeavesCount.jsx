@@ -1,4 +1,4 @@
-import leafIcon from '../assets/images/leaf.png'
+import leafIcon from '../../assets/images/leaf.png'
 import { Row } from 'reactstrap';
 
 const LeavesCount = ({value}) => {
