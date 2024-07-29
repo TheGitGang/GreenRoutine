@@ -16,7 +16,7 @@ namespace TodoAPI.Controllers{
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<Challenge>>> Search([FromBody] SearchRequest request)
+        public async Task<ActionResult<IEnumerable<ChallengeResultDTO>>> Search([FromBody] SearchRequest request)
         {
             var query = context.Challenges.AsQueryable();
 
@@ -40,7 +40,29 @@ namespace TodoAPI.Controllers{
             }
 
             var results = await query.ToListAsync();
-            return Ok(results);
+
+            var userChallenges = await context.UserChallenges
+                .Where (uc => uc.UserId == request.UserId)
+                .ToListAsync();
+
+            var challengeResults = results.Select(challenge => 
+            {
+                var userChallenge = userChallenges.FirstOrDefault(uc => uc.PersonalChallengeId == challenge.Id);
+                var status = "Available for Sign-Up";
+
+                if (userChallenge != null)
+                {
+                    status = userChallenge.ChallengeCompleted ? "Completed" : "Needs to be Completed";
+                }
+
+                return new ChallengeResultDTO
+                {
+                    Challenge = challenge,
+                    Status = status,
+
+                };
+            });
+            return Ok(challengeResults);
         }
 
 
@@ -51,6 +73,13 @@ namespace TodoAPI.Controllers{
         public string? Query { get; set; }
         public int? CategoryId { get; set; }
         public int? Difficulty { get; set; }
+        public string UserId { get; set; }
+    }
+
+    public class ChallengeResultDTO
+    {
+        public Challenge Challenge { get; set; }
+        public string Status { get; set;}
     }
 
 

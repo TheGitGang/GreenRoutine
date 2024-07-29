@@ -1,12 +1,15 @@
 import { Label, Input, Form, Button, FormGroup } from 'reactstrap'
 import { useState, useEffect } from 'react';
+import SearchResultsRender from './SearchResultsRender';
 
 const Search = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [difficulty, setDifficulty] = useState('');
-    const [category, setCategory] = useState('');
+    const [difficulty, setDifficulty] = useState();
+    const [category, setCategory] = useState();
+    const [userInfo, setUserInfo] = useState({}); 
+    const [error, setError] = useState(''); 
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -19,6 +22,22 @@ const Search = () => {
             }
         }
         fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+        const response = await fetch('pingauth', {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUserInfo(data);
+            setError('User info set.')
+        } else {
+            setError('Could not set user info')
+        }
+        }
+            fetchUserInfo();
     }, []);
 
     const handleChange = (e) => {
@@ -38,8 +57,9 @@ const Search = () => {
             }, 
             body: JSON.stringify({
                 query: query,
-                categoryId: category,
-                difficulty: difficulty
+                categoryId: category? category: null,
+                difficulty: difficulty? difficulty : null,
+                userId: userInfo.id
             })
         });
         
@@ -101,7 +121,7 @@ const Search = () => {
         </Form>
 
         <div>
-            {results.length > 0 && (
+            {/* {results.length > 0 && (
                 <div>
                     <br/>
                     <h2>Search Results: </h2>
@@ -119,7 +139,16 @@ const Search = () => {
                         </div>
                     ))}
                 </div>
+            )}  */}
+            {results.Length > 0 ? (
+                <>
+                    <SearchResultsRender results={results}/>
+                </>
+                ): (
+                <h2>No challenges match your query</h2>
+                
             )}
+            
         </div>
     </>
     );
