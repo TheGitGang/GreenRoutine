@@ -4,6 +4,7 @@ import AvailableChallenges from './ChallengeComponents/AvailableChallenges';
 import YourChallenges from './ChallengeComponents/YourChallenges';
 import CompletedChallenges from './ChallengeComponents/CompletedChallenges';
 import Search from './ChallengeComponents/Search';
+import ElectricityEstimateButton from './ElectricityEstimateButton';
 import {
   Nav,
   NavItem,
@@ -51,13 +52,10 @@ const Challenges = () => {
                 }
             }
         } catch (error) {
-            // console.error('Error fetching challenges:', error);
             setMessage(error.message);
         }
     }
 
-
-    //fetching checking user is signed in
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
             try {
@@ -75,7 +73,6 @@ const Challenges = () => {
         fetchIsAuthenticated();
     }, []);
 
-    //fetching user information and setting it
     useEffect(() => {
         const fetchUserInfo = async () => {
         const response = await fetch('pingauth', {
@@ -98,14 +95,13 @@ const Challenges = () => {
         fetchChallenges();
     }, [userInfo.id, isAuthenticated]);
 
-   
-
     const toggleTab = (tab) => {
         if (activeTab !== tab) {
             setActiveTab(tab);
             fetchChallenges();
         }
     };
+
 
     //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId, challengeType) => {
@@ -126,7 +122,6 @@ const Challenges = () => {
             fetchChallenges();
         } else {
             setMessage(result.message || 'Failed to sign up for the challenge');
-            // console.log(user);
             navigate('/thankyou')
         }
     };
@@ -143,8 +138,6 @@ const Challenges = () => {
                 Carbon_lb: carbonLb,
             }),
         });
-        // console.log(body);
-        // console.log(userInfo)
         const result = await response.json();
         if(response.ok) {
             console.log(result.data.attributes.carbon_lb)
@@ -152,7 +145,6 @@ const Challenges = () => {
             setMessage(`Carbon data registered for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to register carbon data for the challenge');
-            // console.log(user);
         }
     };
 
@@ -163,16 +155,12 @@ const Challenges = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                /*UserId: userInfo.id, 
-                ChallengeId: challengeId,*/
                 Type: "vehicle",
                 DistanceValue: miles,
                 DistanceUnit: "mi",
                 VehicleModelId: userInfo.modelChoice,
             }),
         });
-        // console.log(body);
-        // console.log(userInfo)
         const result = await response.json();
         if(response.ok) {
             console.log(result.data.attributes.carbon_lb)
@@ -180,10 +168,8 @@ const Challenges = () => {
             setMessage(`Carbon data registered for challenge: ${challengeId}`);
         } else {
             setMessage(result.message || 'Failed to register carbon data for the challenge');
-            // console.log(user);
         }
     };
-
 
     return (
         <div>
@@ -255,6 +241,5 @@ const Challenges = () => {
         </div>
     );
 };
+
 export default Challenges;
-
-

@@ -22,4 +22,5 @@ public class UserChallenge
 
     public double? Carbon_lb { get; set; }
 
+    public double? ElectricCarbon_lb { get; set; }
 }
