@@ -1,6 +1,7 @@
-import react from 'react'
+import {react, useState} from 'react'
 import { Button, Card, CardBody, CardTitle, ListGroup, ListGroupItem  } from 'reactstrap';
 import './ChallengeStyling.css'
+import Impact from './Impact'
 
 const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScreen, carbonLb } ) => {
     const renderChallenges = (challengesToRender, user, CarbonImpactScreen, carbonLb) => {
@@ -18,9 +19,10 @@ const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpac
                                 <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
-                                <ListGroupItem className="list-group-item lightgrey-card">Assign Carbon Impact 
+                                {/* <ListGroupItem className="list-group-item lightgrey-card">Assign Carbon Impact 
                                     <Button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</Button>
-                                {carbonLb} lbs</ListGroupItem>
+                                {carbonLb} lbs</ListGroupItem> */}
+                                <Impact />
                             </ListGroup>
                         </Card>
                     ))}
