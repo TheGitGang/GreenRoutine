@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getLocalStorage, setLocalStorage } from './LocalStorageFunctions';
+import { getLocalStorage, setLocalStorage } from '../LocalStorageFunctions.jsx';
 import Calendar from 'react-calendar'
 import CustomCalendar from "./About2.jsx";
 

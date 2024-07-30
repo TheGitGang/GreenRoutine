@@ -4,6 +4,7 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 const ElectricityEstimate = () => {
     const [userInfo, setUserInfo] = useState({});
     const [country, setCountry] = useState('');
+    const [electricityUnit, setElectricityUnit] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
 
@@ -45,6 +46,7 @@ const ElectricityEstimate = () => {
         const payload = {
             userId: userInfo.id,
             country: country,
+            electricityUnit: electricityUnit,
         };
 
         try {
@@ -57,17 +59,17 @@ const ElectricityEstimate = () => {
             });
 
             if (response.ok) {
-                setError('Country saved successfully.');
+                setError('Data saved successfully.');
             } else {
                 const errorData = await response.json();
                 setError(`Error: ${errorData.message}`);
             }
         } catch (error) {
-            setError('Unable to save country.');
+            setError('Unable to save data.');
         }
     };
 
-    if (!userInfo.id) {
+    if (!isAuthenticated) {
         return <p>Loading...</p>;
     }
 
@@ -88,10 +90,25 @@ const ElectricityEstimate = () => {
                     {/* Add more countries as needed */}
                 </Input>
             </FormGroup>
-            <Button type="submit">Save Country</Button>
+            <FormGroup>
+                <Label for="electricityUnit">Electricity Unit</Label>
+                <Input
+                    type="select"
+                    name="electricityUnit"
+                    id="electricityUnit"
+                    value={electricityUnit}
+                    onChange={(e) => setElectricityUnit(e.target.value)}
+                >
+                    <option value="">Select a unit</option>
+                    <option value="mwh">MWh</option>
+                    <option value="kwh">kWh</option>
+                </Input>
+            </FormGroup>
+            <Button type="submit">Save Data</Button>
             {error && <p className="text-danger">{error}</p>}
         </Form>
     );
 };
 
 export default ElectricityEstimate;
+

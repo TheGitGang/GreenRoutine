@@ -1,7 +1,7 @@
-import Navigation from './Components/Navigation';
+import Navigation from './Components/NavComponents/Navigation';
 import { Outlet, useLocation } from 'react-router-dom';
 import "./App.css"
-import { LeavesProvider } from './Components/LeavesContext';
+import { LeavesProvider } from './Components/NavComponents/LeavesContext';
 // import { AuthProvider } from './AuthContext';
 
 function App() {

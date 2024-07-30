@@ -5,8 +5,8 @@ const Search = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [difficulty, setDifficulty] = useState(null);
-    const [category, setCategory] = useState(null);
+    const [difficulty, setDifficulty] = useState('');
+    const [category, setCategory] = useState('');
 
     useEffect(() => {
         const fetchCategories = async () => {

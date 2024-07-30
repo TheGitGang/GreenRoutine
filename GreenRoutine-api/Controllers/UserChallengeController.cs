@@ -28,7 +28,8 @@ public class UserChallengeController : ControllerBase
     {
             var userChallenges = await context.UserChallenges.Where(uc => uc.UserId == userId).Select(uc => new UserChallengeDTO
             {
-                ChallengeId = uc.PersonalChallengeId ?? uc.GlobalChallengeId.Value,
+                ChallengeId = uc.Id,
+                PersonalChallengeId = uc.PersonalChallengeId,
                 ChallengeType = uc.PersonalChallengeId.HasValue ? "Personal" : "Global",
                 UserId = uc.UserId,
                 ChallengeCompleted = uc.ChallengeCompleted
@@ -73,6 +74,7 @@ public class UserChallengeController : ControllerBase
     public class UserChallengeDTO
     {
         public int ChallengeId { get; set; }
+        public int? PersonalChallengeId { get; set; }
         public string ChallengeType { get; set; }
         public string UserId { get; set; }
         public bool? ChallengeCompleted { get; set; }

@@ -1,10 +1,12 @@
-import react from 'react'
+import react, { useState } from 'react'
 import { Button, Card, CardBody, CardTitle, ListGroup, ListGroupItem } from 'reactstrap';
 import './ChallengeStyling.css'
 
-const AvailableChallenges = ({ challenges, userChallenges, userInfo} ) => {
+const AvailableChallenges = ({ challenges, userChallenges, userInfo, fetchChallenges} ) => {
+    const [ message, setMessage ] = useState('');
     //Allows user to sign up for challenge
     const ChallengeSignUp = async (challengeId) => {
+        
         const response = await fetch('/api/challenges/signup', {
             method: 'POST',
             headers: {
@@ -51,8 +53,8 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo} ) => {
             </>
         );
     }
-    const userChallengeIds = userChallenges.map(userChallenge => userChallenge.challengeId);
-    const availableChallengesToRender = challenges.filter(challenge => !userChallengeIds.includes(challenge.id));
+    const personalChallengeIds = userChallenges.map(userChallenge => userChallenge.personalChallengeId);
+    const availableChallengesToRender = challenges.filter(challenge => !personalChallengeIds.includes(challenge.challengeId));
 
     return (
         <>

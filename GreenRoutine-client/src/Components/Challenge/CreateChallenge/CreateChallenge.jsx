@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { DisplayMileageQuery } from './ChallengeTransportationOptions'
+import { DisplayMileageQuery } from '../../CarComponents/ChallengeTransportationOptions'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
@@ -57,9 +57,11 @@ const CreateChallenge = () => {
                 name: name,
                 length: length,
                 description: description,
+
                 miles: miles,
                 electricValue: electricValue,
                 categoryId: category
+
             }
             console.log(payload);
             fetch('/api/Challenges/create', {

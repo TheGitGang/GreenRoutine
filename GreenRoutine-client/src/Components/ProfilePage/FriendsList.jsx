@@ -3,14 +3,14 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { Button, Card, Row, Col } from 'reactstrap';
 import { useEffect, useState } from 'react';
-import CircularImage from './CircularImage';
-import formatNumbers from '../helpers/formatNumbers';
-import LeavesCount from './LeavesCount';
+import CircularImage from '../styling/CircularImage';
+import formatNumbers from '../../helpers/formatNumbers';
+import LeavesCount from '../NavComponents/LeavesCount';
 import AddFriendModal from './AddFriendModal';
-import RemoveFriendButton from './RemoveFriendButton';
-import profileImg from '../assets/images/ProfilePlaceholder.jpg'
-import ViewProfileButton from './ViewProfileButton';
-import ChallengeButton from './ChallengeButton';
+import RemoveFriendButton from '../FriendProfilePage/RemoveFriendButton';
+import profileImg from '../../assets/images/ProfilePlaceholder.jpg'
+import ViewProfileButton from '../FriendProfilePage/ViewProfileButton';
+import ChallengeButton from '../ChallengeRequests/ChallengeButton';
 
 const FriendsList = ({ userId }) => {
     const [displayAddModal, setDisplayAddModal] = useState(false);

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './Leaves.css'
-import leafIcon from '../assets/images/leaf.png'
+import leafIcon from '../../assets/images/leaf.png'
 import { useLeaves } from './LeavesContext';
 
 const Leaves = () => {
     const [userInfo, setUserInfo] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
-    const { leaves, setLeaves } = useLeaves();
+    const { leaves = 0, setLeaves } = useLeaves() || {};
 
     useEffect(() => {
         const fetchIsAuthenticated = async () => {
