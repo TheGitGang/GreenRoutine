@@ -61,9 +61,10 @@ public class UserChallengeController : ControllerBase
      public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
     {
         Console.WriteLine("hi");
-        var markedDates = await context.UserChallenges.Select(c => c.SignupDate)
-                                        .Select(md => md.Date.ToString("yyyy-MM-dd"))
-                                        .ToListAsync();
+        var markedDates = await context.UserChallenges
+            .Select(c => c.SignupDate)
+            .Select(md => md.Date.ToString("yyyy-MM-dd"))
+            .ToListAsync();
 
         Console.WriteLine(markedDates.ToString());
         return Ok(markedDates);

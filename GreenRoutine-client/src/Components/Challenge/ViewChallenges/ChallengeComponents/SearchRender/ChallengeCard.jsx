@@ -4,7 +4,6 @@ import ChallengeSignUp from '../ChallengeSignUp';
 import CompleteChallengeButton from '../CompleteChallengeButton';
 
 const ChallengeCard = ({item, userInfo, fetchChallenges }) => {
-    console.log(item);
     const { challenge, status } = item;
 
     const renderAction = () => {
@@ -13,8 +12,8 @@ const ChallengeCard = ({item, userInfo, fetchChallenges }) => {
                 return <Impact />
             case 'Needs to be Completed':
                 return <CompleteChallengeButton challengeId={challenge.id} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
-            case 'Available for sign up':
-                return <ChallengeSignUp challenge={challenge.id} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
+            case 'Available for Sign-Up':
+                return <ChallengeSignUp challengeId={challenge.id} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
             default:
                 return null;
         }

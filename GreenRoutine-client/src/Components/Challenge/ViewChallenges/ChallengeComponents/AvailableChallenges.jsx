@@ -19,9 +19,8 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, fetchChalle
                                 <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
-                                <p>{challenge.challengeId}Apples</p>
                             </ListGroup>
-                                <ChallengeSignUp challenge={challenge.challengeId} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
+                                <ChallengeSignUp challengeId={challenge.challengeId} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
                         </Card>
                     ))}
                 </div>

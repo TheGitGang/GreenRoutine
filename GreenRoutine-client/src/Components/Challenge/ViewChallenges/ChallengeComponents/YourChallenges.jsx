@@ -30,7 +30,6 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                                         fetchChallenges={fetchChallenges} >
                                     </ElectricityEstimateButton >
                                 </ListGroupItem>
-                                <p>{challenge.challengeId}</p>
                             </ListGroup>
                             <CompleteChallengeButton challengeId={challenge.challengeId} userId={user.id} fetchChallenges={fetchChallenges}/>
                         </Card>

@@ -168,7 +168,8 @@ const Challenges = () => {
                     challenges={challenges}
                     userChallenges={userChallenges}
                     userInfo={userInfo} 
-                    fetchChallenges={fetchChallenges}/>
+                    fetchChallenges={fetchChallenges}
+                    />
                 </TabPane>
                 <TabPane tabId="2">
                     <CompletedChallenges

@@ -2,6 +2,7 @@ import { Label, Input, Form, Button, FormGroup } from 'reactstrap'
 import { useState, useEffect } from 'react';
 import SearchResultsRender from './SearchResultsRender';
 import ChallengeCard from './SearchRender/ChallengeCard'
+import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -11,6 +12,7 @@ const Search = () => {
     const [category, setCategory] = useState();
     const [userInfo, setUserInfo] = useState({}); 
     const [error, setError] = useState(''); 
+    const navigate = useNavigate();
 
     const fetchChallenges = async () => {
         try {
@@ -158,23 +160,8 @@ const Search = () => {
                     {results.map((item, index) => (
                         <ChallengeCard key={index} item={item} userInfo={userInfo} fetchChallenges={fetchChallenges}/>
                     ))}
-                    
-                    {console.log(results)}
                 </div>
             )} 
-            {/* {results.Length > 0 ? (
-                <>
-                    {console.log(results)}
-                    <SearchResultsRender results={results}/>
-                </>
-                ): (
-                    <>
-                <h2>No challenges match your query</h2>
-                {console.log(results)}
-                </>
-                
-            )} */}
-            
         </div>
     </>
     );

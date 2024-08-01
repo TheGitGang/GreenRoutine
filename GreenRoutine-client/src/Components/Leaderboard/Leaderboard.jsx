@@ -2,16 +2,12 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import './Leaderboard.css';
 import profileImg from '../../assets/images/ProfilePlaceholder.jpg'
-import TopUsers from '../styling/TopUsers';
+import TopUsers from './TopUsers';
 import { Col, Row , Container } from 'reactstrap';
 
-
-//TODO SONNIE 4: reformat leaderboard table to look nicer
 const dummyUser = {
     profileImg: profileImg
 }
-
-
 
 const Leaderboard = () => {
     const [users, setUsers] = useState([]);

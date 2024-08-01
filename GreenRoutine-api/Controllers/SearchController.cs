@@ -59,7 +59,6 @@ namespace TodoAPI.Controllers{
                 {
                     Challenge = challenge,
                     Status = status,
-
                 };
             });
             return Ok(challengeResults);
