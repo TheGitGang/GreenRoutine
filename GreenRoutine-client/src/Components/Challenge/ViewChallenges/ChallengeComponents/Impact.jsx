@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, ListGroupItem} from 'reactstrap';
 
-const Impact = (challenge) => {
+const Impact = ({challenge, userInfo}) => {
     const [carbonLb, setCarbonLb] = useState('');
     const CarbonImpactBackend = async (challengeId) => {
         const response = await fetch('/api/CarbonInterFace/store-estimate', {

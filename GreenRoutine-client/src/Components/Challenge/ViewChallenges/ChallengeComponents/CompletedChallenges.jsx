@@ -22,7 +22,7 @@ const CompletedChallenges = ({ challenges, userChallenges, userInfo, CarbonImpac
                                 {/* <ListGroupItem className="list-group-item lightgrey-card">Assign Carbon Impact 
                                     <Button onClick={() => CarbonImpactScreen(challenge.id, challenge.miles)}> Here</Button>
                                 {carbonLb} lbs</ListGroupItem> */}
-                                <Impact />
+                                <Impact challenge={challenge} userInfo={userInfo}/>
                             </ListGroup>
                         </Card>
                     ))}
