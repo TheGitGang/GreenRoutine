@@ -39,7 +39,7 @@ const Search = () => {
                 }
             }
         } catch (error) {
-            setMessage(error.message);
+            setError('something went wrong');
         }
     }
 
