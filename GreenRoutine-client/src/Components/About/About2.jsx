@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import Calendar from 'react-calendar'
+import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-
 const CustomCalendar = () => {
-    const [markedDates, setMarkedDates] = useState([]);
+    const [markedDates, setMarkedDates] = useState({ green: [], yellow: [] });
 
     useEffect(() => {
         const fetchMarkedDates = async () => {
@@ -13,8 +11,12 @@ const CustomCalendar = () => {
                 const response = await fetch('/api/UserChallenge/dates');
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data)
-                    setMarkedDates(data);
+                    console.log(data); // Check the structure of data
+                    // Ensure data has 'green' and 'yellow' arrays
+                    setMarkedDates({
+                        green: data.greenDates || [], 
+                        yellow: data.yellowDates || []
+                    });
                 } else {
                     console.error('Failed to fetch marked dates');
                 }
@@ -29,7 +31,10 @@ const CustomCalendar = () => {
     const tileClassName = ({ date, view }) => {
         if (view === 'month') {
             const dateString = date.toISOString().split('T')[0];
-            if (markedDates.includes(dateString)) {
+            if (markedDates.green.includes(dateString)) {
+                return 'highlight3';
+            }
+            if (markedDates.yellow.includes(dateString)) {
                 return 'highlight';
             }
         }
@@ -39,7 +44,7 @@ const CustomCalendar = () => {
     const tileContent = ({ date, view }) => {
         if (view === 'month') {
             const dateString = date.toISOString().split('T')[0];
-            if (markedDates.includes(dateString)) {
+            if (markedDates.green.includes(dateString) || markedDates.yellow.includes(dateString)) {
                 return (
                     <a href={`/challenge`} className="tile-link">
                         <span>{date.getDate()}</span>
@@ -61,6 +66,12 @@ const CustomCalendar = () => {
                     .highlight {
                         background-color: yellow !important;
                     }
+                    .highlight2 {
+                        background-color: red !important;
+                    }
+                    .highlight3 {
+                        background-color: green !important;
+                    }
                     .tile-link {
                         display: block;
                         width: 100%;
@@ -68,6 +79,7 @@ const CustomCalendar = () => {
                         text-align: center;
                         text-decoration: none;
                         color: inherit;
+                    }
                 `}
             </style>
         </div>
