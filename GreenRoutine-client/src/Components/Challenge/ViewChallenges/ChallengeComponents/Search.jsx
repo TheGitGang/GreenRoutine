@@ -1,12 +1,47 @@
 import { Label, Input, Form, Button, FormGroup } from 'reactstrap'
 import { useState, useEffect } from 'react';
+import SearchResultsRender from './SearchResultsRender';
+import ChallengeCard from './SearchRender/ChallengeCard'
+import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [difficulty, setDifficulty] = useState('');
-    const [category, setCategory] = useState('');
+    const [difficulty, setDifficulty] = useState();
+    const [category, setCategory] = useState();
+    const [userInfo, setUserInfo] = useState({}); 
+    const [error, setError] = useState(''); 
+    const navigate = useNavigate();
+
+    const fetchChallenges = async () => {
+        try {
+            // Fetching all challenges
+            if(userInfo.id){
+                const allChallengesResponse = await fetch('/api/Challenges');
+                if (allChallengesResponse.ok) {
+                    const allChallengesData = await allChallengesResponse.json();
+                    setChallenges(allChallengesData);
+                    setError('All challenges set');
+                } else {
+                    setError('Could not set all challenges');
+                }
+
+                if(userInfo.id){
+                    const userChallengesResponse = await fetch(`/api/UserChallenge/${userInfo.id}`);
+                    if (userChallengesResponse.ok){
+                        const userChallengesData = await userChallengesResponse.json();
+                        setUserChallenges(userChallengesData);
+                        setError('userChallenge set');
+                    } else {
+                        setError('Could not set userChallenges');
+                    }
+                }
+            }
+        } catch (error) {
+            setError('something went wrong');
+        }
+    }
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -19,6 +54,22 @@ const Search = () => {
             }
         }
         fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+        const response = await fetch('pingauth', {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUserInfo(data);
+            setError('User info set.')
+        } else {
+            setError('Could not set user info')
+        }
+        }
+            fetchUserInfo();
     }, []);
 
     const handleChange = (e) => {
@@ -38,8 +89,9 @@ const Search = () => {
             }, 
             body: JSON.stringify({
                 query: query,
-                categoryId: category,
-                difficulty: difficulty
+                categoryId: category? category: null,
+                difficulty: difficulty? difficulty : null,
+                userId: userInfo.id
             })
         });
         
@@ -105,24 +157,14 @@ const Search = () => {
                 <div>
                     <br/>
                     <h2>Search Results: </h2>
-                    {results.map((challenge) => (
-                        <div key={challenge.id}>
-                            <div className="card lightgrey-card" key={challenge.id}>
-                            <h5 className="card-title lightgrey-card">{challenge.name}</h5>
-                            <ul className="list-group list-group-flush lightgrey-card">
-                                <li className="list-group-item lightgrey-card">Difficulty: {challenge.difficulty}</li>
-                                <li className="list-group-item lightgrey-card">Length: {challenge.length}</li>
-                                <li className="list-group-item lightgrey-card">Description: {challenge.description}</li>
-                                <li className="list-group-item lightgrey-card">Miles: {challenge.miles}</li>
-                            </ul>
-                            </div>
-                        </div>
+                    {results.map((item, index) => (
+                        <ChallengeCard key={index} item={item} userInfo={userInfo} fetchChallenges={fetchChallenges}/>
                     ))}
                 </div>
-            )}
+            )} 
         </div>
     </>
     );
 }
 
-export default Search
+export default Search;

@@ -56,7 +56,7 @@ const Leaves = () => {
         <div> 
             <img src={leafIcon} height='15'/> 
             : {leaves} </div>): 
-        <div> Leave: 0 </div>}
+        <div> <img src={leafIcon} height='15'/> : 0 </div>}
       </div>
     </div>
   );

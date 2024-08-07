@@ -1,34 +1,10 @@
-import react, { useState } from 'react'
+import react, { useState, createContext, useContext, Children } from 'react'
 import { Button, Card, CardBody, CardTitle, ListGroup, ListGroupItem } from 'reactstrap';
 import './ChallengeStyling.css'
+import ChallengeSignUp from './ChallengeSignUp';
 
 const AvailableChallenges = ({ challenges, userChallenges, userInfo, fetchChallenges} ) => {
-    const [ message, setMessage ] = useState('');
-    //Allows user to sign up for challenge
-    const ChallengeSignUp = async (challengeId) => {
-        
-        const response = await fetch('/api/challenges/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                UserId: userInfo.id, 
-                PersonalChallengeId: challengeId
-            }),
-        });
-        const result = await response.json();
-        if(response.ok) {
-            setMessage(`Signed up for challenge: ${challengeId}`);
-            fetchChallenges();
-        } else {
-            setMessage(result.message || 'Failed to sign up for the challenge');
-            // console.log(user);
-            navigate('/thankyou')
-        }
-    };
-
-    const renderChallenges = (challengesToRender, isUserChallenge, user) => {
+    const renderChallenges = (challengesToRender) => {
         return (
             <>
                 <p>There are {challengesToRender.length} challenges in the DB</p> 
@@ -43,9 +19,8 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, fetchChalle
                                 <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
-                                <p>{challenge.challengeId}Apples</p>
                             </ListGroup>
-                                <Button onClick={() => ChallengeSignUp(challenge.challengeId, 'personal')}>Sign Up</Button>
+                                <ChallengeSignUp challengeId={challenge.challengeId} userId={userInfo.id} fetchChallenges={fetchChallenges}/>
                         </Card>
                     ))}
                 </div>
@@ -62,7 +37,7 @@ const AvailableChallenges = ({ challenges, userChallenges, userInfo, fetchChalle
             <div>
             <br/>
             <h2>Available Challenges</h2>
-                {renderChallenges(availableChallengesToRender, false)}</div>
+                {renderChallenges(availableChallengesToRender)}</div>
         </>
     )
 };

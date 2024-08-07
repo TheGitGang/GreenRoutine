@@ -2,6 +2,7 @@ import react from 'react'
 import CompleteChallengeButton from './CompleteChallengeButton';
 import { Card, CardBody, CardTitle, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import ElectricityEstimateButton from '../../../ElectricityEstimateButton';
+import Impact from './Impact';
 
 const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScreen, CarbonImpactBackend, carbonLb, fetchChallenges }) => {
     const renderChallenges = (challengesToRender, user, CarbonImpactScreen, CarbonImpactBackend, carbonLb) => {
@@ -19,9 +20,10 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                                 <ListGroupItem className="list-group-item lightgrey-card">Length: {challenge.length}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Description: {challenge.description}</ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Miles: {challenge.miles}</ListGroupItem>
-                                <ListGroupItem className="list-group-item lightgrey-card">You are signed up for this challenge. Assign Carbon Impact
-                                    <Button onClick={() => CarbonImpactScreen(challenge.challengeId, challenge.miles)}> Here</Button>
-                                    {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.challengeId)}>Send to DB</Button></ListGroupItem>
+                               <Impact challenge={challenge}/>
+//                                 <ListGroupItem className="list-group-item lightgrey-card">You are signed up for this challenge. Assign Carbon Impact
+//                                     <Button onClick={() => CarbonImpactScreen(challenge.challengeId, challenge.miles)}> Here</Button>
+//                                     {carbonLb} lbs <Button onClick={() => CarbonImpactBackend(challenge.challengeId)}>Send to DB</Button></ListGroupItem>
                                 <ListGroupItem className="list-group-item lightgrey-card">Electricity Impact <ElectricityEstimateButton             
                                         electricValue={challenge.electricValue}
                                         userChallenges={userChallenges}
@@ -31,7 +33,6 @@ const YourChallenges = ({ challenges, userChallenges, userInfo, CarbonImpactScre
                                         fetchChallenges={fetchChallenges} >
                                     </ElectricityEstimateButton >
                                 </ListGroupItem>
-                                <p>{challenge.challengeId}</p>
                             </ListGroup>
                             <CompleteChallengeButton challengeId={challenge.challengeId} userId={user.id} fetchChallenges={fetchChallenges}/>
                         </Card>

@@ -22,7 +22,6 @@ const Challenges = () => {
     const [message, setMessage] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
-    const [carbonLb, setCarbonLb] = useState('');
     const [activeTab, setActiveTab] = useState('1');
     const navigate = useNavigate();
 
@@ -35,9 +34,9 @@ const Challenges = () => {
                 if (allChallengesResponse.ok) {
                     const allChallengesData = await allChallengesResponse.json();
                     setChallenges(allChallengesData);
-                    setError('User info set');
+                    setError('All challenges set');
                 } else {
-                    setError('Could not set user info');
+                    setError('Could not set all challenges');
                 }
 
                 if(userInfo.id){
@@ -103,73 +102,30 @@ const Challenges = () => {
     };
 
 
-    //Allows user to sign up for challenge
-    const ChallengeSignUp = async (challengeId, challengeType) => {
-        const response = await fetch('/api/challenges/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                UserId: userInfo.id, 
-                GlobalChallengeId: challengeType === 'global'? challengeId : null,
-                PersonalChallengeId: challengeType === 'personal'? challengeId : null
-            }),
-        });
-        const result = await response.json();
-        if(response.ok) {
-            setMessage(`Signed up for challenge: ${challengeId}`);
-            fetchChallenges();
-        } else {
-            setMessage(result.message || 'Failed to sign up for the challenge');
-            navigate('/thankyou')
-        }
-    };
+    // //Allows user to sign up for challenge
+    // const ChallengeSignUp = async (challengeId, challengeType) => {
+    //     const response = await fetch('/api/challenges/signup', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             UserId: userInfo.id, 
+    //             GlobalChallengeId: challengeType === 'global'? challengeId : null,
+    //             PersonalChallengeId: challengeType === 'personal'? challengeId : null
+    //         }),
+    //     });
+    //     const result = await response.json();
+    //     if(response.ok) {
+    //         setMessage(`Signed up for challenge: ${challengeId}`);
+    //         fetchChallenges();
+    //     } else {
+    //         setMessage(result.message || 'Failed to sign up for the challenge');
+    //         navigate('/thankyou')
+    //     }
+    // };
 
-    const CarbonImpactBackend = async (challengeId) => {
-        const response = await fetch('/api/CarbonInterFace/store-estimate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                UserId: userInfo.id, 
-                ChallengeId: challengeId,
-                Carbon_lb: carbonLb,
-            }),
-        });
-        const result = await response.json();
-        if(response.ok) {
-            console.log(result.data.attributes.carbon_lb)
-            setCarbonLb(result.data.attributes.carbon_lb)
-            setMessage(`Carbon data registered for challenge: ${challengeId}`);
-        } else {
-            setMessage(result.message || 'Failed to register carbon data for the challenge');
-        }
-    };
-
-    const CarbonImpactScreen = async (challengeId, miles) => {
-        const response = await fetch('/api/CarbonInterFace/get-estimate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Type: "vehicle",
-                DistanceValue: miles,
-                DistanceUnit: "mi",
-                VehicleModelId: userInfo.modelChoice,
-            }),
-        });
-        const result = await response.json();
-        if(response.ok) {
-            console.log(result.data.attributes.carbon_lb)
-            setCarbonLb(result.data.attributes.carbon_lb)
-            setMessage(`Carbon data registered for challenge: ${challengeId}`);
-        } else {
-            setMessage(result.message || 'Failed to register carbon data for the challenge');
-        }
-    };
+   
 
     return (
         <div>
@@ -212,18 +168,14 @@ const Challenges = () => {
                     challenges={challenges}
                     userChallenges={userChallenges}
                     userInfo={userInfo} 
-                    CarbonImpactScreen={CarbonImpactScreen} 
-                    CarbonImpactBackend={CarbonImpactBackend} 
-                    carbonLb={carbonLb}
-                    fetchChallenges={fetchChallenges}/>
+                    fetchChallenges={fetchChallenges}
+                    />
                 </TabPane>
                 <TabPane tabId="2">
                     <CompletedChallenges
                         challenges={challenges} 
                         userChallenges={userChallenges} 
                         userInfo={userInfo} 
-                        CarbonImpactScreen={CarbonImpactScreen} 
-                        carbonLb={carbonLb}
                     />
                 </TabPane>
                 <TabPane tabId="3">
