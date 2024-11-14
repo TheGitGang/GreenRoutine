@@ -60,14 +60,27 @@ public class UserChallengeController : ControllerBase
     [HttpGet("dates")]
      public async Task<ActionResult<IEnumerable<string>>> GetMarkedDates()
     {
-        Console.WriteLine("hi");
-        var markedDates = await context.UserChallenges
-            .Select(c => c.SignupDate)
-            .Select(md => md.Date.ToString("yyyy-MM-dd"))
-            .ToListAsync();
+//         Console.WriteLine("hi");
+//         var markedDates = await context.UserChallenges
+//             .Select(c => c.SignupDate)
+//             .Select(md => md.Date.ToString("yyyy-MM-dd"))
+//             .ToListAsync();
 
-        Console.WriteLine(markedDates.ToString());
-        return Ok(markedDates);
+//         Console.WriteLine(markedDates.ToString());
+//         return Ok(markedDates);
+        var greenDates = await context.UserChallenges.Where(c => c.ChallengeCompleted).Select(c => c.SignupDate)
+                                        .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                        .ToListAsync();
+        var yellowDates = await context.UserChallenges.Where(c => c.ChallengeCompleted == false).Select(c => c.SignupDate)
+                                        .Select(md => md.Date.ToString("yyyy-MM-dd"))
+                                        .ToListAsync();
+        var result = new
+        {
+            GreenDates = greenDates,
+            YellowDates = yellowDates
+        };
+        Console.WriteLine(result);
+        return Ok(result);
     }
     
 
