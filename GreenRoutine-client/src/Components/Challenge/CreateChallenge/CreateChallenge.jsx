@@ -10,7 +10,11 @@ const CreateChallenge = () => {
 
     const [name, setName] = useState('');
     const [difficulty, setDifficulty] = useState(0);
-    const [length, setLength] = useState('');
+    const [length, setLength] = useState({
+        months: 0,
+        days: 0,
+        hours: 0
+    });
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState(0);
     const [miles, setMiles] = useState('');
@@ -39,29 +43,60 @@ const CreateChallenge = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const numericValue = Number(value);
+
         if (name === 'name') setName(value);
         if (name === 'difficulty') setDifficulty(Number(value));
-        if (name === 'length') setLength(value);
         if (name === 'description') setDescription(value);
         if (name === 'category') setCategory(Number(value));
         if (name === 'miles') setMiles(value);
         if (name === 'electric') setElectricValue(value);
+        if (name === 'months' || name === 'days' || name === 'hours') {
+            if(numericValue < 0) {
+                setLength(prevLength => ({
+                    ...prevLength,
+                    [name]: 0
+                }));
+            } else if (name === 'months' && numericValue > 6) {
+                setLength(prevLength => ({
+                    [name]: 6
+                }));
+            } else {
+                setLength(prevLength => ({
+                    ...prevLength,
+                    [name]: numericValue
+                }));
+            }
+        }
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         //do error handling
             setError('');
+
+            //converts months to days
+            const totalDays = (length.months * 30) + length.days;
+            const totalHours = length.hours;
+
+            //makes sure length doesn't exceed allowed value
+            if(totalDays > 838 || totalHours >= 24){
+                setError('Length exceeds the maximum allowed value.');
+                return;
+            }
+            const formattedHours = String(totalHours).padStart(2, '0');
+            
+            //string for timespan
+            const lengthString = `${totalDays}.${formattedHours}:00:00`;
+
             const payload = {
                 difficulty: difficulty,
                 name: name,
-                length: length,
+                length: lengthString,
                 description: description,
-
                 miles: miles,
                 electricValue: electricValue,
                 categoryId: category
-
             }
             console.log(payload);
             fetch('/api/Challenges/create', {
@@ -117,13 +152,36 @@ const CreateChallenge = () => {
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor='length'>Length:</Label>
-                    <Input
-                        type='text'
-                        id='length'
-                        name='length'
-                        value={length}
-                        onChange={handleChange}
-                    />
+                    <div>
+                        <Input
+                            type='number'
+                            id='months'
+                            name='months'
+                            value={length.months}
+                            onChange={handleChange}
+                            placeholder='Months'
+                            max={6}
+                            min={0}
+                        />
+                         <Input
+                            type='number'
+                            id='days'
+                            name='days'
+                            value={length.days}
+                            onChange={handleChange}
+                            placeholder='Days'
+                            min={0}
+                        />
+                         <Input
+                            type='number'
+                            id='hours'
+                            name='hours'
+                            value={length.hours}
+                            onChange={handleChange}
+                            placeholder='Hours'
+                            min={0}
+                        />
+                    </div>
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor='description'>Description:</Label>

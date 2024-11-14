@@ -67,6 +67,7 @@ const LoginForm = () => {
                         name='username'
                         value={username}
                         onChange={handleChange}
+                        style={{ color: 'black' }} // Change font color to black
                     />
                 </div>
                 <div>
@@ -79,6 +80,7 @@ const LoginForm = () => {
                         name='password'
                         value={password}
                         onChange={handleChange}
+                        style={{ color: 'black' }} // Change font color to black
                     />
                 </div>
                 <br/>
@@ -89,7 +91,7 @@ const LoginForm = () => {
             <br/>
             <div>
                     <p>Don't have an account?</p>
-                    <Button color="success"onClick={handleSignupClick}>Sign Up!</Button>
+                    <Button color="success" onClick={handleSignupClick}>Sign Up!</Button>
             </div>
             <br/>
             {error && <Alert color='danger'>{error}</Alert>}
