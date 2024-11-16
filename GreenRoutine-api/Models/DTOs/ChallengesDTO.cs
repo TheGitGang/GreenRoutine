@@ -8,8 +8,8 @@ public class ChallengesDTO
 {
     public int ChallengeId { get; set; }
     public string? Name { get; set; }
-    public int Miles { get; set; }
-    public double ElectricValue { get; set; }
+    public int? Miles { get; set; }
+    public double? ElectricValue { get; set; }
     public int Difficulty { get; set; }
     public TimeSpan? Length { get; set; }
     public string? Description { get; set; } 
@@ -20,7 +20,6 @@ public class ChallengesDTO
     {
         ChallengeId = challenges.Id;
         Name = challenges.Name;
-        Difficulty = challenges.Difficulty;
         Length = challenges.Length;
         Description = challenges.Description;
         Miles = challenges.Miles;

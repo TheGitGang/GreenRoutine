@@ -29,23 +29,35 @@ public class ChallengesController : ControllerBase
 
 
     [HttpPost("create")]
-    public IActionResult CreateChallenge(Challenge challenge)
+    public async Task<IActionResult> CreateChallenge([FromBody]ChallengesDTO challengesDTO)
     {
-        if (challenge == null)
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Challenge data is null");
+            return BadRequest(ModelState);
     
         }
 
-        var category = context.Categories.Find(challenge.CategoryId);
+        var category = context.Categories.Find(challengesDTO.CategoryId);
         if (category == null)
         {
             return BadRequest("Invalid category ID");
         }
         
+        var challenge = new Challenge
+        {
+            Name = challengesDTO.Name,
+            Miles = challengesDTO.Miles ?? 0,
+            ElectricValue = challengesDTO.ElectricValue ?? 0,
+            Difficulty = challengesDTO.Difficulty,
+            Length = challengesDTO.Length,
+            Description = challengesDTO.Description,
+            CategoryId = challengesDTO.CategoryId
+
+        };
 
         context.Challenges.Add(challenge);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
+        
         return Ok(new {message="Challenge successfully added"});
     }
     

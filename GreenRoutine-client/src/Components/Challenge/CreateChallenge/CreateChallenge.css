@@ -23,3 +23,14 @@
     color: black;
     background-color: white;
 }
+
+.length-inputs{
+    display: flex;
+    align-self: flex-start;
+    justify-content: space-between;
+}
+
+#length-input{
+    align-self: flex-start;
+    margin: 10px;
+}

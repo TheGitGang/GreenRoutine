@@ -17,8 +17,8 @@ const CreateChallenge = () => {
     });
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState(0);
-    const [miles, setMiles] = useState('');
-    const [electricValue, setElectricValue] = useState('');
+    const [miles, setMiles] = useState('0');
+    const [electricValue, setElectricValue] = useState('0');
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
 
@@ -98,26 +98,33 @@ const CreateChallenge = () => {
                 electricValue: electricValue,
                 categoryId: category
             }
+
             console.log(payload);
-            fetch('/api/Challenges/create', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            }).then((data) => {
-                console.log(data);
-                if (data.ok) {
-                    setError("Successful challenge submission.")
+
+            try {
+                const  response = await fetch('/api/Challenges/create', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok)
+                { 
+                    console.log('Successful challenge submission');
+                    setError("Successful challenge submission.");
+                    navigate('/thankyou')
                 } else {
+                    console.error('Error with challenge submission')
                     setError("Error with challenge submission.")
                 }
-            }).catch((error) => {
+                
+            } catch(error) {
                 console.error(error);
-                setError('Error with challenge submission.')
-            })
-            navigate('/thankyou')
-        }
+                setError('Error with challenge submission.');
+            
+            }
+    }
 
     return (
         <div className="challengeSubmit lightgrey-card">
@@ -151,8 +158,9 @@ const CreateChallenge = () => {
                     </Input>
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor='length'>Length:</Label>
-                    <div>
+                    <Label htmlFor='length'>Length of Time:</Label>
+                    <div className='length-inputs'>
+                        <Label htmlFor='months'>Months</Label>
                         <Input
                             type='number'
                             id='months'
@@ -162,7 +170,9 @@ const CreateChallenge = () => {
                             placeholder='Months'
                             max={6}
                             min={0}
+                            className='length-input'
                         />
+                        <Label htmlFor='days'>Days</Label>
                          <Input
                             type='number'
                             id='days'
@@ -171,7 +181,9 @@ const CreateChallenge = () => {
                             onChange={handleChange}
                             placeholder='Days'
                             min={0}
+                            className='length-input'
                         />
+                        <Label htmlFor='hours'>Hours</Label>
                          <Input
                             type='number'
                             id='hours'
@@ -180,6 +192,7 @@ const CreateChallenge = () => {
                             onChange={handleChange}
                             placeholder='Hours'
                             min={0}
+                            className='length-input'
                         />
                     </div>
                 </FormGroup>
@@ -209,7 +222,9 @@ const CreateChallenge = () => {
                     </Input>
                     
                 </FormGroup>
-                <FormGroup>
+
+                {category === 1 && (
+                    <FormGroup>
                     <Label htmlFor='miles'>Miles:</Label>
                     <Input
                         type='text'
@@ -218,8 +233,11 @@ const CreateChallenge = () => {
                         value={miles}
                         onChange={handleChange}
                     />
-                </FormGroup>
-                <FormGroup>
+                    </FormGroup>
+                )}
+
+                {category === 2 && (
+                    <FormGroup>
                     <Label htmlFor='electric'>Electric Value:</Label>
                     <Input
                         type='text'
@@ -229,6 +247,8 @@ const CreateChallenge = () => {
                         onChange={handleChange}
                     />
                 </FormGroup>
+                )} 
+                
                 <Button className='button'type='submit'>Submit</Button>
             </Form>
             </div>
